@@ -8,6 +8,8 @@
     PlayState when they collide with a Pipe.
 ]]
 
+ICON_PADDING = 6
+
 ScoreState = Class{__includes = BaseState}
 
 --[[
@@ -16,6 +18,8 @@ ScoreState = Class{__includes = BaseState}
 ]]
 function ScoreState:enter(params)
     self.score = params.score
+    self.scoreText = love.graphics.newText(mediumFont, 'Score: ' .. tostring(self.score))
+    self.trophy = Trophy.create(params.score)
 end
 
 function ScoreState:update(dt)
@@ -30,8 +34,25 @@ function ScoreState:render()
     love.graphics.setFont(flappyFont)
     love.graphics.printf('Oof! You lost!', 0, 64, VIRTUAL_WIDTH, 'center')
 
-    love.graphics.setFont(mediumFont)
-    love.graphics.printf('Score: ' .. tostring(self.score), 0, 100, VIRTUAL_WIDTH, 'center')
+
+    local trophySize = self.trophy:getSize()
+    
+    -- score block is a block of text with score followed by optional trophy icon
+    local scoreBlockWidth = self.scoreText:getWidth()
+    if trophySize > 0 then
+        scoreBlockWidth = scoreBlockWidth + trophySize + ICON_PADDING
+    end
+    local scoreBlockHeight = math.max(self.scoreText:getHeight(), trophySize)
+
+    -- position where the block starts
+    local scoreBlockStartX = (VIRTUAL_WIDTH - scoreBlockWidth) / 2
+
+    local textVerticalOffsetInBlock = (scoreBlockHeight - self.scoreText:getHeight()) / 2
+    love.graphics.draw(self.scoreText, scoreBlockStartX, 100 + textVerticalOffsetInBlock)
+
+    local trophyHorizontalOffsetInBlock = self.scoreText:getWidth() + ICON_PADDING
+    local trophyVerticalOffsetInBlock = (scoreBlockHeight - trophySize) / 2
+    self.trophy:draw(scoreBlockStartX + trophyHorizontalOffsetInBlock, 100 + trophyVerticalOffsetInBlock)
 
     love.graphics.printf('Press Enter to Play Again!', 0, 160, VIRTUAL_WIDTH, 'center')
 end

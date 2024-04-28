@@ -42,6 +42,7 @@ require 'states/TitleScreenState'
 require 'Bird'
 require 'Pipe'
 require 'PipePair'
+require 'Trophy'
 
 -- physical screen dimensions
 WINDOW_WIDTH = 1280
