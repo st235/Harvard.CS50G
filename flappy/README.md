@@ -8,3 +8,5 @@
 ### Acknowledgement
 
 - ["Coins & Gems & Chests & More" icons pack](https://greatdocbrown.itch.io/coins-gems-etc). License is [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+- Pause icon by ["Icon pack"](https://gamedeveloperstudio.itch.io/icon-pack)
+- Sound Effect by [floraphonic](https://pixabay.com/users/floraphonic-38928062/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=186976) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=186976)

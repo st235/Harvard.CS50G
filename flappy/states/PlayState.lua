@@ -32,6 +32,20 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+    -- burst of anti-gravity when space or left mouse are pressed
+    if love.keyboard.wasPressed('p') then
+        gStateMachine:change('pause', {
+            ['savedState'] = {
+                ['bird'] = self.bird,
+                ['pipePairs'] = self.pipePairs,
+                ['timer'] = self.timer,
+                ['score'] = self.score,
+                ['pipeSpawnThreshold'] = self.pipeSpawnThreshold,
+                ['lastY'] = self.lastY
+            }
+        })
+    end
+
     -- update timer for pipe spawning
     self.timer = self.timer + dt
 
@@ -121,9 +135,19 @@ end
 --[[
     Called when this state is transitioned to from another state.
 ]]
-function PlayState:enter()
+function PlayState:enter(params)
     -- if we're coming from death, restart scrolling
     scrolling = true
+
+    local savedState = params and params.savedState or nil
+    if savedState then
+        self.bird = savedState.bird
+        self.pipePairs = savedState.pipePairs
+        self.timer = savedState.timer
+        self.score = savedState.score
+        self.pipeSpawnThreshold = savedState.pipeSpawnThreshold
+        self.lastY = savedState.lastY
+    end
 end
 
 --[[
