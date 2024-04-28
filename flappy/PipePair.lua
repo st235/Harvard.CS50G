@@ -16,7 +16,7 @@ PipePair = Class{}
 local MINIMAL_GAP_HEIGHT = 85
 
 -- maximum size that can be added to the gap
-local EXTRA_GAP_HEIGHT = 20
+local EXTRA_GAP_HEIGHT = 40
 
 function PipePair:init(y)
     -- flag to hold whether this pair has been scored (jumped through)
