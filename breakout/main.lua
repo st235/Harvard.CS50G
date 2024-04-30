@@ -214,6 +214,13 @@ function love.draw()
 end
 
 --[[
+    Enable output to console for debug purposes.
+]]
+function love.conf(t)
+	t.console = true
+end
+
+--[[
     Loads high scores from a .lst file, saved in LÖVE2D's default save directory in a subfolder
     called 'breakout'.
 ]]
