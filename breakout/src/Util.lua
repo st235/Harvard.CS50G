@@ -15,15 +15,20 @@
     width and a height for the tiles therein, split the texture into
     all of the quads by simply dividing it evenly.
 ]]
-function GenerateQuads(atlas, tilewidth, tileheight)
-    local sheetWidth = atlas:getWidth() / tilewidth
-    local sheetHeight = atlas:getHeight() / tileheight
+function GenerateQuads(atlas, 
+    tilewidth, tileheight,
+    offsetX, offsetY)
+    offsetX = offsetX or 0
+    offsetY = offsetY or 0
+
+    local sheetWidth = (atlas:getWidth() - offsetX) / tilewidth
+    local sheetHeight = (atlas:getHeight() - offsetY) / tileheight
 
     local sheetCounter = 1
     local spritesheet = {}
 
-    for y = 0, sheetHeight - 1 do
-        for x = 0, sheetWidth - 1 do
+    for y = offsetY, sheetHeight - 1 do
+        for x = offsetX, sheetWidth - 1 do
             spritesheet[sheetCounter] =
                 love.graphics.newQuad(x * tilewidth, y * tileheight, tilewidth,
                 tileheight, atlas:getDimensions())
@@ -124,4 +129,8 @@ function GenerateQuadsBalls(atlas)
     end
 
     return quads
+end
+
+function GeneratePowerups(atlas)
+    return table.slice(GenerateQuads(atlas, 16, 16, 0, 192), 1, 10)
 end
