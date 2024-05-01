@@ -14,6 +14,8 @@
     Over screen if at 0 health or the Serve screen otherwise.
 ]]
 
+local PADDLE_PROMOTION_THRESHOLD = 1500
+
 PlayState = Class{__includes = BaseState}
 
 --[[
@@ -126,7 +128,13 @@ function PlayState:update(dt)
                 local brickCenterY = brick.y + brick.height / 2
 
                 -- add to score
+                local oldScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
                 self.score = self.score + (brick.tier * 200 + brick.color * 25)
+
+                local newScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
+                if self.score > 0 and (newScoreLevel > oldScoreLevel) then
+                    self.paddle:promote()
+                end
 
                 -- trigger the brick's hit function, which removes it from play
                 brick:hit()
@@ -204,6 +212,7 @@ function PlayState:update(dt)
     -- if ball goes below bounds, revert to serve state and decrease health
     if not self:hasAnyBallInPlay() then
         self.health = self.health - 1
+        self.paddle:demote()
         gSounds['hurt']:play()
 
         if self.health == 0 then
@@ -306,16 +315,3 @@ function PlayState:hasAnyBallInPlay()
 
     return false
 end
-
-function dump(o)
-    if type(o) == 'table' then
-       local s = '{ '
-       for k,v in pairs(o) do
-          if type(k) ~= 'number' then k = '"'..k..'"' end
-          s = s .. '['..k..'] = ' .. dump(v) .. ','
-       end
-       return s .. '} '
-    else
-       return tostring(o)
-    end
- end

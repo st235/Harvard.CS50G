@@ -13,6 +13,8 @@
     which the player gets to choose upon starting the game.
 ]]
 
+local PADDLE_WIDTHS = { 32, 64, 96, 128 }
+
 Paddle = Class{}
 
 --[[
@@ -65,6 +67,16 @@ function Paddle:update(dt)
     else
         self.x = math.min(VIRTUAL_WIDTH - self.width, self.x + self.dx * dt)
     end
+end
+
+function Paddle:promote()
+    self.size = math.min(4, self.size + 1)
+    self.width = PADDLE_WIDTHS[self.size]
+end
+
+function Paddle:demote()
+    self.size = math.max(1, self.size - 1)
+    self.width = PADDLE_WIDTHS[self.size]
 end
 
 --[[
