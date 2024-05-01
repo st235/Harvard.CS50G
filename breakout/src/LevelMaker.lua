@@ -13,11 +13,11 @@
 ]]
 
 -- probabilities to generate a locked brick (out of 100)
-PROBABILITY_TO_LOCK_A_BRICK = 100
+PROBABILITY_TO_LOCK_A_BRICK = 5
 -- min eligible level for generating a locked brick
-LOCKED_BRICK_MIN_ELIGIBLE_LEVEL = 1
+LOCKED_BRICK_MIN_ELIGIBLE_LEVEL = 2
 -- max amount of locked bricks on a level
-LOCKED_BRICKS_MAX_COUNT = 1
+LOCKED_BRICKS_MAX_COUNT = 3
 
 -- global patterns (used to make the entire map a certain shape)
 NONE = 1
@@ -55,6 +55,7 @@ function LevelMaker.createMap(level)
     local highestColor = math.min(5, level % 5 + 3)
 
     local lockedBricksCount = 0
+    local lockedBricksLevelThreshold = math.random(1, LOCKED_BRICKS_MAX_COUNT)
 
     -- lay out bricks such that they touch each other and fill the space
     for y = 1, numRows do
@@ -106,10 +107,10 @@ function LevelMaker.createMap(level)
 
             local lockProbability = math.random(1, 100)
             if level >= LOCKED_BRICK_MIN_ELIGIBLE_LEVEL and 
-               lockedBricksCount < LOCKED_BRICKS_MAX_COUNT and 
+               lockedBricksCount < lockedBricksLevelThreshold and 
                lockProbability <= PROBABILITY_TO_LOCK_A_BRICK then
-                lockedBricksCount = lockedBricksCount + 1
                 b.isLocked = true
+                lockedBricksCount = lockedBricksCount + 1
             end
 
             -- if we're alternating, figure out which color/tier we're on

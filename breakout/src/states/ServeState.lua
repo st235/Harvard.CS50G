@@ -25,6 +25,7 @@ function ServeState:enter(params)
     self.highScores = params.highScores
     self.level = params.level
     self.recoverPoints = params.recoverPoints
+    self.availableUnlockPowerups = params.availableUnlockPowerups or 0
 
     -- init new ball (random color for fun)
     self.ball = Ball()
@@ -47,7 +48,8 @@ function ServeState:update(dt)
             highScores = self.highScores,
             balls = { self.ball },
             level = self.level,
-            recoverPoints = self.recoverPoints
+            recoverPoints = self.recoverPoints,
+            availableUnlockPowerups = self.availableUnlockPowerups
         })
     end
 
@@ -66,6 +68,7 @@ function ServeState:render()
 
     renderScore(self.score)
     renderHealth(self.health)
+    renderKeys(self.availableUnlockPowerups)
 
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Level ' .. tostring(self.level), 0, VIRTUAL_HEIGHT / 3,

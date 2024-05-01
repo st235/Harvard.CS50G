@@ -1,7 +1,7 @@
 Powerup = Class{}
 
--- Powerups with 5% chance.
-local CHANCE_EXTRA_BALL = 100
+-- Powerups with 15% chance.
+local CHANCE_EXTRA_BALL = 15
 
 local POWERUP_VERTICAL_SPEED = 20
 

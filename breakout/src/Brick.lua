@@ -85,14 +85,6 @@ function Brick:init(x, y)
     self.psystem:setEmissionArea('normal', 10, 10)
 end
 
-function Brick:score()
-    local lockedBonus = 0
-    if self.wereLocked then
-        lockedBonus = 250
-    end
-    return lockedBonus + self.tier * 200 + self.color * 25
-end
-
 --[[
     Triggers a hit on the brick, taking it out of play if at 0 health or
     changing its color otherwise.

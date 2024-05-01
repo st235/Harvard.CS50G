@@ -56,6 +56,7 @@ function love.load()
         ['main'] = love.graphics.newImage('graphics/breakout.png'),
         ['arrows'] = love.graphics.newImage('graphics/arrows.png'),
         ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
+        ['key'] = love.graphics.newImage('graphics/key.png'),
         ['particle'] = love.graphics.newImage('graphics/particle.png')
     }
 
@@ -289,6 +290,20 @@ function renderHealth(health)
     for i = 1, 3 - health do
         love.graphics.draw(gTextures['hearts'], gFrames['hearts'][2], healthX, 4)
         healthX = healthX + 11
+    end
+end
+
+--[[
+    Renders how many unlock powerups the user has.
+]]
+function renderKeys(keys)
+    if keys > 0 then
+        local keyX = VIRTUAL_WIDTH - 150
+
+        love.graphics.setFont(gFonts['small'])
+        love.graphics.printf(tostring(keys), keyX, 5, 30, 'right')
+
+        love.graphics.draw(gTextures['key'], keyX + 30, 0)
     end
 end
 

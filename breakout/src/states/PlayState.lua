@@ -32,6 +32,7 @@ function PlayState:enter(params)
     self.highScores = params.highScores
     self.balls = params.balls
     self.level = params.level
+    self.availableUnlockPowerups = params.availableUnlockPowerups
 
     -- the game always starts with one ball,
     -- and their index is 1.
@@ -41,7 +42,6 @@ function PlayState:enter(params)
     self.powerups = {}
     self.powerupsCounter = {}
     self.lastKnownUnlockPowerupSpanTime = 0
-    self.unlockPowerupsToUse = 0
 
     self.recoverPoints = 5000
 
@@ -98,7 +98,7 @@ function PlayState:update(dt)
                 table.insert(self.balls, newBall1)
                 table.insert(self.balls, newBall2)
             elseif powerup.skin == Powerup.SKIN_UNLOCK then
-                self.unlockPowerupsToUse = self.unlockPowerupsToUse + 1
+                self.availableUnlockPowerups = self.availableUnlockPowerups + 1
             end
         end
     end
@@ -138,7 +138,7 @@ function PlayState:update(dt)
                 if not brick.isLocked then
                     -- add to score
                     local oldScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
-                    self.score = self.score + brick:score()
+                    self.score = self.score + brick.tier * 200 + brick.color * 25
 
                     local newScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
                     if self.score > 0 and (newScoreLevel > oldScoreLevel) then
@@ -146,9 +146,11 @@ function PlayState:update(dt)
                     end
                 end
 
-                if brick.isLocked and self.unlockPowerupsToUse > 0 then
+                if brick.isLocked and self.availableUnlockPowerups > 0 then
                     brick:unlock()
-                    self.unlockPowerupsToUse = self.unlockPowerupsToUse - 1
+                    self.availableUnlockPowerups = self.availableUnlockPowerups - 1
+                    -- add unlock bonus to the score
+                    self.score = self.score + 1000
                 end
 
                 -- trigger the brick's hit function, which removes it from play
@@ -244,7 +246,8 @@ function PlayState:update(dt)
                 score = self.score,
                 highScores = self.highScores,
                 level = self.level,
-                recoverPoints = self.recoverPoints
+                recoverPoints = self.recoverPoints,
+                availableUnlockPowerups = self.availableUnlockPowerups
             })
         end
     end
@@ -286,7 +289,7 @@ function PlayState:update(dt)
     if self.lastKnownUnlockPowerupSpanTime >= SPAWNING_TIME_UNLOCK_POWERUP_MS then
         local hasAnyLockedBricks = lockedBricksCounter > 0
         local willBeTheOnlyUnlockPowerup = (self.powerupsCounter[Powerup.SKIN_UNLOCK] or 0) == 0
-        local makesSenseToSpawnUnlockPowerUp = (lockedBricksCounter - self.unlockPowerupsToUse) > 0
+        local makesSenseToSpawnUnlockPowerUp = (lockedBricksCounter - self.availableUnlockPowerups) > 0
 
         if willBeTheOnlyUnlockPowerup and hasAnyLockedBricks and makesSenseToSpawnUnlockPowerUp then
             local powerup = Powerup(math.random(0, VIRTUAL_WIDTH - 32), -32, Powerup.SKIN_UNLOCK)
@@ -320,6 +323,7 @@ function PlayState:render()
 
     renderScore(self.score)
     renderHealth(self.health)
+    renderKeys(self.availableUnlockPowerups)
 
     for k, powerup in pairs(self.powerups) do
         powerup:render()
