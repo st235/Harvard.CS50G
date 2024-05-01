@@ -63,6 +63,11 @@ function Brick:init(x, y)
     -- used to determine whether this brick should be rendered
     self.inPlay = true
 
+    -- used to determine whether this brick is locked
+    self.isLocked = false
+    -- helps to correctly calculate the score of a brick that has been locked
+    self.wereLocked = false
+
     -- particle system belonging to the brick, emitted on hit
     self.psystem = love.graphics.newParticleSystem(gTextures['particle'], 64)
 
@@ -80,11 +85,24 @@ function Brick:init(x, y)
     self.psystem:setEmissionArea('normal', 10, 10)
 end
 
+function Brick:score()
+    local lockedBonus = 0
+    if self.wereLocked then
+        lockedBonus = 250
+    end
+    return lockedBonus + self.tier * 200 + self.color * 25
+end
+
 --[[
     Triggers a hit on the brick, taking it out of play if at 0 health or
     changing its color otherwise.
 ]]
 function Brick:hit()
+    -- early return if the brick is locked
+    if self.isLocked then
+        return
+    end
+
     -- set the particle system to interpolate between two colors; in this case, we give
     -- it our self.color but with varying alpha; brighter for higher tiers, fading to 0
     -- over the particle's lifetime (the second color)
@@ -135,11 +153,14 @@ end
 
 function Brick:render()
     if self.inPlay then
-        love.graphics.draw(gTextures['main'], 
+        if self.isLocked then
+            love.graphics.draw(gTextures['main'], gFrames['brick-locked'], self.x, self.y) 
+        else
+            love.graphics.draw(gTextures['main'], 
             -- multiply color by 4 (-1) to get our color offset, then add tier to that
             -- to draw the correct tier and color brick onto the screen
-            gFrames['bricks'][1 + ((self.color - 1) * 4) + self.tier],
-            self.x, self.y)
+            gFrames['bricks'][1 + ((self.color - 1) * 4) + self.tier], self.x, self.y)
+        end
     end
 end
 
@@ -149,4 +170,10 @@ end
 ]]
 function Brick:renderParticles()
     love.graphics.draw(self.psystem, self.x + 16, self.y + 8)
+end
+
+function Brick:unlock()
+    assert(self.isLocked)
+    self.isLocked = false
+    self.wereLocked = true
 end

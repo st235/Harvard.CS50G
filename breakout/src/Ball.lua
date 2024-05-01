@@ -93,8 +93,9 @@ function Ball:update(dt)
 end
 
 function Ball:render()
-    -- gTexture is our global texture for all blocks
-    -- gBallFrames is a table of quads mapping to each individual ball skin in the texture
-    love.graphics.draw(gTextures['main'], gFrames['balls'][self.skin],
-        self.x, self.y)
+    if not self.isDead then
+        -- gTexture is our global texture for all blocks
+        -- gBallFrames is a table of quads mapping to each individual ball skin in the texture
+        love.graphics.draw(gTextures['main'], gFrames['balls'][self.skin], self.x, self.y)
+    end
 end

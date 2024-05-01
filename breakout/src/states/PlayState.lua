@@ -129,7 +129,7 @@ function PlayState:update(dt)
 
                 -- add to score
                 local oldScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
-                self.score = self.score + (brick.tier * 200 + brick.color * 25)
+                self.score = self.score + brick:score()
 
                 local newScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
                 if self.score > 0 and (newScoreLevel > oldScoreLevel) then

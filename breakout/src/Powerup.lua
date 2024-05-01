@@ -48,5 +48,7 @@ function Powerup:update(dt)
 end
 
 function Powerup:render()
-    love.graphics.draw(gTextures['main'], gFrames['powerups'][self.skin], self.x, self.y)
+    if not self.isDead then
+        love.graphics.draw(gTextures['main'], gFrames['powerups'][self.skin], self.x, self.y)
+    end
 end
