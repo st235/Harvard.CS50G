@@ -1,22 +1,23 @@
 Powerup = Class{}
 
 -- Powerups with 5% chance.
-local POWERUP_RANDOM_CHANCE = 100
+local CHANCE_EXTRA_BALL = 100
 
 local POWERUP_VERTICAL_SPEED = 20
 
 Powerup.SKIN_EXTRA_BALL = 9
+Powerup.SKIN_UNLOCK = 10
 
 function Powerup.shouldSpawnExtraBallPowerup(ballsCount)
     if ballsCount ~= 1 then
         return false
     end
 
-    return math.random(0, 100) < POWERUP_RANDOM_CHANCE
+    return math.random(0, 100) < CHANCE_EXTRA_BALL
 end
 
-function Powerup:init(x, y)
-    self.skin = Powerup.SKIN_EXTRA_BALL
+function Powerup:init(x, y, skin)
+    self.skin = skin
 
     self.width = 16
     self.height = 16

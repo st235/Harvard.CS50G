@@ -16,6 +16,8 @@
 
 local PADDLE_PROMOTION_THRESHOLD = 1500
 
+local SPAWNING_TIME_UNLOCK_POWERUP_MS = 5
+
 PlayState = Class{__includes = BaseState}
 
 --[[
@@ -37,7 +39,9 @@ function PlayState:enter(params)
     assert(self.balls[1])
 
     self.powerups = {}
-    self.powerupsLookup = {}
+    self.powerupsCounter = {}
+    self.lastKnownUnlockPowerupSpanTime = 0
+    self.unlockPowerupsToUse = 0
 
     self.recoverPoints = 5000
 
@@ -64,7 +68,7 @@ function PlayState:update(dt)
     -- remove dead powerups from the game
     for k, powerup in pairs(self.powerups) do
         if powerup.isDead then
-            self.powerupsLookup[powerup.skin] = self.powerupsLookup[powerup.skin] - 1
+            self.powerupsCounter[powerup.skin] = self.powerupsCounter[powerup.skin] - 1
             table.remove(self.powerups, k)
         end
     end
@@ -77,21 +81,25 @@ function PlayState:update(dt)
         if powerup:collides(self.paddle) then
             powerup.isDead = true
 
-            assert(#self.balls == 1)
-            assert(self.balls[1])
+            if powerup.skin == Powerup.SKIN_EXTRA_BALL then
+                assert(#self.balls == 1)
+                assert(self.balls[1])
 
-            local currentBall = self.balls[1]
+                local currentBall = self.balls[1]
 
-            local newBall1 = currentBall:clone()
-            newBall1.dx = newBall1.dx + math.random(5, 10)
-            newBall1.dy = newBall1.dy + math.random(0, 5)
+                local newBall1 = currentBall:clone()
+                newBall1.dx = newBall1.dx + math.random(5, 10)
+                newBall1.dy = newBall1.dy + math.random(0, 5)
 
-            local newBall2 = currentBall:clone()
-            newBall2.dx = newBall2.dx - math.random(5, 10)
-            newBall2.dy = newBall2.dy + math.random(0, 5)
+                local newBall2 = currentBall:clone()
+                newBall2.dx = newBall2.dx - math.random(5, 10)
+                newBall2.dy = newBall2.dy + math.random(0, 5)
 
-            table.insert(self.balls, newBall1)
-            table.insert(self.balls, newBall2)
+                table.insert(self.balls, newBall1)
+                table.insert(self.balls, newBall2)
+            elseif powerup.skin == Powerup.SKIN_UNLOCK then
+                self.unlockPowerupsToUse = self.unlockPowerupsToUse + 1
+            end
         end
     end
 
@@ -127,23 +135,31 @@ function PlayState:update(dt)
                 local brickCenterX = brick.x + brick.width / 2
                 local brickCenterY = brick.y + brick.height / 2
 
-                -- add to score
-                local oldScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
-                self.score = self.score + brick:score()
+                if not brick.isLocked then
+                    -- add to score
+                    local oldScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
+                    self.score = self.score + brick:score()
 
-                local newScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
-                if self.score > 0 and (newScoreLevel > oldScoreLevel) then
-                    self.paddle:promote()
+                    local newScoreLevel = math.floor(self.score / PADDLE_PROMOTION_THRESHOLD)
+                    if self.score > 0 and (newScoreLevel > oldScoreLevel) then
+                        self.paddle:promote()
+                    end
+                end
+
+                if brick.isLocked and self.unlockPowerupsToUse > 0 then
+                    brick:unlock()
+                    self.unlockPowerupsToUse = self.unlockPowerupsToUse - 1
                 end
 
                 -- trigger the brick's hit function, which removes it from play
                 brick:hit()
 
                 -- if the brick is dead now, we can toss a coin and generate powerup
-                local willBeTheOnlyExtraBallPowerup = (self.powerupsLookup[Powerup.SKIN_EXTRA_BALL] or 0) == 0
+                local willBeTheOnlyExtraBallPowerup = (self.powerupsCounter[Powerup.SKIN_EXTRA_BALL] or 0) == 0
                 if not brick.inPlay and willBeTheOnlyExtraBallPowerup and Powerup.shouldSpawnExtraBallPowerup(#self.balls) then
-                    table.insert(self.powerups, Powerup(brickCenterX, brickCenterY))
-                    self.powerupsLookup[Powerup.SKIN_EXTRA_BALL] = (self.powerupsLookup[Powerup.SKIN_EXTRA_BALL] or 0) + 1
+                    local powerup = Powerup(brickCenterX, brickCenterY, Powerup.SKIN_EXTRA_BALL)
+                    self.powerupsCounter[powerup.skin] = (self.powerupsCounter[powerup.skin] or 0) + 1
+                    table.insert(self.powerups, powerup)
                 end
 
                 -- if we have enough points, recover a point of health
@@ -256,9 +272,29 @@ function PlayState:update(dt)
         end
     end
 
+    local lockedBricksCounter = 0
     -- for rendering particle systems
     for k, brick in pairs(self.bricks) do
         brick:update(dt)
+
+        if not brick.isDead and brick.isLocked then
+            lockedBricksCounter = lockedBricksCounter + 1
+        end
+    end
+
+    self.lastKnownUnlockPowerupSpanTime = self.lastKnownUnlockPowerupSpanTime + dt
+    if self.lastKnownUnlockPowerupSpanTime >= SPAWNING_TIME_UNLOCK_POWERUP_MS then
+        local hasAnyLockedBricks = lockedBricksCounter > 0
+        local willBeTheOnlyUnlockPowerup = (self.powerupsCounter[Powerup.SKIN_UNLOCK] or 0) == 0
+        local makesSenseToSpawnUnlockPowerUp = (lockedBricksCounter - self.unlockPowerupsToUse) > 0
+
+        if willBeTheOnlyUnlockPowerup and hasAnyLockedBricks and makesSenseToSpawnUnlockPowerUp then
+            local powerup = Powerup(math.random(0, VIRTUAL_WIDTH - 32), -32, Powerup.SKIN_UNLOCK)
+            self.powerupsCounter[powerup.skin] = (self.powerupsCounter[powerup.skin] or 0) + 1
+            table.insert(self.powerups, powerup)
+        end
+
+        self.lastKnownUnlockPowerupSpanTime = 0
     end
 
     if love.keyboard.wasPressed('escape') then
