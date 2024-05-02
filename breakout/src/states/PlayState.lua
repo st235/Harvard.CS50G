@@ -146,15 +146,17 @@ function PlayState:update(dt)
                     end
                 end
 
+                -- trigger the brick's hit function, which removes it from play
+                brick:hit()
+
+                -- unlock should go after hit call to prevent stacking
+                -- unlocking and actually hitting the ball.
                 if brick.isLocked and self.availableUnlockPowerups > 0 then
                     brick:unlock()
                     self.availableUnlockPowerups = self.availableUnlockPowerups - 1
                     -- add unlock bonus to the score
                     self.score = self.score + 1000
                 end
-
-                -- trigger the brick's hit function, which removes it from play
-                brick:hit()
 
                 -- if the brick is dead now, we can toss a coin and generate powerup
                 local willBeTheOnlyExtraBallPowerup = (self.powerupsCounter[Powerup.SKIN_EXTRA_BALL] or 0) == 0
@@ -292,7 +294,7 @@ function PlayState:update(dt)
         local makesSenseToSpawnUnlockPowerUp = (lockedBricksCounter - self.availableUnlockPowerups) > 0
 
         if willBeTheOnlyUnlockPowerup and hasAnyLockedBricks and makesSenseToSpawnUnlockPowerUp then
-            local powerup = Powerup(math.random(0, VIRTUAL_WIDTH - 32), -32, Powerup.SKIN_UNLOCK)
+            local powerup = Powerup(math.random(32, VIRTUAL_WIDTH - 32), -32, Powerup.SKIN_UNLOCK)
             self.powerupsCounter[powerup.skin] = (self.powerupsCounter[powerup.skin] or 0) + 1
             table.insert(self.powerups, powerup)
         end
