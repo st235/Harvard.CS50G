@@ -9,16 +9,16 @@
 ### Implementation details
 
 - Multiball Powerup
-    - Spans with 20% chance when the ball hits a brick
-    - Spans only if there is a single ball and no other multiball powers are currently in play
+    - Spawns with 20% chance when the ball hits a block
+    - Spawns only if there is a single ball and no other multiball powers are currently in play
     - Maximum 3 balls can be at the same time in play
 - Unlock Powerup
-    - Spans every 5 seconds to prevent soft-lock situations when there is the only locked brick in play
+    - Spawns every 5 seconds to prevent soft-lock situations when there is the only locked block in play
     - Collected powerups are displayed in the right top corner
-    - Unlock powerups are saved within the lavel but reset when new level begins
-- Locked brick
-    - Locks a regular brick
-    - If hit with the unlock powerup replaced with a regular brick
+    - Unlock powerups are saved within the level but reset when new level begins
+- Locked block
+    - Locks a regular block
+    - If hit with the unlock powerup replaced with a regular block
 - Paddle demotion and promotion
     - 4 paddle sizes available
     - Paddle shrinks when there are no balls in play (at the same time the player loses one hearth)
