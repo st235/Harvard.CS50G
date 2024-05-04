@@ -193,10 +193,15 @@ function PlayState:calculateMatches()
         gSounds['match']:stop()
         gSounds['match']:play()
 
-        -- add score for each match
+        local overallMatchesCount = 0
         for k, match in pairs(matches) do
-            self.score = self.score + #match * 50
+            overallMatchesCount = overallMatchesCount + #match
         end
+
+        -- add score for each match
+        self.score = self.score + overallMatchesCount * 50
+        -- update timer
+        self.timer = self.timer + overallMatchesCount
 
         -- remove any tiles that matched from the board, making empty spaces
         self.board:removeMatches()
