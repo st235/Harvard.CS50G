@@ -90,6 +90,10 @@ function love.keypressed(key)
     love.keyboard.keysPressed[key] = true
 end
 
+function love.conf(t)
+	t.console = true
+end
+
 function love.keyboard.wasPressed(key)
     if love.keyboard.keysPressed[key] then
         return true

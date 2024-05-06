@@ -52,14 +52,16 @@ gSounds = {
 
 gTextures = {
     ['main'] = love.graphics.newImage('graphics/match3.png'),
-    ['background'] = love.graphics.newImage('graphics/background.png')
+    ['background'] = love.graphics.newImage('graphics/background.png'),
+    ['shiny-animation'] = love.graphics.newImage('graphics/shiny_animation.png')
 }
 
 gFrames = {
     
     -- divided into sets for each tile type in this game, instead of one large
     -- table of Quads
-    ['tiles'] = GenerateTileQuads(gTextures['main'])
+    ['tiles'] = GenerateTileQuads(gTextures['main']),
+    ['shiny-animation'] = GenerateShinyAnimationQuads(gTextures['shiny-animation'])
 }
 
 -- this time, we're keeping our fonts in a global table for readability

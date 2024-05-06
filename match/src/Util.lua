@@ -10,6 +10,25 @@
     Helper functions for writing Match-3.
 ]]
 
+function GenerateShinyAnimationQuads(atlas)
+    local tiles = {}
+
+    local x = 0
+    local y = 0
+
+    for row = 1, 2 do
+        for column = 1, 6 do
+            table.insert(tiles, love.graphics.newQuad(
+                x, y, 32, 32, atlas:getDimensions()
+            ))
+            x = x + 32
+        end
+        y = y + 32
+    end
+
+    return tiles
+end
+
 --[[
     Given an "atlas" (a texture with multiple sprites), generate all of the
     quads for the different tiles therein, divided into tables for each set

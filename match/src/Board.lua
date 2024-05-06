@@ -36,7 +36,7 @@ function Board:initializeTiles()
         for tileX = 1, 8 do
             
             -- create a new tile at X,Y with a random color and variety
-            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(18), math.random(self.maxTilesVariety)))
+            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(18), math.random(self.maxTilesVariety), Tile.shouldBeShiny()))
         end
     end
 
@@ -55,6 +55,15 @@ end
 ]]
 function Board:calculateMatches()
     local matches = {}
+    -- keeping tiles that are used for match
+    local matchLookup = {}
+
+    for i = 1, 8 do
+        table.insert(matchLookup, {})
+        for _ = 1, 8 do
+            table.insert(matchLookup[i], false)
+        end
+    end
 
     -- how many of the same color blocks in a row we've found
     local matchNum = 1
@@ -85,6 +94,7 @@ function Board:calculateMatches()
                         
                         -- add each tile to the match that's in that match
                         table.insert(match, self.tiles[y][x2])
+                        matchLookup[y][x] = true
                     end
 
                     -- add this match to our total matches table
@@ -107,6 +117,7 @@ function Board:calculateMatches()
             -- go backwards from end of last row by matchNum
             for x = 8, 8 - matchNum + 1, -1 do
                 table.insert(match, self.tiles[y][x])
+                matchLookup[y][x] = true
             end
 
             table.insert(matches, match)
@@ -131,6 +142,7 @@ function Board:calculateMatches()
 
                     for y2 = y - 1, y - matchNum, -1 do
                         table.insert(match, self.tiles[y2][x])
+                        matchLookup[y][x] = true
                     end
 
                     table.insert(matches, match)
@@ -152,10 +164,32 @@ function Board:calculateMatches()
             -- go backwards from end of last row by matchNum
             for y = 8, 8 - matchNum + 1, -1 do
                 table.insert(match, self.tiles[y][x])
+                matchLookup[y][x] = true
             end
 
             table.insert(matches, match)
         end
+    end
+
+    local shinyMatch = {}
+    -- keeping rows that has been already eliminated
+    local visitedRowsLookup = {}
+    for _, match in pairs(matches) do
+        for _, tile in pairs(match) do
+            if tile.isShiny and not (visitedRowsLookup[tile.gridY] or false) then
+                visitedRowsLookup[tile.gridY] = true
+
+                for k = 1, 8 do
+                    if not (matchLookup[tile.gridY][tile.gridX] or false) then
+                        table.insert(shinyMatch, self.tiles[tile.gridY][k])
+                    end
+                end
+            end
+        end
+    end
+
+    if #shinyMatch > 0 then
+        table.insert(matches, shinyMatch)
     end
 
     -- store matches for later reference
@@ -244,7 +278,7 @@ function Board:getFallingTiles()
             if not tile then
 
                 -- new tile with random color and variety
-                local tile = Tile(x, y, math.random(18), math.random(self.maxTilesVariety))
+                local tile = Tile(x, y, math.random(18), math.random(self.maxTilesVariety), Tile.shouldBeShiny())
                 tile.y = -32
                 self.tiles[y][x] = tile
 
