@@ -138,7 +138,8 @@ function PlayState:update(dt)
 
             -- if the difference between X and Y combined of this highlighted tile
             -- vs the previous is not equal to 1, also remove highlight
-            elseif math.abs(self.highlightedTile.gridX - x) + math.abs(self.highlightedTile.gridY - y) > 1 then
+            elseif (math.abs(self.highlightedTile.gridX - x) + math.abs(self.highlightedTile.gridY - y) > 1) or
+                not self.board:canSwap(self.highlightedTile.gridY, self.highlightedTile.gridX, y, x) then
                 gSounds['error']:play()
                 self.highlightedTile = nil
             else

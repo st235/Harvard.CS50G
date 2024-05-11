@@ -11,6 +11,8 @@
     sets of three horizontally or vertically.
 ]]
 
+local MAX_COLORS_IN_USE = 6
+
 Board = Class{}
 
 function Board:init(x, y, level)
@@ -36,7 +38,7 @@ function Board:initializeTiles()
         for tileX = 1, 8 do
             
             -- create a new tile at X,Y with a random color and variety
-            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(18), math.random(self.maxTilesVariety), Tile.shouldBeShiny()))
+            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(MAX_COLORS_IN_USE), math.random(self.maxTilesVariety), Tile.shouldBeShiny()))
         end
     end
 
@@ -278,7 +280,7 @@ function Board:getFallingTiles()
             if not tile then
 
                 -- new tile with random color and variety
-                local tile = Tile(x, y, math.random(18), math.random(self.maxTilesVariety), Tile.shouldBeShiny())
+                local tile = Tile(x, y, math.random(MAX_COLORS_IN_USE), math.random(self.maxTilesVariety), Tile.shouldBeShiny())
                 tile.y = -32
                 self.tiles[y][x] = tile
 
@@ -291,6 +293,61 @@ function Board:getFallingTiles()
     end
 
     return tweens
+end
+
+function Board:canSwap(oI, oJ, nI, nJ)
+    return self:checkCanReplaceOldTile(oI, oJ, nI, nJ, self.tiles[oI][oJ].color) or 
+        self:checkCanReplaceOldTile(nI, nJ, oI, oJ, self.tiles[nI][nJ].color) 
+end
+
+function Board:checkCanReplaceOldTile(oI, oJ, nI, nJ, newColor)
+    local dI = nI - oI
+    local dJ = nJ - oJ
+
+    local verticalMatchCount = 0
+    local horizontalMatchCount = 0
+
+    if dI == 0 then
+        verticalMatchCount = verticalMatchCount + self:countAdjacentVerticalMatch(nI, nJ, 1, newColor)
+        verticalMatchCount = verticalMatchCount + self:countAdjacentVerticalMatch(nI, nJ, -1, newColor)
+    elseif dI > 0 then
+        -- new position is to the bottom
+        verticalMatchCount = self:countAdjacentVerticalMatch(nI, nJ, 1, newColor)
+    else -- dI < 0
+        -- new position is to the top
+        verticalMatchCount = self:countAdjacentVerticalMatch(nI, nJ, -1, newColor)
+    end
+
+    if dJ == 0 then
+        horizontalMatchCount = horizontalMatchCount + self:countAdjacentHorizontalMatch(nI, nJ, 1, newColor)
+        horizontalMatchCount = horizontalMatchCount + self:countAdjacentHorizontalMatch(nI, nJ, -1, newColor)
+    elseif dJ > 0 then
+        -- new position is to the right
+        horizontalMatchCount = self:countAdjacentHorizontalMatch(nI, nJ, 1, newColor)
+    else -- dJ < 0
+        -- new position is to the left
+        horizontalMatchCount = self:countAdjacentHorizontalMatch(nI, nJ, -1, newColor)
+    end
+    
+    return (verticalMatchCount >= 2 or horizontalMatchCount >= 2)
+end
+
+function Board:countAdjacentVerticalMatch(atI, atJ, direction, newColor)
+    local startI = atI + direction
+    local i = startI
+    while (i >= 1 and i <= 8) and self.tiles[i][atJ].color == newColor do
+        i = i + direction
+    end
+    return math.abs(i - startI)
+end
+
+function Board:countAdjacentHorizontalMatch(atI, atJ, direction, newColor)
+    local startJ = atJ + direction
+    local j = startJ
+    while (j >= 1 and j <= 8) and self.tiles[atI][j].color == newColor do
+        j = j + direction
+    end
+    return math.abs(j - startJ)
 end
 
 function Board:render()
