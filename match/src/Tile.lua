@@ -11,7 +11,7 @@
     color and a variety, with the varietes adding extra points to the matches.
 ]]
 
-SHINY_TILE_CHANCE = 3
+SHINY_TILE_CHANCE = 6
 
 Tile = Class{}
 

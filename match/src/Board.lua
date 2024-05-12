@@ -99,7 +99,7 @@ function Board:calculateMatches()
                         
                         -- add each tile to the match that's in that match
                         table.insert(match, self.tiles[y][x2])
-                        matchLookup[y][x] = true
+                        matchLookup[y][x2] = true
                     end
 
                     -- add this match to our total matches table
@@ -147,7 +147,7 @@ function Board:calculateMatches()
 
                     for y2 = y - 1, y - matchNum, -1 do
                         table.insert(match, self.tiles[y2][x])
-                        matchLookup[y][x] = true
+                        matchLookup[y2][x] = true
                     end
 
                     table.insert(matches, match)
