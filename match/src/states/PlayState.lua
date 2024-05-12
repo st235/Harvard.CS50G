@@ -218,7 +218,23 @@ function PlayState:calculateMatches()
             self:calculateMatches()
         end)
     
-    -- if no matches, we can continue playing
+    -- if no matches, we should check for potential matches
+    elseif not self.board:checkMatchExists() then
+        -- removes the entire board
+        self.board:removeBadBoard()
+
+        -- gets a table with tween values for tiles that should now fall
+        local tilesToFall = self.board:getFallingTiles()
+
+        -- tween new tiles that spawn from the ceiling over 0.25s to fill in
+        -- the new upper gaps that exist
+        Timer.tween(0.25, tilesToFall):finish(function()
+            
+            -- recursively call function in case new matches have been created
+            -- as a result of falling blocks once new blocks have finished falling
+            self:calculateMatches()
+        end)
+    -- if no matces and there is a potential match, enable the board
     else
         self.canInput = true
     end

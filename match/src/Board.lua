@@ -11,7 +11,7 @@
     sets of three horizontally or vertically.
 ]]
 
-local MAX_COLORS_IN_USE = 6
+local MAX_COLORS_IN_USE = 8
 
 Board = Class{}
 
@@ -42,10 +42,9 @@ function Board:initializeTiles()
         end
     end
 
-    while self:calculateMatches() do
-        
+    while self:calculateMatches() or (not self:checkMatchExists()) do
         -- recursively initialize if matches were returned so we always have
-        -- a matchless board on start
+        -- a matchless board with option to swap on start
         self:initializeTiles()
     end
 end
@@ -202,6 +201,17 @@ function Board:calculateMatches()
 end
 
 --[[
+    Removes the entire board if the board no longer valid.
+]]
+function Board:removeBadBoard()
+    for i = 1,8 do
+        for j = 1,8 do
+            self.tiles[i][j] = nil
+        end
+    end
+end
+
+--[[
     Remove the matches from the Board by just setting the Tile slots within
     them to nil, then setting self.matches to nil.
 ]]
@@ -295,7 +305,33 @@ function Board:getFallingTiles()
     return tweens
 end
 
+function Board:checkMatchExists()
+    for i = 1,8 do
+        for j = 1,8 do
+            if self:checkSwapPossible(i, j) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function Board:checkSwapPossible(i, j)
+    return self:canSwap(i, j, i + 1, j) or
+        self:canSwap(i, j, i - 1, j) or
+        self:canSwap(i, j, i, j + 1) or
+        self:canSwap(i, j, i, j - 1)
+end
+
 function Board:canSwap(oI, oJ, nI, nJ)
+    if oI < 1 or oI > 8 or oJ < 1 or oJ > 8 then
+        return false
+    end
+
+    if nI < 1 or nI > 8 or nJ < 1 or nJ > 8 then
+        return false
+    end
+
     return self:checkCanReplaceOldTile(oI, oJ, nI, nJ, self.tiles[oI][oJ].color) or 
         self:checkCanReplaceOldTile(nI, nJ, oI, oJ, self.tiles[nI][nJ].color) 
 end
