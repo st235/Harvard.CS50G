@@ -185,8 +185,9 @@ function Board:calculateMatches()
                 visitedRowsLookup[tile.gridY] = true
 
                 for k = 1, 8 do
-                    if not (matchLookup[tile.gridY][tile.gridX] or false) then
+                    if not (matchLookup[tile.gridY][k] or false) then
                         table.insert(shinyMatch, self.tiles[tile.gridY][k])
+                        matchLookup[tile.gridY][k] = true
                     end
                 end
             end
