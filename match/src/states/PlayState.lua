@@ -122,11 +122,20 @@ function PlayState:update(dt)
         end
 
         -- if we've pressed enter, to select or deselect a tile...
-        if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-            
+        local wasMouseClicked = love.mouse.wasPressed(1)
+        local wasKeyboardClicked = love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return')
+        if wasKeyboardClicked or wasMouseClicked then
             -- if same tile as currently highlighted, deselect
             local x = self.boardHighlightX + 1
             local y = self.boardHighlightY + 1
+            if wasMouseClicked then
+                local clicks = love.mouse.buttonPressed[1]
+                local clickX, clickY = clicks[1], clicks[2]
+                local clickGridX, clickGridY = self.board:toGrid(clickX, clickY)
+                
+                x = clickGridX
+                y = clickGridY
+            end
             
             -- if nothing is highlighted, highlight current tile
             if not self.highlightedTile then

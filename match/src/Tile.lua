@@ -15,6 +15,8 @@ SHINY_TILE_CHANCE = 3
 
 Tile = Class{}
 
+Tile.SIZE = 32
+
 function Tile.shouldBeShiny()
     return math.random(1, 100) <= SHINY_TILE_CHANCE
 end
@@ -26,8 +28,8 @@ function Tile:init(x, y, color, variety, isShiny)
     self.gridY = y
 
     -- coordinate positions
-    self.x = (self.gridX - 1) * 32
-    self.y = (self.gridY - 1) * 32
+    self.x = (self.gridX - 1) * Tile.SIZE
+    self.y = (self.gridY - 1) * Tile.SIZE
 
     -- tile appearance/points
     self.color = color

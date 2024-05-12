@@ -78,6 +78,7 @@ function love.load()
 
     -- initialize input table
     love.keyboard.keysPressed = {}
+    love.mouse.buttonPressed = {}
 end
 
 function love.resize(w, h)
@@ -85,17 +86,25 @@ function love.resize(w, h)
 end
 
 function love.keypressed(key)
-    
     -- add to our table of keys pressed this frame
     love.keyboard.keysPressed[key] = true
 end
 
-function love.conf(t)
-	t.console = true
-end
-
 function love.keyboard.wasPressed(key)
     if love.keyboard.keysPressed[key] then
+        return true
+    else
+        return false
+    end
+end
+
+function love.mousepressed(x, y, button)
+    local localX, localY = push:toGame(x, y)
+    love.mouse.buttonPressed[button] = { localX, localY }
+end
+
+function love.mouse.wasPressed(button)
+    if love.mouse.buttonPressed[button] then
         return true
     else
         return false
@@ -115,6 +124,7 @@ function love.update(dt)
     gStateMachine:update(dt)
 
     love.keyboard.keysPressed = {}
+    love.mouse.buttonPressed = {}
 end
 
 function love.draw()
@@ -125,4 +135,8 @@ function love.draw()
     
     gStateMachine:render()
     push:finish()
+end
+
+function love.conf(t)
+	t.console = true
 end

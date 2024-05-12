@@ -27,6 +27,10 @@ function Board:init(x, y, level)
     self:initializeTiles()
 end
 
+function Board:toGrid(x, y)
+    return math.floor((x - self.x) / Tile.SIZE) + 1, math.floor((y - self.y) / Tile.SIZE) + 1
+end
+
 function Board:initializeTiles()
     self.tiles = {}
 
