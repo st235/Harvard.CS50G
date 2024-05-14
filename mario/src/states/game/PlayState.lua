@@ -18,8 +18,10 @@ function PlayState:init()
     self.gravityOn = true
     self.gravityAmount = 6
 
+    local playerCoordinates = self.tileMap:tileToPoint(1, self.tileMap.firstGroundColumn)
+
     self.player = Player({
-        x = 0, y = 0,
+        x = playerCoordinates[1], y = playerCoordinates[2],
         width = 16, height = 20,
         texture = 'green-alien',
         stateMachine = StateMachine {

@@ -11,6 +11,7 @@ function TileMap:init(width, height)
     self.width = width
     self.height = height
     self.tiles = {}
+    self.firstGroundColumn = -1
 end
 
 --[[
@@ -30,6 +31,17 @@ function TileMap:pointToTile(x, y)
     end
     
     return self.tiles[math.floor(y / TILE_SIZE) + 1][math.floor(x / TILE_SIZE) + 1]
+end
+
+--[[
+    Returns x, y of a tilen given an row and column of coordinates in tiles grid.
+]]
+function TileMap:tileToPoint(row, column)
+    if row < 1 or row > self.height or column < 1 or column > self.width then
+        return nil
+    end
+
+    return { (column - 1) * TILE_SIZE, (row - 1) * TILE_SIZE }
 end
 
 function TileMap:render()

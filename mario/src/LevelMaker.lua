@@ -22,6 +22,8 @@ function LevelMaker.generate(width, height)
     local tileset = math.random(20)
     local topperset = math.random(20)
 
+    local firstGroundColumn = -1
+
     -- insert blank tables into tiles for later access
     for x = 1, height do
         table.insert(tiles, {})
@@ -44,6 +46,10 @@ function LevelMaker.generate(width, height)
                     Tile(x, y, tileID, nil, tileset, topperset))
             end
         else
+            if firstGroundColumn == -1 then
+                firstGroundColumn = x
+            end
+
             tileID = TILE_ID_GROUND
 
             -- height at which we would spawn a potential jump block
@@ -163,6 +169,7 @@ function LevelMaker.generate(width, height)
 
     local map = TileMap(width, height)
     map.tiles = tiles
+    map.firstGroundColumn = firstGroundColumn
     
     return GameLevel(entities, objects, map)
 end

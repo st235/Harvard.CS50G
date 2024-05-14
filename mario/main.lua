@@ -48,6 +48,10 @@ function love.load()
     love.keyboard.keysPressed = {}
 end
 
+function love.config(c)
+    c.console = true
+end
+
 function love.resize(w, h)
     push:resize(w, h)
 end
