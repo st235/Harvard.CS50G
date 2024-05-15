@@ -7,10 +7,12 @@
 
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init()
+function PlayState:enter(def)
+    self.levelId = def.levelId
+
     self.camX = 0
     self.camY = 0
-    self.level = LevelMaker.generate(100, 10)
+    self.level = LevelMaker.generate(self.levelId, 100 + math.max(50, self.levelId * 10), 10)
     self.tileMap = self.level.tileMap
     self.background = math.random(3)
     self.backgroundX = 0
@@ -74,6 +76,12 @@ function PlayState:render()
 
     self.player:render()
     love.graphics.pop()
+
+    local levelOffset = 5
+
+    love.graphics.setFont(gFonts['small'])
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.printf('Level: ' .. tostring(self.levelId), VIRTUAL_WIDTH - 40, 4, 40, "left")
     
     -- render score
     love.graphics.setFont(gFonts['medium'])

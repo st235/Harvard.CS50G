@@ -77,6 +77,8 @@ function PlayerJumpState:update(dt)
                     self.player.dy = 0
                     self.player:changeState('falling')
                 end
+            elseif object.interactable then
+                object.onInteract(object)
             end
         end
     end

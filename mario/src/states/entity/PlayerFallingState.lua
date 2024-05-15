@@ -73,6 +73,8 @@ function PlayerFallingState:update(dt)
             elseif object.consumable then
                 object.onConsume(self.player)
                 table.remove(self.player.level.objects, k)
+            elseif object.interactable then
+                object.onInteract(object)
             end
         end
     end

@@ -10,7 +10,7 @@
 
 LevelMaker = Class{}
 
-function LevelMaker.generate(width, height)
+function LevelMaker.generate(levelId, width, height)
     local tiles = {}
     local entities = {}
     local objects = {}
@@ -137,7 +137,12 @@ function LevelMaker.generate(width, height)
                                     PoleGameObject {
                                         x = (lastGroundColumn - 1) * TILE_SIZE,
                                         y = (lastGroundColumnHeight - 1) * TILE_SIZE,
-                                        collidable = false
+                                        interactable = true,
+                                        onInteract = function(obj)
+                                            gStateMachine:change('play', {
+                                                levelId = levelId + 1
+                                            })
+                                        end
                                     }
                                 )
 

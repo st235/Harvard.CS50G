@@ -60,4 +60,13 @@ function PlayerWalkingState:update(dt)
     if love.keyboard.wasPressed('space') then
         self.player:changeState('jump')
     end
+
+    -- check if we've collided with any collidable game objects
+    for k, object in pairs(self.player.level.objects) do
+        if object:collides(self.player) then
+            if  object.interactable then
+                object.onInteract(object)
+            end
+        end
+    end
 end
