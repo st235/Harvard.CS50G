@@ -58,7 +58,7 @@ function PlayerJumpState:update(dt)
     -- check if we've collided with any collidable game objects
     for k, object in pairs(self.player.level.objects) do
         if object:collides(self.player) then
-            if object.solid then
+            if object.collidable then
                 object.onCollide(object)
 
                 self.player.y = object.y + object.height
@@ -67,6 +67,16 @@ function PlayerJumpState:update(dt)
             elseif object.consumable then
                 object.onConsume(self.player)
                 table.remove(self.player.level.objects, k)
+            elseif object.lockable then 
+                local isUnlocked = object.onUnlock(self.player, object)
+
+                if isUnlocked then
+                    table.remove(self.player.level.objects, k)
+                else
+                    self.player.y = object.y + object.height
+                    self.player.dy = 0
+                    self.player:changeState('falling')
+                end
             end
         end
     end

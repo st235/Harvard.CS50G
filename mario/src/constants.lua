@@ -67,6 +67,10 @@ COLLIDABLE_TILES = {
     TILE_ID_GROUND
 }
 
+-- key and lock generation offsets from start and end of the scene
+KEY_GENERATION_SIDE_OFFSET = 4
+LOCK_GENERATION_SIDE_OFFSET = 2
+
 --
 -- game object IDs
 --
@@ -76,6 +80,14 @@ BUSH_IDS = {
 
 COIN_IDS = {
     1, 2, 3
+}
+
+KEY_IDS = {
+    1, 2, 3, 4
+}
+
+LOCK_IDS = {
+    5, 6, 7, 8
 }
 
 CRATES = {

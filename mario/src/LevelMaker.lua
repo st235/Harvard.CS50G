@@ -22,7 +22,21 @@ function LevelMaker.generate(width, height)
     local tileset = math.random(20)
     local topperset = math.random(20)
 
+    -- keeps track of the first column with ground tiles
     local firstGroundColumn = -1
+
+    -- locked block and key generation logic
+    local keyLockSkin = math.random(#KEY_IDS)
+
+    local keyColumn = math.random(width - 2 * KEY_GENERATION_SIDE_OFFSET) + KEY_GENERATION_SIDE_OFFSET
+    local lockedBlockColumn = math.random(width - keyColumn - LOCK_GENERATION_SIDE_OFFSET) + keyColumn + 1
+    assert(#KEY_IDS == #LOCK_IDS)
+
+    local keyConsumeFunction = function(player, object)
+        gSounds['pickup']:play()
+        player.isKeyPickedUp = true
+        player.keySkin = keyLockSkin
+    end
 
     -- insert blank tables into tiles for later access
     for x = 1, height do
@@ -61,11 +75,27 @@ function LevelMaker.generate(width, height)
             end
 
             -- chance to generate a pillar
-            if math.random(8) == 1 then
+            if math.random(8) == 1 and x ~= lockedBlockColumn then
                 blockHeight = 2
                 
                 -- chance to generate bush on pillar
-                if math.random(8) == 1 then
+                if x == keyColumn then
+                    table.insert(objects,
+                        GameObject {
+                            texture = 'keys-and-locks',
+                            x = (x - 1) * TILE_SIZE,
+                            y = (4 - 1) * TILE_SIZE,
+                            width = 16,
+                            height = 16,
+                            
+                            -- select random frame from bush_ids whitelist, then random row for variance
+                            frame = KEY_IDS[keyLockSkin],
+                            collidable = true,
+                            consumable = true,
+                            onConsume = keyConsumeFunction
+                        }
+                    )
+                elseif math.random(8) == 1 then
                     table.insert(objects,
                         GameObject {
                             texture = 'bushes',
@@ -87,7 +117,23 @@ function LevelMaker.generate(width, height)
                 tiles[7][x].topper = nil
             
             -- chance to generate bushes
-            elseif math.random(8) == 1 then
+            elseif x == keyColumn then
+                table.insert(objects,
+                    GameObject {
+                        texture = 'keys-and-locks',
+                        x = (x - 1) * TILE_SIZE,
+                        y = (6 - 1) * TILE_SIZE,
+                        width = 16,
+                        height = 16,
+                        
+                        -- select random frame from bush_ids whitelist, then random row for variance
+                        frame = KEY_IDS[keyLockSkin],
+                        collidable = true,
+                        consumable = true,
+                        onConsume = keyConsumeFunction
+                    }
+                )
+            elseif  math.random(8) == 1 then
                 table.insert(objects,
                     GameObject {
                         texture = 'bushes',
@@ -102,7 +148,36 @@ function LevelMaker.generate(width, height)
             end
 
             -- chance to spawn a block
-            if math.random(10) == 1 then
+            if x == lockedBlockColumn then
+                table.insert(objects,
+
+                    -- jump block
+                    GameObject {
+                        texture = 'keys-and-locks',
+                        x = (x - 1) * TILE_SIZE,
+                        y = (blockHeight - 1) * TILE_SIZE,
+                        width = 16,
+                        height = 16,
+
+                        -- make it a random variant
+                        frame = LOCK_IDS[keyLockSkin],
+                        solid = true,
+                        lockable = true,
+                        onUnlock = function(player, obj)
+                            local canUnlock = player.isKeyPickedUp
+
+                            if canUnlock then
+                                player.isKeyPickedUp = false
+                                gSounds['powerup-reveal']:play()
+                                return true
+                            else
+                                gSounds['empty-block']:play()
+                                return false
+                            end
+                        end
+                    }
+                )
+            elseif math.random(10) == 1 then
                 table.insert(objects,
 
                     -- jump block

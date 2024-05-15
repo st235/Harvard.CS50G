@@ -78,9 +78,13 @@ function PlayState:render()
     -- render score
     love.graphics.setFont(gFonts['medium'])
     love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.print(tostring(self.player.score), 5, 5)
+    love.graphics.printf(tostring(self.player.score), 5, 5, 40, "right")
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.print(tostring(self.player.score), 4, 4)
+    love.graphics.printf(tostring(self.player.score), 4, 4, 40, "right")
+
+    if self.player.isKeyPickedUp then
+        love.graphics.draw(gTextures['keys-and-locks'], gFrames['keys-and-locks'][self.player.keySkin], 47, 4)
+    end
 end
 
 function PlayState:updateCamera()

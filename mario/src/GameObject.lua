@@ -18,8 +18,10 @@ function GameObject:init(def)
     self.solid = def.solid
     self.collidable = def.collidable
     self.consumable = def.consumable
+    self.lockable = def.lockable
     self.onCollide = def.onCollide
     self.onConsume = def.onConsume
+    self.onUnlock = def.onUnlock
     self.hit = def.hit
 end
 

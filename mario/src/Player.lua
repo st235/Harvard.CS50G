@@ -12,6 +12,8 @@ Player = Class{__includes = Entity}
 
 function Player:init(def)
     Entity.init(self, def)
+    self.isKeyPickedUp = false
+    self.keySkin = -1
     self.score = 0
 end
 
