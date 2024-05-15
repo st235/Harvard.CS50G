@@ -24,6 +24,8 @@ function LevelMaker.generate(width, height)
 
     -- keeps track of the first column with ground tiles
     local firstGroundColumn = -1
+    local lastGroundColumn = -1
+    local lastGroundColumnHeight = 6
 
     -- locked block and key generation logic
     local keyLockSkin = math.random(#KEY_IDS)
@@ -54,16 +56,12 @@ function LevelMaker.generate(width, height)
         end
 
         -- chance to just be emptiness
-        if math.random(7) == 1 then
+        if math.random(7) == 1 and x ~= keyColumn and x ~= lockedBlockColumn then
             for y = 7, height do
                 table.insert(tiles[y],
                     Tile(x, y, tileID, nil, tileset, topperset))
             end
         else
-            if firstGroundColumn == -1 then
-                firstGroundColumn = x
-            end
-
             tileID = TILE_ID_GROUND
 
             -- height at which we would spawn a potential jump block
@@ -75,54 +73,22 @@ function LevelMaker.generate(width, height)
             end
 
             -- chance to generate a pillar
-            if math.random(8) == 1 and x ~= lockedBlockColumn then
+            if math.random(8) == 1 then
                 blockHeight = 2
-                
-                -- chance to generate bush on pillar
-                if x == keyColumn then
-                    table.insert(objects,
-                        GameObject {
-                            texture = 'keys-and-locks',
-                            x = (x - 1) * TILE_SIZE,
-                            y = (4 - 1) * TILE_SIZE,
-                            width = 16,
-                            height = 16,
-                            
-                            -- select random frame from bush_ids whitelist, then random row for variance
-                            frame = KEY_IDS[keyLockSkin],
-                            collidable = true,
-                            consumable = true,
-                            onConsume = keyConsumeFunction
-                        }
-                    )
-                elseif math.random(8) == 1 then
-                    table.insert(objects,
-                        GameObject {
-                            texture = 'bushes',
-                            x = (x - 1) * TILE_SIZE,
-                            y = (4 - 1) * TILE_SIZE,
-                            width = 16,
-                            height = 16,
-                            
-                            -- select random frame from bush_ids whitelist, then random row for variance
-                            frame = BUSH_IDS[math.random(#BUSH_IDS)] + (math.random(4) - 1) * 7,
-                            collidable = false
-                        }
-                    )
-                end
                 
                 -- pillar tiles
                 tiles[5][x] = Tile(x, 5, tileID, topper, tileset, topperset)
                 tiles[6][x] = Tile(x, 6, tileID, nil, tileset, topperset)
                 tiles[7][x].topper = nil
+            end
             
             -- chance to generate bushes
-            elseif x == keyColumn then
+            if x == keyColumn then
                 table.insert(objects,
                     GameObject {
                         texture = 'keys-and-locks',
                         x = (x - 1) * TILE_SIZE,
-                        y = (6 - 1) * TILE_SIZE,
+                        y = (blockHeight + 1) * TILE_SIZE,
                         width = 16,
                         height = 16,
                         
@@ -138,7 +104,7 @@ function LevelMaker.generate(width, height)
                     GameObject {
                         texture = 'bushes',
                         x = (x - 1) * TILE_SIZE,
-                        y = (6 - 1) * TILE_SIZE,
+                        y = (blockHeight + 1) * TILE_SIZE,
                         width = 16,
                         height = 16,
                         frame = BUSH_IDS[math.random(#BUSH_IDS)] + (math.random(4) - 1) * 7,
@@ -167,6 +133,14 @@ function LevelMaker.generate(width, height)
                             local canUnlock = player.isKeyPickedUp
 
                             if canUnlock then
+                                table.insert(objects,
+                                    PoleGameObject {
+                                        x = (lastGroundColumn - 1) * TILE_SIZE,
+                                        y = (lastGroundColumnHeight - 1) * TILE_SIZE,
+                                        collidable = false
+                                    }
+                                )
+
                                 player.isKeyPickedUp = false
                                 gSounds['powerup-reveal']:play()
                                 return true
@@ -239,6 +213,13 @@ function LevelMaker.generate(width, height)
                     }
                 )
             end
+
+            if firstGroundColumn == -1 then
+                firstGroundColumn = x
+            end
+
+            lastGroundColumn = math.max(lastGroundColumn, x)
+            lastGroundColumnHeight = blockHeight 
         end
     end
 
