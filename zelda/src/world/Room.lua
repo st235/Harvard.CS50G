@@ -107,6 +107,29 @@ function Room:generateObjects()
 end
 
 --[[
+    Randomly creates a a heart.
+]]
+function Room:generateHeart(entity)
+    if math.random(1, 100) <= HEART_RANDOM_DROP_CHANCE then
+        local heart = GameObject(
+            GAME_OBJECT_DEFS['heart'],
+            entity.x + entity.width / 2,
+            entity.y + entity.height / 2
+        )
+
+        heart.onCollide = function()
+            if not heart.destroyed then
+                heart.destroyed = true
+                self.player:heal()
+                gSounds['heal']:play()
+            end
+        end
+
+        table.insert(self.objects, heart)
+    end
+end
+
+--[[
     Generates the walls and floors of the room, randomizing the various varieties
     of said tiles for visual variety.
 ]]
@@ -158,7 +181,10 @@ function Room:update(dt)
 
         -- remove entity from the table if health is <= 0
         if entity.health <= 0 then
-            entity.dead = true
+            if not entity.dead then
+                entity.dead = true
+                self:generateHeart(entity)
+            end
         elseif not entity.dead then
             entity:processAI({room = self}, dt)
             entity:update(dt)
@@ -177,11 +203,23 @@ function Room:update(dt)
     end
 
     for k, object in pairs(self.objects) do
+        if object.destroyed then
+            goto continue
+        end
+
         object:update(dt)
 
         -- trigger collision callback on object
         if self.player:collides(object) then
             object:onCollide()
+        end
+
+        ::continue::
+    end
+
+    for k, object in pairs(self.objects) do
+        if object.destroyed then
+            table.remove(self.objects, k)
         end
     end
 end
@@ -203,7 +241,7 @@ function Room:render()
     end
 
     for k, object in pairs(self.objects) do
-        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        if not object.destroyed then object:render(self.adjacentOffsetX, self.adjacentOffsetY) end
     end
 
     for k, entity in pairs(self.entities) do

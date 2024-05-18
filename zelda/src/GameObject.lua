@@ -28,6 +28,10 @@ function GameObject:init(def, x, y)
     self.y = y
     self.width = def.width
     self.height = def.height
+    self.scaleX = def.scaleX or 1
+    self.scaleY = def.scaleY or 1
+
+    self.destroyed = false
 
     -- default empty collision callback
     self.onCollide = function() end
@@ -38,6 +42,11 @@ function GameObject:update(dt)
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
-    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.states[self.state].frame or self.frame],
-        self.x + adjacentOffsetX, self.y + adjacentOffsetY)
+    local frame = self.frame
+    if self.state and self.states then
+        frame = self.states[self.state].frame or self.frame
+    end
+
+    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][frame],
+        self.x + adjacentOffsetX, self.y + adjacentOffsetY, 0, self.scaleX, self.scaleY)
 end
