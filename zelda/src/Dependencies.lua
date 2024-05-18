@@ -23,13 +23,14 @@ require 'src/world/Dungeon'
 require 'src/world/Room'
 
 require 'src/states/BaseState'
+require 'src/states/CollisionUtil'
 
 require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
 
-require 'src/states/entity/player/PlayerIdleState'
-require 'src/states/entity/player/PlayerSwingSwordState'
-require 'src/states/entity/player/PlayerWalkState'
+require 'src/states/player/PlayerIdleState'
+require 'src/states/player/PlayerSwingSwordState'
+require 'src/states/player/PlayerWalkState'
 
 require 'src/states/game/GameOverState'
 require 'src/states/game/PlayState'
