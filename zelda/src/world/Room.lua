@@ -254,7 +254,7 @@ function Room:render()
     end
 
     for k, object in pairs(self.objects) do
-        if not object.destroyed then object:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+        if not object.destroyed and not object.renderOnTop then object:render(self.adjacentOffsetX, self.adjacentOffsetY) end
     end
 
     for k, entity in pairs(self.entities) do
@@ -288,6 +288,10 @@ function Room:render()
     end
 
     love.graphics.setStencilTest()
+
+    for k, object in pairs(self.objects) do
+        if not object.destroyed and object.renderOnTop then object:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+    end
 
     --
     -- DEBUG DRAWING OF STENCIL RECTANGLES

@@ -23,6 +23,8 @@ function GameObject:init(def, x, y)
     self.state = self.defaultState
     self.states = def.states
 
+    self.renderOnTop = false
+
     -- dimensions
     self.x = x
     self.y = y

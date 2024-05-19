@@ -18,6 +18,7 @@ function Animation:init(def)
     -- false or true returns false, therefore
     -- the default value is false.
     self.looping = def.looping or false
+    self.isFinished = false
 
     self.timer = 0
     self.currentFrame = 1
@@ -30,13 +31,13 @@ function Animation:refresh()
     self.timer = 0
     self.currentFrame = 1
     self.timesPlayed = 0
+    self.isFinished = false
 end
 
 function Animation:update(dt)
     -- if not a looping animation and we've played at least once, exit
     if not self.looping and self.timesPlayed > 0 then
-        -- set to the last frame in the sequence if no looping happening
-        self.currentFrame = #self.frames
+        self.isFinished = true
         return
     end
 
@@ -60,6 +61,14 @@ function Animation:update(dt)
             end
         end
     end
+end
+
+function Animation:getProgress()
+    return self.currentFrame
+end
+
+function Animation:getSize()
+    return #self.frames
 end
 
 function Animation:getCurrentFrame()

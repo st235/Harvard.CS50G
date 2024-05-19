@@ -35,7 +35,7 @@ function PlayerIdleState:update(dt)
         local pot = self:findNearestPotInLookingDirection()
 
         if pot ~= nil then
-            self.player:changeState('hold', {
+            self.player:changeState('lift', {
                 ['pot'] = pot
             }) 
         end
