@@ -246,7 +246,7 @@ function Room:update(dt)
         object:update(dt)
 
         for _, entity in pairs(self.entities) do
-            if entity:collides(object) then
+            if not entity.dead and entity:collides(object) then
                 if object.collidiable then
                     object.onCollide(entity)
                 end
