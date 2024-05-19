@@ -59,4 +59,4 @@ POT_PICKUP_DISTANCE = 22
 POT_LOOK_SIGHT = 10
 
 -- chances of dropping some items, scaled up to 100
-HEART_RANDOM_DROP_CHANCE = 10
+HEART_RANDOM_DROP_CHANCE = 15

@@ -22,6 +22,10 @@ function PlayerLiftingState:update(dt)
 
         self.pot.x = playerHeadPoint[1] - math.floor(self.pot.width / 2)
         self.pot.y = playerHeadPoint[2] - math.floor(self.pot.height)
+
+        self.player:changeState('hold-idle', {
+            ['pot'] = self.pot
+        })
     end
 end
 
