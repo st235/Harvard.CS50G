@@ -14,7 +14,10 @@ function Animation:init(def)
     self.frames = def.frames
     self.interval = def.interval
     self.texture = def.texture
-    self.looping = def.looping or true
+    -- nil is considered as false, though
+    -- false or true returns false, therefore
+    -- the default value is false.
+    self.looping = def.looping or false
 
     self.timer = 0
     self.currentFrame = 1
@@ -32,6 +35,8 @@ end
 function Animation:update(dt)
     -- if not a looping animation and we've played at least once, exit
     if not self.looping and self.timesPlayed > 0 then
+        -- set to the last frame in the sequence if no looping happening
+        self.currentFrame = #self.frames
         return
     end
 
@@ -47,6 +52,11 @@ function Animation:update(dt)
             -- if we've looped back to the beginning, record
             if self.currentFrame == 1 then
                 self.timesPlayed = self.timesPlayed + 1
+            end
+
+            if not self.looping and self.timesPlayed > 0 then
+                -- reset frame to avoid flickering
+                self.currentFrame = #self.frames
             end
         end
     end

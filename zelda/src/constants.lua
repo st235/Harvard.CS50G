@@ -53,5 +53,10 @@ TILE_BOTTOM_WALLS = {79, 80, 81}
 TILE_LEFT_WALLS = {77, 96, 115}
 TILE_RIGHT_WALLS = {78, 97, 116}
 
+-- distance in pixels describing when you
+-- still eligible to pick up the pot
+POT_PICKUP_DISTANCE = 22
+POT_LOOK_SIGHT = 10
+
 -- chances of dropping some items, scaled up to 100
 HEART_RANDOM_DROP_CHANCE = 10

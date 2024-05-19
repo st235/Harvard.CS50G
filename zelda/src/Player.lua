@@ -20,6 +20,10 @@ function Player:heal()
     self.health = math.min(6, self.health + 2)
 end
 
+function Player:getCenterPoint()
+    return { math.floor(self.x + self.width / 2), math.floor(self.y + self.height / 2) }
+end
+
 function Player:collides(target)
     local selfY, selfHeight = self.y + self.height / 2, self.height - self.height / 2
     
@@ -30,7 +34,9 @@ end
 function Player:render()
     Entity.render(self)
     
-    -- love.graphics.setColor(255, 0, 255, 255)
+    -- love.graphics.setColor(255, 0, 0, 255)
+    -- local point = self:getCenterPoint()
+    -- love.graphics.points(point[1], point[2])
     -- love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
     -- love.graphics.setColor(255, 255, 255, 255)
 end
