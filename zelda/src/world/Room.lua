@@ -52,6 +52,7 @@ function Room:generateEntities()
         local type = types[math.random(#types)]
 
         table.insert(self.entities, Entity {
+            tag = ENTITY_DEFS[type].tag,
             animations = ENTITY_DEFS[type].animations,
             walkSpeed = ENTITY_DEFS[type].walkSpeed or 20,
 
@@ -89,6 +90,7 @@ function Room:generateObjects()
     )
 
     -- define a function for the switch that will open all doors in the room
+    switch.collidiable = true
     switch.onCollide = function(entity)
         if entity.tag == 'player' and switch.state == 'unpressed' then
             switch.state = 'pressed'
@@ -112,6 +114,30 @@ function Room:generateObjects()
         math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
                     VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
     )
+
+    pot.collidiable = false
+    pot.onCollide = function(entity)
+        if entity.tag == 'enemy' and not pot.destroyed then
+            entity:damage(1)
+            pot.destroyed = true
+        end
+    end
+
+    pot.onUpdated = function()
+        local wasThrown = (pot.beginThrowX ~= nil) or (pot.beginThrowY ~= nil)
+
+        if wasThrown then
+            local traveledDistance = math.max(math.floor(math.abs(pot.x - pot.beginThrowX) / TILE_SIZE),
+                math.floor(math.abs(pot.y - pot.beginThrowY) / TILE_SIZE))
+                
+            local traveledEnough = traveledDistance > POT_MAX_TRAVEL_DISTANCE
+            local outsideRoom = outsideOfRoomBounds(pot)
+
+            if (outsideRoom or traveledEnough) and not pot.destroyed then
+                pot.destroyed = true
+            end
+        end
+    end
 
     table.insert(self.objects, pot)
 end
@@ -219,9 +245,19 @@ function Room:update(dt)
 
         object:update(dt)
 
+        for _, entity in pairs(self.entities) do
+            if entity:collides(object) then
+                if object.collidiable then
+                    object.onCollide(entity)
+                end
+            end
+        end
+
         -- trigger collision callback on object
         if self.player:collides(object) then
-            object.onCollide(self.player)
+            if object.collidiable then
+                object.onCollide(self.player)
+            end
         end
 
         ::continue::

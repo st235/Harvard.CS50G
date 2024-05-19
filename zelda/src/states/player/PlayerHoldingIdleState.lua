@@ -38,6 +38,12 @@ function PlayerHoldingIdleState:update(dt)
         })
     end
 
+    if love.keyboard.wasPressed('return') then
+        self.pot.collidiable = true
+        self.pot:throw(self.player.direction)
+        self.player:changeState('idle')
+    end
+
     local playerHeadPoint = self.player:getHeadPoint()
     self.pot.x = playerHeadPoint[1] - math.floor(self.pot.width / 2)
     self.pot.y = playerHeadPoint[2] - math.floor(self.pot.height)

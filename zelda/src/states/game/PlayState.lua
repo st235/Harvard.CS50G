@@ -10,6 +10,7 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
     self.player = Player {
+        tag = ENTITY_DEFS['player'].tag,
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
         

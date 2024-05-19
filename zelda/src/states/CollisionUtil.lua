@@ -1,3 +1,10 @@
+function outsideOfRoomBounds(object)
+    return (object.x <= MAP_RENDER_OFFSET_X + TILE_SIZE) or
+        (object.x + object.width >= VIRTUAL_WIDTH - TILE_SIZE * 2) or
+        (object.y <= MAP_RENDER_OFFSET_Y + TILE_SIZE) or
+        (object.y + object.height >= VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE)
+end
+
 function updateEntityWithinRoom(dt, entity, collideableObjects)
     local bumped = false
 

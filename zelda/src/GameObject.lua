@@ -31,6 +31,8 @@ function GameObject:init(def, x, y)
     self.renderOnTop = false
 
     -- dimensions
+    self.dx = 0
+    self.dy = 0
     self.x = x
     self.y = y
     self.width = def.width
@@ -41,11 +43,37 @@ function GameObject:init(def, x, y)
     self.destroyed = false
 
     -- default empty collision callback
+    self.collidiable = true
     self.onCollide = function(entity) end
+
+    self.onUpdated = function() end
+end
+
+function GameObject:throw(direction)
+    local dx, dy = 0, 0
+
+    if direction == 'left' then
+        dx = -GAME_OBJECT_PROJECTION_SPEED
+    elseif direction == 'right' then
+        dx = GAME_OBJECT_PROJECTION_SPEED
+    elseif direction == 'up' then
+        dy = -GAME_OBJECT_PROJECTION_SPEED
+    elseif direction == 'down' then
+        dy = GAME_OBJECT_PROJECTION_SPEED
+    end
+
+    self.beginThrowX = self.x
+    self.beginThrowY = self.y
+
+    self.dx = dx
+    self.dy = dy
 end
 
 function GameObject:update(dt)
+    self.x = self.x + self.dx * dt
+    self.y = self.y + self.dy * dt 
 
+    self.onUpdated()
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
