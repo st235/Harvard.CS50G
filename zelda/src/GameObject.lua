@@ -41,7 +41,7 @@ function GameObject:init(def, x, y)
     self.destroyed = false
 
     -- default empty collision callback
-    self.onCollide = function() end
+    self.onCollide = function(entity) end
 end
 
 function GameObject:update(dt)

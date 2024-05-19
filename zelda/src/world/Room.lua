@@ -89,8 +89,8 @@ function Room:generateObjects()
     )
 
     -- define a function for the switch that will open all doors in the room
-    switch.onCollide = function()
-        if switch.state == 'unpressed' then
+    switch.onCollide = function(entity)
+        if entity.tag == 'player' and switch.state == 'unpressed' then
             switch.state = 'pressed'
             
             -- open every door in the room if we press the switch
@@ -113,9 +113,6 @@ function Room:generateObjects()
                     VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
     )
 
-    pot.onCollide = function()
-    end
-
     table.insert(self.objects, pot)
 end
 
@@ -130,10 +127,10 @@ function Room:generateHeart(entity)
             entity.y + entity.height / 2
         )
 
-        heart.onCollide = function()
-            if not heart.destroyed then
+        heart.onCollide = function(entity)
+            if entity.tag == 'player' and not heart.destroyed then
                 heart.destroyed = true
-                self.player:heal()
+                entity:heal()
                 gSounds['heal']:play()
             end
         end
@@ -224,7 +221,7 @@ function Room:update(dt)
 
         -- trigger collision callback on object
         if self.player:collides(object) then
-            object:onCollide()
+            object.onCollide(self.player)
         end
 
         ::continue::
