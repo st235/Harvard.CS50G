@@ -54,10 +54,28 @@ function AlienLaunchMarker:destroyAliens()
     self.aliens = {}
 end
 
-function AlienLaunchMarker:split()
+function AlienLaunchMarker:splitAlien()
     assert(#self.aliens == 1)
 
     local originalAlien = self.aliens[1]
+    local x, y = originalAlien.body:getX(), originalAlien.body:getY()
+    local velX, velY = originalAlien.body:getLinearVelocity()
+
+    local newAlien1 = Alien(self.world, 'round', x, y, 'Player')
+    local newAlien2 = Alien(self.world, 'round', x, y, 'Player')
+
+    local dVel = math.random(50, 75)
+
+    newAlien1.body:setLinearVelocity(velX, velY + dVel)
+    newAlien1.fixture:setRestitution(0.4)
+    newAlien1.body:setAngularDamping(1)
+
+    newAlien2.body:setLinearVelocity(velX, velY - dVel)
+    newAlien2.fixture:setRestitution(0.4)
+    newAlien2.body:setAngularDamping(1)
+
+    table.insert(self.aliens, newAlien1)
+    table.insert(self.aliens, newAlien2)
 end
 
 function AlienLaunchMarker:update(dt)

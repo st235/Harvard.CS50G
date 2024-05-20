@@ -83,6 +83,10 @@ function love.mouse.wasReleased(key)
     return love.mouse.keysReleased[key]
 end
 
+function love.config(c)
+    c.console = true
+end
+
 function love.update(dt)
     if not paused then
         gStateMachine:update(dt)

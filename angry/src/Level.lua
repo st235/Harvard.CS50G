@@ -25,6 +25,10 @@ function Level:init()
         types[a:getUserData()] = true
         types[b:getUserData()] = true
 
+        if types['Player'] then
+            self.canSplitPlayerAlien = false
+        end
+
         -- if we collided between both the player and an obstacle...
         if types['Obstacle'] and types['Player'] then
 
@@ -106,9 +110,9 @@ function Level:init()
 
     -- a flag that keeps tracking whether we can split player's alien
     -- into 3 aliens
-    self.canSplitPlayerAlient = false
+    self.canSplitPlayerAlien = false
     self.launchMarker.onLaunched = function()
-        self.canSplitPlayerAlient = true
+        self.canSplitPlayerAlien = true
     end
 
     -- obstacles guarding aliens that we can destroy
@@ -181,6 +185,9 @@ function Level:update(dt)
     if self.launchMarker.launched and self.launchMarker:isMotionless() then
         self.launchMarker:destroyAliens()
         self.launchMarker = AlienLaunchMarker(self.world)
+        self.launchMarker.onLaunched = function()
+            self.canSplitPlayerAlien = true
+        end
 
         -- re-initialize level if we have no more aliens
         if #self.aliens == 0 then
@@ -189,6 +196,10 @@ function Level:update(dt)
     end
 
     if love.keyboard.wasPressed('space') then
+        if self.launchMarker.launched and self.canSplitPlayerAlien then
+            self.canSplitPlayerAlien = false
+            self.launchMarker:splitAlien()
+        end
     end
 end
 
