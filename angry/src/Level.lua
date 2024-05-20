@@ -104,6 +104,13 @@ function Level:init()
     -- aliens in our scene
     self.aliens = {}
 
+    -- a flag that keeps tracking whether we can split player's alien
+    -- into 3 aliens
+    self.canSplitPlayerAlient = false
+    self.launchMarker.onLaunched = function()
+        self.canSplitPlayerAlient = true
+    end
+
     -- obstacles guarding aliens that we can destroy
     self.obstacles = {}
 
@@ -171,20 +178,17 @@ function Level:update(dt)
     end
 
     -- replace launch marker if original alien stopped moving
-    if self.launchMarker.launched then
-        local xPos, yPos = self.launchMarker.alien.body:getPosition()
-        local xVel, yVel = self.launchMarker.alien.body:getLinearVelocity()
-        
-        -- if we fired our alien to the left or it's almost done rolling, respawn
-        if xPos < 0 or (math.abs(xVel) + math.abs(yVel) < 1.5) then
-            self.launchMarker.alien.body:destroy()
-            self.launchMarker = AlienLaunchMarker(self.world)
+    if self.launchMarker.launched and self.launchMarker:isMotionless() then
+        self.launchMarker:destroyAliens()
+        self.launchMarker = AlienLaunchMarker(self.world)
 
-            -- re-initialize level if we have no more aliens
-            if #self.aliens == 0 then
-                gStateMachine:change('start')
-            end
+        -- re-initialize level if we have no more aliens
+        if #self.aliens == 0 then
+            gStateMachine:change('start')
         end
+    end
+
+    if love.keyboard.wasPressed('space') then
     end
 end
 
