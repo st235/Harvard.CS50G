@@ -186,7 +186,7 @@ function TakeTurnState:victory()
 
             -- sum all IVs and multiply by level to get exp amount
             local exp = (self.opponentPokemon.HPIV + self.opponentPokemon.attackIV +
-                self.opponentPokemon.defenseIV + self.opponentPokemon.speedIV) * self.opponentPokemon.level
+                self.opponentPokemon.defenseIV + self.opponentPokemon.speedIV) * self.opponentPokemon.level * 100
 
             gStateStack:push(BattleMessageState('You earned ' .. tostring(exp) .. ' experience points!',
                 function() end, false))
@@ -212,11 +212,25 @@ function TakeTurnState:victory()
 
                         -- set our exp to whatever the overlap is
                         self.playerPokemon.currentExp = self.playerPokemon.currentExp - self.playerPokemon.expToLevel
-                        self.playerPokemon:levelUp()
+                        local HPIncrease, attackIncrease, defenseIncrease, speedIncrease = self.playerPokemon:levelUp()
+
+                        local stats = {
+                            ['hp'] = self.playerPokemon.HP,
+                            ['hpIncrease'] = HPIncrease,
+                            ['attack'] = self.playerPokemon.attack,
+                            ['attackIncrease'] = attackIncrease,
+                            ['defense'] = self.playerPokemon.defense,
+                            ['defenseIncrease'] = defenseIncrease,
+                            ['speed'] = self.playerPokemon.speed,
+                            ['speedIncrease'] = speedIncrease,
+                        }
 
                         gStateStack:push(BattleMessageState('Congratulations! Level Up!',
                         function()
-                            self:fadeOutWhite()
+                            gStateStack:push(LevelUpStatsState(stats,
+                            function()
+                                self:fadeOutWhite()
+                            end))
                         end))
                     else
                         self:fadeOutWhite()
