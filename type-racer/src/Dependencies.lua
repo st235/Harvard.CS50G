@@ -16,6 +16,11 @@ require 'src/state/game/PlayState'
 
 -- gui
 require 'src/gui/Label'
+require 'src/gui/TemplateMatcher'
+
+-- utils
+require 'src/utils/Queue'
+require 'src/utils/StringUtil'
 
 gFonts = {
     ['small'] = love.graphics.newFont('resources/fonts/font.ttf', 8),

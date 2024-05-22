@@ -19,6 +19,9 @@ function love.load()
 
     gStateStack = StateStack()
     gStateStack:push(PlayState())
+
+    love.keyboard.keyPressed = {}
+    love.keyboard.symbolsQueue = Queue()
 end
 
 function love.resize(w, h)
@@ -26,11 +29,31 @@ function love.resize(w, h)
 end
 
 function love.keypressed(key)
+    love.keyboard.keyPressed[key] = true
+end
+
+function love.keyboard.wasPressed(key)
+    return love.keyboard.keyPressed[key] or false
+end
+
+function love.textinput(t)
+    love.keyboard.symbolsQueue:enqueue(t)
+end
+
+function love.keyboard.hasPendingSymbols()
+    return not love.keyboard.symbolsQueue:isEmpty()
+end
+
+function love.keyboard.consumePendingSymbol()
+    return love.keyboard.symbolsQueue:remove()
 end
 
 function love.update(dt)
     Timer.update(dt)
     gStateStack:update(dt)
+
+    love.keyboard.keyPressed = {}
+    love.keyboard.symbolsQueue:clear()
 end
 
 function love.draw()
