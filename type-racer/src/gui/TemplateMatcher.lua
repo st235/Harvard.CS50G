@@ -46,6 +46,10 @@ function TemplateMatcher:init(x, y, width, height,
     self.matchedChunkSymbol = 1
     
     self.errorLength = 0
+
+    self.onMatch = function(s) end
+    self.onError = function(s) end
+    self.onErrorLimitExceed = function() end
 end
 
 function TemplateMatcher:remove()
@@ -79,12 +83,19 @@ function TemplateMatcher:update()
                 self.matchedTemplateChunk = self.matchedTemplateChunk + 1
                 self.matchedChunkSymbol = 1
             end
+
+            -- triggering match callback
+            self.onMatch(s)
         else
             if self.errorLength == MAXIMUM_ERROR_ACCUMULATION_LENGTH then
-                -- TODO(st235): trigger callback here
+                -- errorLength is already at maximum accumulation limit
+                self.onErrorLimitExceed()
             end
 
             self.errorLength = math.min(MAXIMUM_ERROR_ACCUMULATION_LENGTH, self.errorLength + 1)
+
+            -- triggering error callback
+            self.onError(s)
         end
     end
 
