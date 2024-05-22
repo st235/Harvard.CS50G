@@ -18,7 +18,7 @@ function love.load()
     })
 
     gStateStack = StateStack()
-    gStateStack:push(StartState())
+    gStateStack:push(PlayState())
 end
 
 function love.resize(w, h)
