@@ -32,8 +32,7 @@ gTextures = {
 }
 
 gFrames = {
-    ['car-hatchback'] = GetVerticalQuads(gTextures['vehicles'], 32, 24, 0, 0, 2),
-    ['car-sedan'] = GetVerticalQuads(gTextures['vehicles'], 32, 24, 32, 0, 2),
+    ['vehicles'] = GenerateQuads(gTextures['vehicles'], 32, 24),
 }
 
 gFonts = {

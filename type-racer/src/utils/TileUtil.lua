@@ -21,20 +21,3 @@ function GenerateQuads(atlas, tilewidth, tileheight)
 
     return spritesheet
 end
-
-function GetVerticalQuads(atlas, tilewidth, tileheight, offsetX, offsetY, count)
-    local sheetWidth = math.floor((atlas:getWidth() - offsetX) / tilewidth)
-    local sheetHeight = math.floor((atlas:getHeight() - offsetY) / tileheight)
-
-    local sheetCounter = 1
-    local spritesheet = {}
-
-    for i = 0, math.min(sheetHeight, count) - 1 do
-        spritesheet[sheetCounter] = love.graphics.newQuad(offsetX, offsetY + i * tileheight, 
-            tilewidth, tileheight, atlas:getDimensions())
-
-        sheetCounter = sheetCounter + 1
-    end
-
-    return spritesheet
-end
