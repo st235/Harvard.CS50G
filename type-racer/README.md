@@ -13,3 +13,10 @@ This is a final project for the course!
 > The most common cause for failure of the final project is not spending enough effort on this next instruction. Your README.md file should be minimally multiple paragraphs in length, and should provide a relatively comprehensive documentation of what you did and, if applicable, why you did it. Ensure you allocate sufficient time and energy to writing a README.md that you are proud of and that documents your project thoroughly, and that distinguishes this project from others in the course and defends its complexity!
 
 - Your project must be at least as complex as (and distinct from!) the games you’ve implemented in this course, and should really be moreso. Submissions of low complexity may be rejected! You must explain your game in detail and why you believe it to meet the complexity and distinctiveness requirement in a `README.md` file at the root of your project.
+
+### Acknowledgements
+
+- Sprites
+    - [GB Studio Vehicle Asset Pack](https://reakain.itch.io/gb-studio-vehicle-asset-pack)
+- Font
+    - Retro font [Bitty](https://masharcade.itch.io/bitty)
