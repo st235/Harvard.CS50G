@@ -9,6 +9,26 @@ PLAYER = {
 }
 
 OPPONENTS = {
+    ['st235'] = {
+        name = 'Alex D.',
+        driverId = 37,
+        width = 32,
+        height = 24,
+        texture = 'cars',
+        frames = { 5, 6 },
+        speed = 0.5,
+        tint = { 255, 255, 255 },
+    },
+    ['goto'] = {
+        name = 'Tia',
+        driverId = 42,
+        width = 32,
+        height = 24,
+        texture = 'cars',
+        frames = { 15, 16 },
+        speed = 0.5,
+        tint = { 255, 255, 255 },
+    },
     ['granny'] = {
         name = 'granny',
         driverId = 04,
@@ -46,7 +66,7 @@ OPPONENTS = {
         height = 16,
         texture = 'motos',
         frames = { 1, 2 },
-        speed = 0.5,
+        speed = 1,
         tint = { 255, 255, 255 },
-    }
+    },
 }

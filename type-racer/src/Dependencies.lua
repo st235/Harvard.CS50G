@@ -23,6 +23,7 @@ require 'src/state/game/PlayState'
 require 'src/gui/view/View'
 require 'src/gui/view/Label'
 require 'src/gui/view/TemplateMatcher'
+require 'src/gui/view/Leaderboard'
 
 -- -- backgrounds
 require 'src/gui/background/Circle'

@@ -53,6 +53,10 @@ function Race:init(x, y, width, height, player, opponents, distance)
     end
 end
 
+function Race:getElapsedTime()
+    return os.time() - self.startTime
+end
+
 function Race:getPlayerPlace()
     local playerId = self.vehicles[#self.vehicles].driverId
     return self.finished[playerId] or PLACE_NOT_QUALIFIED

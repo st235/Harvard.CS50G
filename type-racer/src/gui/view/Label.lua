@@ -13,7 +13,7 @@ function Label:init(x, y, width, height,
 
     assert(#self.color == 3)
 
-    local _, wrappedText = font:getWrap(text, self:getAdjustedWidth())
+    local _, wrappedText = self.font:getWrap(text, self:getAdjustedWidth())
     self.textChunks = wrappedText
 end
 

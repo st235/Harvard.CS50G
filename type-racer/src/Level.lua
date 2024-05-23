@@ -10,6 +10,8 @@ function Level:init(x, y, width, height, level)
     local allLevelDefs = LEVELS[level]
     local levelDef = allLevelDefs[math.random(#allLevelDefs)]
 
+    self.bossFight = levelDef.bossFight or false
+
     local text = levelDef.text
     local opponentIds = levelDef.opponents
 
@@ -24,11 +26,19 @@ function Level:init(x, y, width, height, level)
 
     self.tileMap = TileMap(0, 0, self.width, self.height)
 
-    -- self.panel = Panel(panelX, panelY, panelWidth, panelHeight)
-    self.matcher = TemplateMatcher(math.floor((self.width - 200) / 2), 10, 200, 90, 
+    local controlsWidth = LEADERBOARD_WIDTH + VIEWS_SPACING + INPUT_WIDTH
+    local controlsOffsetX = math.floor((self.width - controlsWidth) / 2)
+    local controlsPaddingTop = 10
+
+    self.leaderboard = Leaderboard(self.x + controlsOffsetX, self.y + controlsPaddingTop, 
+        LEADERBOARD_WIDTH, LEADERBOARD_HEIGHT, gFonts['small'], level)
+    self.leaderboard:setBackground(Panel())
+
+    self.matcher = TemplateMatcher(self.x + controlsOffsetX + LEADERBOARD_WIDTH + VIEWS_SPACING, self.y + controlsPaddingTop, 
+        INPUT_WIDTH, INPUT_HEIGH, 
         text, gFonts['small'], 'left',
         {255, 255, 255}, {0, 255, 0}, {255, 0, 0},
-        8, 6, 8, 6)
+        6, 8, 6, 8)
     self.matcher:setBackground(Panel())
     
     self.raceStarted = false
@@ -41,6 +51,10 @@ function Level:init(x, y, width, height, level)
         self.width - 2 * raceHorizontalPadding, raceHeight, 
         player, opponents, self.matcher:getSymbolsCount())
 
+    self.matcher.onMatch = function(s, p)
+        self.race:setPlayerProgress(p)
+    end
+
     self.race.onDriverFinished = function(driverId, place, timing)
         print('Finished', driverId, place, timing)
     end
@@ -49,9 +63,11 @@ function Level:init(x, y, width, height, level)
         print('Race is over', place, timing)
     end
 
-    self.matcher.onMatch = function(s, p)
-        self.race:setPlayerProgress(p)
-    end
+    Timer.every(0.1, function()
+        if self.race.isStarted then
+            self.leaderboard:setSpeed(self:getSpeed())
+        end
+    end)
 end
 
 function Level:createVehicle(def)
@@ -60,10 +76,15 @@ function Level:createVehicle(def)
         def.frames, def.tint)
 end
 
+function Level:getSpeed()
+    return math.floor(self.matcher:getMatchedSymbolsCount() / self.race:getElapsedTime())
+end
+
 function Level:update(dt)
     self.race:update(dt)
 
     if self.raceStarted then
+        self.leaderboard:update(dt)
         self.matcher:update(dt)
     end
 
@@ -77,6 +98,7 @@ function Level:render()
     love.graphics.clear(0, 0, 0, 1)
 
     self.tileMap:render()
+    self.leaderboard:render()
     self.matcher:render()
     self.race:render()
 end
