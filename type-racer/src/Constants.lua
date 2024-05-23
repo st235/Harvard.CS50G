@@ -18,5 +18,16 @@ GROUND_TILE_FLOWER = 5
 
 GROUND_TILE_ROAD = 6
 
-GROUND_GRASS_HEIGHT = 4
+GROUND_GRASS_HEIGHT = 5
 GROUND_PAVEMENT_HEIGHT = 2
+
+-- building
+BUILDING_SIZES = {
+    { width = 48, height = 88 },
+    { width = 56, height = 88 },
+    { width = 72, height = 104 },
+    { width = 64, height = 115 },
+    { width = 56, height = 104 },
+    { width = 64, height = 128 },
+    { width = 73, height = 128 },
+}

@@ -17,6 +17,7 @@ function TileMap:init(x, y, width, height)
     end
 
     self:generateGround()
+    self:generateBuildings()
 end
 
 function TileMap:generateGround()
@@ -25,11 +26,11 @@ function TileMap:generateGround()
     local currentGrassSkin = GROUND_GRASS_TILES[math.random(#GROUND_GRASS_TILES)]
     local currentPavementSkin = GROUND_PAVEMENT_TILES[math.random(#GROUND_PAVEMENT_TILES)]
 
-    local grassHeight = math.min(GROUND_GRASS_HEIGHT, self.tilesHeight)
-    local pavementHeight = math.min(grassHeight + GROUND_PAVEMENT_HEIGHT, self.tilesHeight)
+    local grassTilesHeight = GROUND_GRASS_HEIGHT
+    local pavementTilesHeight = grassTilesHeight + GROUND_PAVEMENT_HEIGHT
 
     -- grass
-    for i=1, grassHeight do
+    for i=1, grassTilesHeight do
         table.insert(self.groundTiles, {})
         for j=1, self.tilesWidth do
             local x = (j - 1) * GROUND_TILE_SIZE
@@ -39,7 +40,7 @@ function TileMap:generateGround()
     end
 
     -- pavement
-    for i=grassHeight + 1, pavementHeight do
+    for i=grassTilesHeight + 1, pavementTilesHeight do
         table.insert(self.groundTiles, {})
         for j=1, self.tilesWidth do
             local x = (j - 1) * GROUND_TILE_SIZE
@@ -55,13 +56,31 @@ function TileMap:generateGround()
     end
 
     -- road
-    for i=pavementHeight, self.tilesHeight do
+    for i=pavementTilesHeight, self.tilesHeight do
         table.insert(self.groundTiles, {})
         for j=1, self.tilesWidth do
             local x = (j - 1) * GROUND_TILE_SIZE
             local y = (i - 1) * GROUND_TILE_SIZE
             table.insert(self.groundTiles[i], Tile(x, y, GROUND_TILE_SIZE, GROUND_TILE_SIZE, 'ground', GROUND_TILE_ROAD))
         end
+    end
+end
+
+function TileMap:generateBuildings()
+    self.buildings = {}
+
+    local grassHeightPx = GROUND_GRASS_HEIGHT * GROUND_TILE_SIZE
+
+    local currentX = self.x
+    while currentX <= self.x + self.width do
+        local buildingId = math.random(#BUILDING_SIZES)
+
+        local buildingSize = BUILDING_SIZES[buildingId]
+        local offsetY = self.y + grassHeightPx - buildingSize.height
+
+        table.insert(self.buildings, Tile(currentX, offsetY, buildingSize.width, buildingSize.height, 'buildings', buildingId))
+
+        currentX = currentX + buildingSize.width
     end
 end
 
@@ -73,5 +92,9 @@ function TileMap:render()
         for j=1, self.tilesWidth do
             self.groundTiles[i][j]:render()
         end
+    end
+
+    for i=1, #self.buildings do
+        self.buildings[i]:render()
     end
 end
