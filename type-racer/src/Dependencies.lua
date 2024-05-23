@@ -50,6 +50,7 @@ gTextures = {
     ['motos'] = love.graphics.newImage('resources/graphics/motosheet.png'),
     ['ground'] = love.graphics.newImage('resources/graphics/groundsheet.png'),
     ['buildings'] = love.graphics.newImage('resources/graphics/buildingsheet.png'),
+    ['trophies'] = love.graphics.newImage('resources/graphics/trophysheet.png'),
 }
 
 gFrames = {
@@ -65,6 +66,7 @@ gFrames = {
         love.graphics.newQuad(296, 0, 64, 128, gTextures['buildings']:getDimensions()),
         love.graphics.newQuad(368, 0, 73, 128, gTextures['buildings']:getDimensions()),
     },
+    ['trophies'] = GenerateQuads(gTextures['trophies'], 16, 16),
 }
 
 gFonts = {

@@ -35,7 +35,7 @@ function Level:init(x, y, width, height, level)
     self.leaderboard:setBackground(Panel())
 
     self.matcher = TemplateMatcher(self.x + controlsOffsetX + LEADERBOARD_WIDTH + VIEWS_SPACING, self.y + controlsPaddingTop, 
-        INPUT_WIDTH, INPUT_HEIGH, 
+        INPUT_WIDTH, INPUT_HEIGH,
         text, gFonts['small'], 'left',
         {255, 255, 255}, {155, 188, 15}, {238, 28, 37},
         6, 8, 6, 8)
