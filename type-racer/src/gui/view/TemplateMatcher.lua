@@ -1,22 +1,13 @@
-TemplateMatcher = Class{}
+TemplateMatcher = Class{__includes = View}
 
 function TemplateMatcher:init(x, y, width, height,
-                    template, font,
+                    template, font, textGravity,
                     templateColor, matchColor, errorColor,
-                    textGravity,
                     paddingTop, paddingLeft,
                     paddingBottom, paddingRight)
     assert(#template > 0)
     
-    self.x = x
-    self.y = y
-    self.width = width
-    self.height = height
-
-    self.paddingTop = paddingTop or 0
-    self.paddingLeft = paddingLeft or 0
-    self.paddingBottom = paddingBottom or 0
-    self.paddingRight = paddingRight or 0
+    View.init(self, x, y, width, height, paddingTop, paddingLeft, paddingBottom, paddingRight)
 
     self.font = font
     self.templateColor = templateColor or { 255, 255, 255 }
@@ -29,7 +20,7 @@ function TemplateMatcher:init(x, y, width, height,
 
     self.textGravity = textGravity or 'left'
 
-    local _, wrappedText = font:getWrap(template, self.width - self.paddingLeft - self.paddingRight)
+    local _, wrappedText = font:getWrap(template, self:getAdjustedWidth())
 
     self.templateLength = 0
     self.templateChunks = {}
@@ -121,11 +112,13 @@ function TemplateMatcher:update()
 end
 
 function TemplateMatcher:render()
+    View.render(self)
+
     local currentX = self.x + self.paddingLeft
     local currentY = self.y + self.paddingTop
 
     local textHeight = self.font:getHeight()
-    local adjustedWidth = self.width - self.paddingLeft - self.paddingRight
+    local adjustedWidth = self:getAdjustedWidth()
 
     local errorLength = self.errorLength
 

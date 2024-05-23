@@ -14,10 +14,14 @@ require 'src/state/BaseState'
 require 'src/state/game/StartState'
 require 'src/state/game/PlayState'
 
--- gui
-require 'src/gui/Label'
-require 'src/gui/Panel'
-require 'src/gui/TemplateMatcher'
+-- gui:
+-- -- views
+require 'src/gui/view/View'
+require 'src/gui/view/Label'
+require 'src/gui/view/TemplateMatcher'
+
+-- -- backgrounds
+require 'src/gui/background/Panel'
 
 -- utils
 require 'src/utils/Animation'

@@ -1,39 +1,30 @@
-Label = Class{}
+Label = Class{__includes = View}
 
 function Label:init(x, y, width, height, 
                     text, font, 
                     textColor, textGravity,
                     paddingTop, paddingLeft,
                     paddingBottom, paddingRight)
-    self.x = x
-    self.y = y
-    self.width = width
-    self.height = height
+    View.init(self, x, y, width, height, paddingTop, paddingLeft, paddingBottom, paddingRight)
 
-    self.paddingTop = paddingTop or 0
-    self.paddingLeft = paddingLeft or 0
-    self.paddingBottom = paddingBottom or 0
-    self.paddingRight = paddingRight or 0
-
-    local _, wrappedText = font:getWrap(text, self.width - self.paddingLeft - self.paddingRight)
-
-    self.textChunks = wrappedText
     self.textColor = textColor or { 255, 255, 255 }
     self.textGravity = textGravity or 'left'
     self.font = font
 
     assert(#self.textColor == 3)
-end
 
-function Label:update()
+    local _, wrappedText = font:getWrap(text, self:getAdjustedWidth())
+    self.textChunks = wrappedText
 end
 
 function Label:render()
+    View.render(self)
+
     local currentX = self.x + self.paddingLeft
     local currentY = self.y + self.paddingTop
 
     local textHeight = self.font:getHeight()
-    local adjustedWidth = self.width - self.paddingLeft - self.paddingRight
+    local adjustedWidth = self:getAdjustedWidth()
 
     love.graphics.setColor(self.textColor[1] / 255, self.textColor[2] / 255, self.textColor[3] / 255, 1)
 
