@@ -12,6 +12,8 @@ function Lane:init(x, y, width, height, vehicle)
     self.vehicle.y = self.y + (self.height - self.vehicle.height)
     self.vehicle.x = self.x + (1 - self.progress) * (self.width - self.vehicle.width)
 
+    self.onFinish = function() end
+
     self.tweeningTask = nil
 end
 
@@ -31,6 +33,10 @@ function Lane:setProgress(newProgress)
     self.tweeningTask = Timer.tween(0.4, {
         [self.vehicle] = { x = self.x + (1 - self.progress) * (self.width - self.vehicle.width) }
     })
+
+    if self.progress == 1 then
+        self.onFinish()
+    end
 end
 
 function Lane:update(dt)
