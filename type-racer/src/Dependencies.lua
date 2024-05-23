@@ -34,7 +34,7 @@ gTextures = {
 
 gFrames = {
     ['cars'] = GenerateQuads(gTextures['cars'], 32, 24),
-    ['motos'] = GenerateQuads(gTextures['motos'], 32, 24),
+    ['motos'] = GenerateQuads(gTextures['motos'], 24, 16),
 }
 
 gFonts = {
