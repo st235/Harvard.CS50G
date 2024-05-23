@@ -9,14 +9,13 @@ function Lane:init(x, y, width, height, driverId, vehicle)
     self.driverId = string.format("%02d", driverId)
 
     self.progress = 0
-    self.offsetX = 20
+    self.offsetX = 32
 
     local labelWidth = 16
     local labelHeight = 16
     self.label = Label(
         math.floor(self.x + (self.offsetX - labelWidth) / 2), math.floor(self.y + (self.height - labelHeight) / 2),
-        labelWidth, labelHeight, self.driverId, gFonts['small'], { 15, 56, 15 }, 'center')
-    self.label:setBackground(Circle({232, 246, 211}))
+        labelWidth, labelHeight, self.driverId, gFonts['small'], { 255, 255, 255 }, 'center')
 
     self.vehicle = vehicle
     self.vehicle.x = self.x + (1 - self.progress) * (self.width - self.vehicle.width)
@@ -40,9 +39,15 @@ function Lane:setProgress(newProgress, time)
         [self.vehicle] = { x = self.x + self.offsetX + (1 - self.progress) * (self.width - self.vehicle.width - self.offsetX) }
     }):finish(function()
         if self.progress == 1 then
-            self.onFinish(self.driverId)
+            self:finish(driverId)
         end
     end)
+end
+
+function Lane:finish(driverId)
+    self.label.color = { 15, 56, 15 }
+    self.label:setBackground(Circle({232, 246, 211}))
+    self.onFinish(self.driverId)
 end
 
 function Lane:update(dt)

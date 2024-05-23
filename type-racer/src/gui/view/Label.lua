@@ -1,17 +1,17 @@
 Label = Class{__includes = View}
 
-function Label:init(x, y, width, height, 
-                    text, font, 
-                    textColor, textGravity,
+function Label:init(x, y, width, height,
+                    text, font,
+                    color, gravity,
                     paddingTop, paddingLeft,
                     paddingBottom, paddingRight)
     View.init(self, x, y, width, height, paddingTop, paddingLeft, paddingBottom, paddingRight)
 
-    self.textColor = textColor or { 255, 255, 255 }
-    self.textGravity = textGravity or 'left'
+    self.color = color or { 255, 255, 255 }
+    self.gravity = gravity or 'left'
     self.font = font
 
-    assert(#self.textColor == 3)
+    assert(#self.color == 3)
 
     local _, wrappedText = font:getWrap(text, self:getAdjustedWidth())
     self.textChunks = wrappedText
@@ -26,10 +26,10 @@ function Label:render()
     local textHeight = self.font:getHeight()
     local adjustedWidth = self:getAdjustedWidth()
 
-    love.graphics.setColor(self.textColor[1] / 255, self.textColor[2] / 255, self.textColor[3] / 255, 1)
+    love.graphics.setColor(self.color[1] / 255, self.color[2] / 255, self.color[3] / 255, 1)
 
     for _, text in ipairs(self.textChunks) do
-        love.graphics.printf(text, self.font, currentX, currentY, adjustedWidth, self.textGravity)
+        love.graphics.printf(text, self.font, currentX, currentY, adjustedWidth, self.gravity)
         
         currentY = currentY + textHeight
     end
