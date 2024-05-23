@@ -7,7 +7,7 @@ function Race:init(x, y, width, height, opponents)
     self.height = height
 
     self.isStarted = false
-    self.opponentsSpeed = {}
+    self.opponentsTime = {}
 
     self.vehicles = {}
     self.lanes = {}
@@ -15,8 +15,8 @@ function Race:init(x, y, width, height, opponents)
     for i = 1, opponents do
         table.insert(self.vehicles, Car(0, 0, 32, 24, { 1, 2 }, { 255, 255, 255 }))
 
-        local opponentSpeed = math.random(5, 15) / 100
-        table.insert(self.opponentsSpeed, opponentSpeed)
+        local opponentTime = math.random(2, 3)
+        table.insert(self.opponentsTime, opponentTime)
     end
 
     -- player's should always be the last entrance in the table
@@ -39,15 +39,13 @@ end
 function Race:start()
     self.isStarted = true
 
-    Timer.every(1, function()
-        for i=1, #self.lanes - 1 do
-            self.lanes[i]:appendProgress(self.opponentsSpeed[i])
-        end
-    end)
+    for i=1, #self.lanes - 1 do
+        self.lanes[i]:setProgress(1.0, self.opponentsTime[i])
+    end
 end
 
 function Race:setPlayerProgress(newProgress)
-    self.lanes[#self.lanes]:setProgress(newProgress)
+    self.lanes[#self.lanes]:setProgress(newProgress, 1.0)
 end
 
 function Race:update(dt)

@@ -31,7 +31,7 @@ function PlayState:update(dt)
         self.matcher:update(dt)
     end
 
-    if love.keyboard.wasPressed('space') then
+    if love.keyboard.wasPressed('space') and not self.raceStarted then
         self.raceStarted = true
         self.race:start()
     end
