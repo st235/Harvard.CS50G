@@ -3,6 +3,9 @@ Car = Class{}
 function Car:init(x, y, width, height, frames, color)
     self.x = x
     self.y = y
+    self.width = width
+    self.height = height
+
     self.color = color or { 210, 105, 30 }
     assert(#self.color == 3)
 
@@ -15,8 +18,6 @@ function Car:init(x, y, width, height, frames, color)
 end
 
 function Car:update(dt)
-    self.x = self.x + -12 * dt
-
     self.animation:update(dt)
 end
 

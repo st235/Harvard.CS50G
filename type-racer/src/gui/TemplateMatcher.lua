@@ -31,6 +31,7 @@ function TemplateMatcher:init(x, y, width, height,
 
     local _, wrappedText = font:getWrap(template, self.width - self.paddingLeft - self.paddingRight)
 
+    self.templateLength = 0
     self.templateChunks = {}
     self.templateChunksWidths = {}
 
@@ -38,6 +39,9 @@ function TemplateMatcher:init(x, y, width, height,
         -- trim rows in case there are leading or trailing spaces
         -- that are invisible during typing
         local chunk = string.trim(rawChunk)
+
+        self.templateLength = self.templateLength + #chunk
+
         table.insert(self.templateChunks, chunk)
         table.insert(self.templateChunksWidths, self.font:getWidth(chunk))
     end
@@ -47,8 +51,11 @@ function TemplateMatcher:init(x, y, width, height,
     
     self.errorLength = 0
 
-    self.onMatch = function(s) end
-    self.onError = function(s) end
+    -- keeping track of all symbols that matched
+    self.matchedOverall = 0
+
+    self.onMatch = function(s, p) end
+    self.onError = function(s, p) end
     self.onErrorLimitExceed = function() end
 end
 
@@ -77,6 +84,7 @@ function TemplateMatcher:update()
         local symbol = love.keyboard.consumePendingSymbol()
         
         if self:match(symbol) and self.errorLength == 0 then
+            self.matchedOverall = self.matchedOverall + 1
             self.matchedChunkSymbol = self.matchedChunkSymbol + 1
 
             if self.matchedChunkSymbol > #self.templateChunks[self.matchedTemplateChunk] then
@@ -85,7 +93,7 @@ function TemplateMatcher:update()
             end
 
             -- triggering match callback
-            self.onMatch(s)
+            self.onMatch(s, self.matchedOverall / self.templateLength)
         else
             if self.errorLength == MAXIMUM_ERROR_ACCUMULATION_LENGTH then
                 -- errorLength is already at maximum accumulation limit
@@ -95,7 +103,7 @@ function TemplateMatcher:update()
             self.errorLength = math.min(MAXIMUM_ERROR_ACCUMULATION_LENGTH, self.errorLength + 1)
 
             -- triggering error callback
-            self.onError(s)
+            self.onError(s, self.matchedOverall / self.templateLength)
         end
     end
 

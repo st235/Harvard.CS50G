@@ -26,6 +26,7 @@ require 'src/utils/TileUtil'
 
 -- entities
 require 'src/Car'
+require 'src/Lane'
 
 gTextures = {
     ['cars'] = love.graphics.newImage('resources/graphics/carsheet.png'),

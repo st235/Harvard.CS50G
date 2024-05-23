@@ -5,9 +5,13 @@ end
 
 function PlayState:enter(params)
     self.matcher = TemplateMatcher(20, 20, 50, 150, 'Hello world! This is a check for typing test blha-blha hahaha', gFonts['small'])
-    self.car = Car(VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 24 * 3, 32, 24, { 1, 2 })
-    self.car2 = Car(VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 24 * 2, 32, 24, { 3, 4 }, { 169, 169, 169 })
-    self.car3 = Car(VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 24 * 1, 32, 24, { 9, 10 }, { 255, 182, 193 })
+    
+    local car = Car(0, 0, 32, 24, { 1, 2 })
+    self.lane = Lane(32, VIRTUAL_HEIGHT - 32, VIRTUAL_WIDTH - 64, 32, car)
+
+    self.matcher.onMatch = function(s, p)
+        self.lane:setProgress(p)
+    end
 end
 
 function PlayState:exit()
@@ -15,16 +19,12 @@ end
 
 function PlayState:update(dt)
     self.matcher:update(dt)
-    self.car:update(dt)
-    self.car2:update(dt)
-    self.car3:update(dt)
+    self.lane:update(dt)
 end
 
 function PlayState:render()
     love.graphics.clear(0, 0, 0, 1)
 
     self.matcher:render()
-    self.car:render()
-    self.car2:render()
-    self.car3:render()
+    self.lane:render()
 end
