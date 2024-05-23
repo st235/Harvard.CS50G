@@ -12,7 +12,7 @@ function Panel:init(foregroundColor, borderColor, thickness, rx, ry)
     self.ry = ry or 4
 end
 
-function Panel:render(x, y, width, height)
+function Panel:draw(x, y, width, height)
     love.graphics.setColor(self.foregroundColor[1] / 255, self.foregroundColor[2] / 255, self.foregroundColor[3] / 255, 1)
     love.graphics.rectangle('fill', x, y, width, height, self.rx, self.ry)
     love.graphics.setColor(self.borderColor[1] / 255, self.borderColor[2] / 255, self.borderColor[3] / 255, 1)

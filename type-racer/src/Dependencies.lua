@@ -21,6 +21,7 @@ require 'src/gui/view/Label'
 require 'src/gui/view/TemplateMatcher'
 
 -- -- backgrounds
+require 'src/gui/background/Circle'
 require 'src/gui/background/Panel'
 
 -- utils

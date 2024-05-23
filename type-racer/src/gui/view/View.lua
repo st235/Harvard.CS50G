@@ -50,7 +50,7 @@ function View:render()
         end
 
         if self.background ~= nil then
-            self.background:render(self.x, self.y, self.width, self.height)
+            self.background:draw(self.x, self.y, self.width, self.height)
         end
 
         -- reset color to normal
