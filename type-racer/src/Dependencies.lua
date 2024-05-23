@@ -16,6 +16,7 @@ require 'src/state/game/PlayState'
 
 -- gui
 require 'src/gui/Label'
+require 'src/gui/Panel'
 require 'src/gui/TemplateMatcher'
 
 -- utils
