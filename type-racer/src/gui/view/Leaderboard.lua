@@ -11,7 +11,7 @@ function Leaderboard:init(x, y, width, height,
 
     local labelOffsetX = 6
     local labelOffsetY = 2
-    self.levelLabel = Label(self.x + labelOffsetX, self.y + labelOffsetY, 60, 14, 'Level: ' .. tostring(level), self.font)
+    self.levelLabel = Label(self.x + labelOffsetX, self.y + labelOffsetY, 100, 14, 'Level: ' .. tostring(level), self.font)
 
     self:setSpeed(0)
 end
@@ -19,7 +19,7 @@ end
 function Leaderboard:setSpeed(newSpeed)
     self.speed = newSpeed
 
-    self.speedLabel = Label(self.x + 6, self.y + self.levelLabel.height + 2, 60, 14, 'Speed: ' .. tostring(self.speed) .. ' spm.', self.font)
+    self.speedLabel = Label(self.x + 6, self.y + self.levelLabel.height + 2, 100, 14, 'Speed: ' .. tostring(self.speed) .. ' spm.', self.font)
 end
 
 function Leaderboard:update(dt)
