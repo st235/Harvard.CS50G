@@ -111,9 +111,10 @@ function Race:update(dt)
         self.lanes[i]:update(dt)
     end
 
-    if self.isStarted and (self:hasPlayerFinished() or self:hasOpponentsFinish()) then
-        self.isStarted = false
+    local hasOpponentsFinished = #self.vehicles > 1 and self:hasOpponentsFinish()
+    if self.isStarted and (self:hasPlayerFinished() or hasOpponentsFinished) then
         self.onRaceOver(self:getPlayerPlace(), self:getPlayerTime())
+        self.isStarted = false
     end
 end
 
