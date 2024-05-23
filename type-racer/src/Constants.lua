@@ -31,3 +31,7 @@ BUILDING_SIZES = {
     { width = 64, height = 128 },
     { width = 73, height = 128 },
 }
+
+-- race parameters
+PLACE_NOT_QUALIFIED = -1
+TIME_NO_TIME = -1

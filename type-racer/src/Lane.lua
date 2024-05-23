@@ -1,25 +1,26 @@
 Lane = Class{}
 
-function Lane:init(x, y, width, height, driverId, vehicle)
+function Lane:init(x, y, width, height, vehicle)
     self.x = x
     self.y = y
     self.width = width
     self.height = height
 
-    self.driverId = string.format("%02d", driverId)
+    self.offsetX = 32
 
     self.progress = 0
-    self.offsetX = 32
+
+    self.vehicle = vehicle
+    self.vehicle.x = self.x + self.offsetX + (1 - self.progress) * (self.width - self.vehicle.width - self.offsetX)
+    self.vehicle.y = self.y + (self.height - self.vehicle.height)
+
+    self.driverId = self.vehicle.driverId
 
     local labelWidth = 16
     local labelHeight = 16
     self.label = Label(
         math.floor(self.x + (self.offsetX - labelWidth) / 2), math.floor(self.y + (self.height - labelHeight) / 2),
-        labelWidth, labelHeight, self.driverId, gFonts['small'], { 255, 255, 255 }, 'center')
-
-    self.vehicle = vehicle
-    self.vehicle.x = self.x + (1 - self.progress) * (self.width - self.vehicle.width)
-    self.vehicle.y = self.y + (self.height - self.vehicle.height)
+        labelWidth, labelHeight, string.format("%02d", self.driverId), gFonts['small'], { 255, 255, 255 }, 'center')
 
     self.onFinish = function(id) end
 

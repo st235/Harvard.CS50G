@@ -14,7 +14,15 @@ function PlayState:enter(params)
     self.matcher:setBackground(Panel())
     
     self.raceStarted = false
-    self.race = Race(32, VIRTUAL_HEIGHT - 32 * 4, VIRTUAL_WIDTH - 64, 32 * 4, 3)
+    self.race = Race(32, VIRTUAL_HEIGHT - 32 * 4, VIRTUAL_WIDTH - 64, 32 * 4, 3, self.matcher:getSymbolsCount())
+
+    self.race.onDriverFinished = function(driverId, place, timing)
+        print('Finished', driverId, place, timing)
+    end
+
+    self.race.onRaceOver = function(place, timing)
+        print('Race is over', place, timing)
+    end
 
     self.matcher.onMatch = function(s, p)
         self.race:setPlayerProgress(p)

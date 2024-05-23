@@ -1,10 +1,12 @@
 Car = Class{}
 
-function Car:init(x, y, width, height, frames, color)
+function Car:init(x, y, width, height, driverId, speed, frames, color)
     self.x = x
     self.y = y
     self.width = width
     self.height = height
+    self.driverId = driverId
+    self.speed = speed
 
     self.color = color or { 210, 105, 30 }
     assert(#self.color == 3)
