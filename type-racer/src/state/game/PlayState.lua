@@ -4,6 +4,7 @@ function PlayState:init()
 end
 
 function PlayState:enter(params)
+    self.TileMap = TileMap(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     self.matcher = TemplateMatcher(20, 20, 150, 100, 'Hello world! This is a check for typing test blha-blha hahaha', gFonts['small'])
     
     self.raceStarted = false
@@ -33,6 +34,7 @@ end
 function PlayState:render()
     love.graphics.clear(0, 0, 0, 1)
 
+    self.TileMap:render()
     self.matcher:render()
     self.race:render()
 end

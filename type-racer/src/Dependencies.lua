@@ -29,14 +29,20 @@ require 'src/Car'
 require 'src/Lane'
 require 'src/Race'
 
+-- world
+require 'src/Tile'
+require 'src/TileMap'
+
 gTextures = {
     ['cars'] = love.graphics.newImage('resources/graphics/carsheet.png'),
     ['motos'] = love.graphics.newImage('resources/graphics/motosheet.png'),
+    ['ground'] = love.graphics.newImage('resources/graphics/groundsheet.png'),
 }
 
 gFrames = {
     ['cars'] = GenerateQuads(gTextures['cars'], 32, 24),
     ['motos'] = GenerateQuads(gTextures['motos'], 24, 16),
+    ['ground'] = GenerateQuads(gTextures['ground'], 16, 16),
 }
 
 gFonts = {

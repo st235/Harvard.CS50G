@@ -18,5 +18,6 @@ This is a final project for the course!
 
 - Sprites
     - [GB Studio Vehicle Asset Pack](https://reakain.itch.io/gb-studio-vehicle-asset-pack)
+    - [GameBoy-styled essential outdoor tiles by chuckiecatt](https://chuckiecatt.itch.io/gameboy-styled-essential-outdoor-tiles)
 - Font
     - Retro font [Bitty](https://masharcade.itch.io/bitty)
