@@ -19,7 +19,7 @@ end
 function Leaderboard:setSpeed(newSpeed)
     self.speed = newSpeed
 
-    self.speedLabel = Label(self.x + 6, self.y + self.levelLabel.height + 2, 60, 14, 'Speed: ' .. tostring(self.speed) .. ' cps.', self.font)
+    self.speedLabel = Label(self.x + 6, self.y + self.levelLabel.height + 2, 60, 14, 'Speed: ' .. tostring(self.speed) .. ' spm.', self.font)
 end
 
 function Leaderboard:update(dt)

@@ -16,7 +16,7 @@ OPPONENTS = {
         height = 24,
         texture = 'cars',
         frames = { 5, 6 },
-        speed = 0.5,
+        speed = 60,
         tint = { 255, 255, 255 },
     },
     ['goto'] = {
@@ -26,7 +26,7 @@ OPPONENTS = {
         height = 24,
         texture = 'cars',
         frames = { 15, 16 },
-        speed = 0.5,
+        speed = 60,
         tint = { 255, 255, 255 },
     },
     ['granny'] = {
@@ -36,7 +36,7 @@ OPPONENTS = {
         height = 24,
         texture = 'cars',
         frames = { 9, 10 },
-        speed = 2,
+        speed = 120,
         tint = { 255, 255, 255 },
     },
     ['jd'] = {
@@ -46,7 +46,7 @@ OPPONENTS = {
         height = 24,
         texture = 'cars',
         frames = { 1, 2 },
-        speed = 4,
+        speed = 240,
         tint = { 255, 255, 255 },
     },
     ['dracula'] = {
@@ -56,7 +56,7 @@ OPPONENTS = {
         height = 24,
         texture = 'cars',
         frames = { 3, 4 },
-        speed = 3,
+        speed = 180,
         tint = { 255, 255, 255 },
     },
     ['skipper'] = {
@@ -66,7 +66,7 @@ OPPONENTS = {
         height = 16,
         texture = 'motos',
         frames = { 1, 2 },
-        speed = 1,
+        speed = 60,
         tint = { 255, 255, 255 },
     },
 }

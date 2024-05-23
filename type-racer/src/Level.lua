@@ -72,12 +72,15 @@ end
 
 function Level:createVehicle(def)
     return Vehicle(0, 0, def.width, def.height,
-        def.driverId, def.speed, def.texture,
-        def.frames, def.tint)
+        def.driverId,
+        -- definition contains symbols per minute 
+        (def.speed or 0) / 60, 
+        def.texture, def.frames, def.tint)
 end
 
+-- returns speed in symbols per minute
 function Level:getSpeed()
-    return math.floor(self.matcher:getMatchedSymbolsCount() / self.race:getElapsedTime())
+    return math.floor(self.matcher:getMatchedSymbolsCount() / self.race:getElapsedTime() * 60)
 end
 
 function Level:update(dt)

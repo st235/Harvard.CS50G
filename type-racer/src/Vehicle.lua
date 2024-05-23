@@ -6,6 +6,7 @@ function Vehicle:init(x, y, width, height, driverId, speed, texture, frames, col
     self.width = width
     self.height = height
     self.driverId = driverId
+    -- symbols per second
     self.speed = speed
 
     self.color = color or { 210, 105, 30 }
