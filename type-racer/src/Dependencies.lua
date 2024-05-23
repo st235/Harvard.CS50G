@@ -9,6 +9,10 @@ require 'src/Constants'
 require 'src/StateStack'
 require 'src/StateMachine'
 
+-- definitions
+require 'src/levels_defs'
+require 'src/opponents_defs'
+
 -- game states
 require 'src/state/BaseState'
 require 'src/state/game/StartState'
@@ -31,13 +35,14 @@ require 'src/utils/StringUtil'
 require 'src/utils/TileUtil'
 
 -- entities
-require 'src/Car'
+require 'src/Vehicle'
 require 'src/Lane'
 require 'src/Race'
 
 -- world
 require 'src/Tile'
 require 'src/TileMap'
+require 'src/Level'
 
 gTextures = {
     ['cars'] = love.graphics.newImage('resources/graphics/carsheet.png'),

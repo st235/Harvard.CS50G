@@ -1,6 +1,6 @@
-Car = Class{}
+Vehicle = Class{}
 
-function Car:init(x, y, width, height, driverId, speed, frames, color)
+function Vehicle:init(x, y, width, height, driverId, speed, texture, frames, color)
     self.x = x
     self.y = y
     self.width = width
@@ -14,16 +14,16 @@ function Car:init(x, y, width, height, driverId, speed, frames, color)
     self.animation = Animation {
         frames = frames,
         interval = 0.2,
-        texture = 'cars',
+        texture = texture,
         looping = true,
     }
 end
 
-function Car:update(dt)
+function Vehicle:update(dt)
     self.animation:update(dt)
 end
 
-function Car:render()
+function Vehicle:render()
     local anim = self.animation
 
     love.graphics.setColor(self.color[1]/255, self.color[2]/255, self.color[3]/255, 1)

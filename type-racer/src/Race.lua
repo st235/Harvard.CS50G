@@ -1,6 +1,6 @@
 Race = Class{}
 
-function Race:init(x, y, width, height, opponents, distance)
+function Race:init(x, y, width, height, player, opponents, distance)
     self.x = x
     self.y = y
     self.width = width
@@ -19,15 +19,14 @@ function Race:init(x, y, width, height, opponents, distance)
     self.onDriverFinished = function(driverId, place, timing) end
     self.onRaceOver = function(playerPlace, playerTime) end
 
-    for i = 1, opponents do
-        table.insert(self.vehicles, Car(0, 0, 32, 24, i + 1, math.random(2, 10), { 1, 2 }, { 255, 255, 255 }))
-
+    for i = 1, #opponents do
+        table.insert(self.vehicles, opponents[i])
         local opponentTime = distance / self.vehicles[i].speed
         table.insert(self.opponentsTime, opponentTime)
     end
 
     -- player's should always be the last entrance in the table
-    table.insert(self.vehicles, Car(0, 0, 32, 24, 1, -1, { 1, 2 }))
+    table.insert(self.vehicles, player)
 
     local vehiclesHeight = 0
     for _, vehicle in ipairs(self.vehicles) do
