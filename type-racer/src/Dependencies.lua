@@ -28,11 +28,13 @@ require 'src/utils/TileUtil'
 require 'src/Car'
 
 gTextures = {
-    ['vehicles'] = love.graphics.newImage('resources/graphics/vehicles.png'),
+    ['cars'] = love.graphics.newImage('resources/graphics/carsheet.png'),
+    ['motos'] = love.graphics.newImage('resources/graphics/motosheet.png'),
 }
 
 gFrames = {
-    ['vehicles'] = GenerateQuads(gTextures['vehicles'], 32, 24),
+    ['cars'] = GenerateQuads(gTextures['cars'], 32, 24),
+    ['motos'] = GenerateQuads(gTextures['motos'], 32, 24),
 }
 
 gFonts = {

@@ -9,7 +9,7 @@ function Car:init(x, y, width, height, frames, color)
     self.animation = Animation {
         frames = frames,
         interval = 0.2,
-        texture = 'vehicles',
+        texture = 'cars',
         looping = true,
     }
 end
