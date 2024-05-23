@@ -114,6 +114,10 @@ function Race:update(dt)
 end
 
 function Race:render()
+    -- code for debugging the boundaries of the race
+    -- love.graphics.setColor(0, 1, 0, 1)
+    -- love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+
     for i=1, #self.lanes do
         self.lanes[i]:render()
     end

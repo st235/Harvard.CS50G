@@ -14,10 +14,12 @@ function Level:init(x, y, width, height, level)
     local opponentIds = levelDef.opponents
 
     local player = self:createVehicle(PLAYER)
+    local raceHeight = player.height
 
     local opponents = {}
-    for _, id in ipairs(opponentIds) do
+    for i, id in ipairs(opponentIds) do
         table.insert(opponents, self:createVehicle(OPPONENTS[id]))
+        raceHeight = raceHeight + opponents[i].height
     end
 
     self.tileMap = TileMap(0, 0, self.width, self.height)
@@ -30,7 +32,14 @@ function Level:init(x, y, width, height, level)
     self.matcher:setBackground(Panel())
     
     self.raceStarted = false
-    self.race = Race(32, self.height - 32 * (#opponents + 1), self.width - 64, 32 * (#opponents + 1), player, opponents, self.matcher:getSymbolsCount())
+
+    local raceHorizontalPadding = 32
+    local roadHeight = self.tileMap:getRoadHeight()
+    local raceVerticalOffset = math.max(0, math.floor((roadHeight - raceHeight) / 2))
+
+    self.race = Race(raceHorizontalPadding, self.tileMap:getRoadOffsetY() + raceVerticalOffset, 
+        self.width - 2 * raceHorizontalPadding, raceHeight, 
+        player, opponents, self.matcher:getSymbolsCount())
 
     self.race.onDriverFinished = function(driverId, place, timing)
         print('Finished', driverId, place, timing)

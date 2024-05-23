@@ -20,6 +20,16 @@ function TileMap:init(x, y, width, height)
     self:generateBuildings()
 end
 
+function TileMap:getRoadOffsetY()
+    local grassTilesHeight = GROUND_GRASS_HEIGHT
+    local pavementTilesHeight = grassTilesHeight + GROUND_PAVEMENT_HEIGHT
+    return (pavementTilesHeight * GROUND_TILE_SIZE)
+end
+
+function TileMap:getRoadHeight()
+    return self.height - self:getRoadOffsetY()
+end
+
 function TileMap:generateGround()
     self.groundTiles = {}
 
