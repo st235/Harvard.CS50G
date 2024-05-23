@@ -15,6 +15,10 @@ function Lane:init(x, y, width, height, vehicle)
     self.tweeningTask = nil
 end
 
+function Lane:appendProgress(diffProgress)
+    self:setProgress(math.max(0, math.min(1, self.progress + diffProgress)))
+end
+
 function Lane:setProgress(newProgress)
     assert(newProgress >= 0 and newProgress <= 1)
 

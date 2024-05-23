@@ -79,6 +79,14 @@ function TemplateMatcher:match(symbol)
     return true
 end
 
+function TemplateMatcher:getMatchedSymbolsCount()
+    return self.matchedOverall
+end
+
+function TemplateMatcher:getSymbolsCount()
+    return self.templateLength
+end
+
 function TemplateMatcher:update()
     while not self:isMatched() and love.keyboard.hasPendingSymbols() do
         local symbol = love.keyboard.consumePendingSymbol()

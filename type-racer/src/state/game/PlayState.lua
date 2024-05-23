@@ -4,13 +4,13 @@ function PlayState:init()
 end
 
 function PlayState:enter(params)
-    self.matcher = TemplateMatcher(20, 20, 50, 150, 'Hello world! This is a check for typing test blha-blha hahaha', gFonts['small'])
+    self.matcher = TemplateMatcher(20, 20, 150, 100, 'Hello world! This is a check for typing test blha-blha hahaha', gFonts['small'])
     
-    local car = Car(0, 0, 32, 24, { 1, 2 })
-    self.lane = Lane(32, VIRTUAL_HEIGHT - 32, VIRTUAL_WIDTH - 64, 32, car)
+    self.raceStarted = false
+    self.race = Race(32, VIRTUAL_HEIGHT - 32 * 4, VIRTUAL_WIDTH - 64, 32 * 4, 3)
 
     self.matcher.onMatch = function(s, p)
-        self.lane:setProgress(p)
+        self.race:setPlayerProgress(p)
     end
 end
 
@@ -18,13 +18,21 @@ function PlayState:exit()
 end
 
 function PlayState:update(dt)
-    self.matcher:update(dt)
-    self.lane:update(dt)
+    self.race:update(dt)
+
+    if self.raceStarted then
+        self.matcher:update(dt)
+    end
+
+    if love.keyboard.wasPressed('space') then
+        self.raceStarted = true
+        self.race:start()
+    end
 end
 
 function PlayState:render()
     love.graphics.clear(0, 0, 0, 1)
 
     self.matcher:render()
-    self.lane:render()
+    self.race:render()
 end
