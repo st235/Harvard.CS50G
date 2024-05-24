@@ -31,6 +31,14 @@ function View:getAdjustedHeight()
     return self.height - self.paddingTop - self.paddingBottom
 end
 
+function View:getCenterX()
+    return math.floor(self.x + self.width / 2)
+end
+
+function View:getCenterY()
+    return math.floor(self.y + self.height / 2)
+end
+
 function View:setDebug(isDebug)
     self.isDebug = isDebug
 end

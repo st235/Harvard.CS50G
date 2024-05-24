@@ -20,7 +20,7 @@ function Lane:init(x, y, width, height, vehicle)
     local labelHeight = 16
     self.label = Label(
         math.floor(self.x + (self.offsetX - labelWidth) / 2), math.floor(self.y + (self.height - labelHeight) / 2),
-        labelWidth, labelHeight, string.format("%02d", self.driverId), gFonts['small'], { 255, 255, 255 }, 'center')
+        labelWidth, labelHeight, string.format("%02d", self.driverId), gFonts['small'], { 255, 255, 255 }, 'center', 'center')
 
     self.onFinish = function(id) end
 

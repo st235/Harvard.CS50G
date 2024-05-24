@@ -22,4 +22,4 @@ This is a final project for the course!
     - [GB Studio Buildings](https://reakain.itch.io/gb-studio-buildings)
     - [Trophies pack](https://vsioneithr.itch.io/trophy-cups-pixel-pack)
 - Font
-    - Retro font [Bitty](https://masharcade.itch.io/bitty)
+    - Retro font [Kitchen Sink](https://polyducks.itch.io/kitchen-sink-textmode-font)

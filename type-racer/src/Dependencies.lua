@@ -22,8 +22,11 @@ require 'src/state/game/PlayState'
 -- -- views
 require 'src/gui/view/View'
 require 'src/gui/view/Label'
+require 'src/gui/view/Icon'
 require 'src/gui/view/TemplateMatcher'
+require 'src/gui/view/LeaderboardRow'
 require 'src/gui/view/Leaderboard'
+require 'src/gui/view/StatsView'
 
 -- -- backgrounds
 require 'src/gui/background/Circle'
@@ -70,7 +73,12 @@ gFrames = {
 }
 
 gFonts = {
-    ['small'] = love.graphics.newFont('resources/fonts/Bitty.ttf', 16),
-    ['medium'] = love.graphics.newFont('resources/fonts/Bitty.ttf', 32),  
-    ['large'] = love.graphics.newFont('resources/fonts/Bitty.ttf', 48),
+    ['small'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 8),
+    ['medium'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 16),
+    ['large'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 24),
+    ['extra-large'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 32),
+    ['small-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 8),
+    ['medium-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 16),
+    ['large-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 24),
+    ['extra-large-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 32),
 }

@@ -30,9 +30,12 @@ function Level:init(x, y, width, height, level)
     local controlsOffsetX = math.floor((self.width - controlsWidth) / 2)
     local controlsPaddingTop = 10
 
-    self.leaderboard = Leaderboard(self.x + controlsOffsetX, self.y + controlsPaddingTop, 
-        LEADERBOARD_WIDTH, LEADERBOARD_HEIGHT, gFonts['small'], level)
-    self.leaderboard:setBackground(Panel())
+    self.statsview = StatsView(self.x + controlsOffsetX, self.y + controlsPaddingTop, 
+        LEADERBOARD_WIDTH, LEADERBOARD_HEIGHT, 
+        gFonts['small-inv'], gFonts['small'], gFonts['medium'], 
+        level, 1,
+        6, 6, 6, 6)
+    self.statsview:setBackground(Panel())
 
     self.matcher = TemplateMatcher(self.x + controlsOffsetX + LEADERBOARD_WIDTH + VIEWS_SPACING, self.y + controlsPaddingTop, 
         INPUT_WIDTH, INPUT_HEIGH,
@@ -65,7 +68,7 @@ function Level:init(x, y, width, height, level)
 
     Timer.every(0.1, function()
         if self.race.isStarted then
-            self.leaderboard:setSpeed(self:getSpeed())
+            self.statsview:setSpeed(self:getSpeed())
         end
     end)
 end
@@ -87,7 +90,7 @@ function Level:update(dt)
     self.race:update(dt)
 
     if self.raceStarted then
-        self.leaderboard:update(dt)
+        self.statsview:update(dt)
         self.matcher:update(dt)
     end
 
@@ -101,7 +104,7 @@ function Level:render()
     love.graphics.clear(0, 0, 0, 1)
 
     self.tileMap:render()
-    self.leaderboard:render()
+    self.statsview:render()
     self.matcher:render()
     self.race:render()
 end

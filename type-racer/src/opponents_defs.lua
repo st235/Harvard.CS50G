@@ -29,6 +29,16 @@ OPPONENTS = {
         speed = 60,
         tint = { 255, 255, 255 },
     },
+    ['catwithblueeyes'] = {
+        name = 'Marina',
+        driverId = 30,
+        width = 32,
+        height = 24,
+        texture = 'cars',
+        frames = { 1, 2 },
+        speed = 92,
+        tint = { 186, 175, 206 },
+    },
     ['granny'] = {
         name = 'granny',
         driverId = 04,

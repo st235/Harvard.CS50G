@@ -36,6 +36,14 @@ BUILDING_SIZES = {
 PLACE_NOT_QUALIFIED = -1
 TIME_NO_TIME = -1
 
+PLACES_NAMES = {
+    [0] = 'N/A',
+    [1] = '1st',
+    [2] = '2nd',
+    [3] = '3rd',
+    [4] = '4th',
+}
+
 -- gui constants
 VIEWS_SPACING = 10
 
