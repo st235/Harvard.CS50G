@@ -43,8 +43,6 @@ function Level:init(x, y, width, height, level)
         {255, 255, 255}, {155, 188, 15}, {238, 28, 37},
         8, 8, 8, 8)
     self.matcher:setBackground(Panel())
-    
-    self.raceStarted = false
 
     local raceHorizontalPadding = 32
     local roadHeight = self.tileMap:getRoadHeight()
@@ -82,6 +80,10 @@ function Level:createVehicle(def)
         def.texture, def.frames, def.tint)
 end
 
+function Level:start()
+    self.race:start()
+end
+
 -- returns speed in symbols per minute
 function Level:getSpeed()
     local elapsedTime = self.race:getElapsedTime()
@@ -95,14 +97,9 @@ end
 function Level:update(dt)
     self.race:update(dt)
 
-    if self.raceStarted then
+    if self.race.isStarted then
         self.statsview:update(dt)
         self.matcher:update(dt)
-    end
-
-    if love.keyboard.wasPressed('space') and not self.raceStarted then
-        self.raceStarted = true
-        self.race:start()
     end
 end
 

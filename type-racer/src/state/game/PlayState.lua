@@ -5,6 +5,7 @@ end
 
 function PlayState:enter(params)
     self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, 1)
+    self.level:start()
 end
 
 function PlayState:exit()
