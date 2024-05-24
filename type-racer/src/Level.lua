@@ -6,7 +6,9 @@ function Level:init(x, y, width, height, level)
     self.width = width
     self.height = height
     self.level = level
-    
+   
+    self.onLose = function(playerCoords) end
+
     local allLevelDefs = LEVELS[level]
     local levelDef = allLevelDefs[math.random(#allLevelDefs)]
 
@@ -60,8 +62,12 @@ function Level:init(x, y, width, height, level)
         print('Finished', driverId, place, timing)
     end
 
-    self.race.onRaceOver = function(place, timing)
+    self.race.onRaceOver = function(place, timing, coords)
         print('Race is over', place, timing)
+
+        if place == PLACE_NOT_QUALIFIED then
+            self.onLose(coords)
+        end
     end
 
     Timer.every(0.1, function()

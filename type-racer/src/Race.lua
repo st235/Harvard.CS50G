@@ -17,7 +17,7 @@ function Race:init(x, y, width, height, player, opponents, distance)
     self.place = 1
 
     self.onDriverFinished = function(driverId, place, timing) end
-    self.onRaceOver = function(playerPlace, playerTime) end
+    self.onRaceOver = function(playerPlace, playerTime, playerCoords) end
 
     for i = 1, #opponents do
         table.insert(self.vehicles, opponents[i])
@@ -133,7 +133,11 @@ function Race:update(dt)
 
     local hasOpponentsFinished = #self.vehicles > 1 and self:hasOpponentsFinish()
     if self.isStarted and (self:hasPlayerFinished() or hasOpponentsFinished) then
-        self.onRaceOver(self:getPlayerPlace(), self:getPlayerTime())
+        local playerVehicle = self.vehicles[#self.vehicles]
+        local playerCenterX = playerVehicle.x + playerVehicle.width / 2
+        local playerCenterY = playerVehicle.y + playerVehicle.height / 2
+
+        self.onRaceOver(self:getPlayerPlace(), self:getPlayerTime(), { playerCenterX, playerCenterY })
         self.isStarted = false
     end
 end

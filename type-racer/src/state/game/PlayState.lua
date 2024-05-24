@@ -5,6 +5,12 @@ end
 
 function PlayState:enter(params)
     self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, 1)
+
+    self.level.onLose = function(coords)
+        local playerX, playerY = coords[1], coords[2]
+
+        gStateStack:push(CircleOutState(playerX, playerY, 20))
+    end
     
     self.isStarted = false
 end
