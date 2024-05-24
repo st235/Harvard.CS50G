@@ -21,6 +21,9 @@ require 'src/state/game/PlayState'
 require 'src/state/game/CircleOutState'
 require 'src/state/game/FadeInState'
 require 'src/state/game/FadeOutState'
+require 'src/state/game/GameOverState'
+require 'src/state/game/VictoryState'
+require 'src/state/game/LeaderboardState'
 
 -- gui:
 -- -- views
@@ -35,6 +38,7 @@ require 'src/gui/view/StatsView'
 -- -- backgrounds
 require 'src/gui/background/Circle'
 require 'src/gui/background/Panel'
+require 'src/gui/background/Rectangle'
 
 -- utils
 require 'src/utils/Animation'
@@ -58,6 +62,7 @@ gTextures = {
     ['ground'] = love.graphics.newImage('resources/graphics/groundsheet.png'),
     ['buildings'] = love.graphics.newImage('resources/graphics/buildingsheet.png'),
     ['trophies'] = love.graphics.newImage('resources/graphics/trophysheet.png'),
+    ['confetti'] = love.graphics.newImage('resources/graphics/confetti.png'),
 }
 
 gFrames = {

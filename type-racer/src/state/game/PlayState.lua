@@ -6,12 +6,16 @@ end
 function PlayState:enter()
     self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, 1)
 
+    self.level.onWin = function()
+        gStateStack:push(VictoryState('Victory!!1!'))
+    end
+
     self.level.onLose = function(coords)
         local playerX, playerY = coords[1], coords[2]
 
         gStateStack:push(CircleOutState(playerX, playerY, 20))
     end
-    
+
     self.isStarted = false
 end
 

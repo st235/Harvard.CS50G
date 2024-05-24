@@ -19,7 +19,7 @@ function love.load()
 
     gStateStack = StateStack()
     gStateStack:push(PlayState())
-    gStateStack:push(CountDownState(3))
+    gStateStack:push(CountDownState(10))
 
     love.keyboard.keyPressed = {}
     love.keyboard.symbolsQueue = Queue()

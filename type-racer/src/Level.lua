@@ -7,6 +7,7 @@ function Level:init(x, y, width, height, level)
     self.height = height
     self.level = level
    
+    self.onWin = function() end
     self.onLose = function(playerCoords) end
 
     local allLevelDefs = LEVELS[level]
@@ -63,10 +64,10 @@ function Level:init(x, y, width, height, level)
     end
 
     self.race.onRaceOver = function(place, timing, coords)
-        print('Race is over', place, timing)
-
         if place == PLACE_NOT_QUALIFIED then
             self.onLose(coords)
+        else
+            self.onWin()
         end
     end
 
