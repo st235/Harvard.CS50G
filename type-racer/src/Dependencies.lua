@@ -15,6 +15,7 @@ require 'src/opponents_defs'
 
 -- game states
 require 'src/state/BaseState'
+require 'src/state/game/CountDownState'
 require 'src/state/game/StartState'
 require 'src/state/game/PlayState'
 
@@ -76,9 +77,11 @@ gFonts = {
     ['small'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 8),
     ['medium'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 16),
     ['large'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 24),
-    ['extra-large'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 32),
+    ['xlarge'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 32),
+    ['xxlarge'] = love.graphics.newFont('resources/fonts/KitchenSink.ttf', 48),
     ['small-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 8),
     ['medium-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 16),
     ['large-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 24),
-    ['extra-large-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 32),
+    ['xlarge-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 32),
+    ['xxlarge-inv'] = love.graphics.newFont('resources/fonts/KitchenSinkInv.ttf', 48),
 }

@@ -5,13 +5,19 @@ end
 
 function PlayState:enter(params)
     self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, 1)
-    self.level:start()
+    
+    self.isStarted = false
 end
 
 function PlayState:exit()
 end
 
 function PlayState:update(dt)
+    if not self.isStarted then
+        self.isStarted = true
+        self.level:start()
+    end
+
     self.level:update(dt)
 end
 
