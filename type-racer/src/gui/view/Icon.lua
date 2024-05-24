@@ -1,13 +1,14 @@
 Icon = Class{__includes = View}
 
 function Icon:init(x, y, width, height,
-                   texture, frame,
+                   texture, frame, tint,
                    paddingTop, paddingLeft,
                    paddingBottom, paddingRight)
     View.init(self, x, y, width, height, paddingTop, paddingLeft, paddingBottom, paddingRight)
 
     self.texture = texture
     self.frame = frame
+    self.tint = tint
 
     local textureWidth = 0
     local textureHeight = 0
@@ -46,6 +47,11 @@ function Icon:render()
     local offsetX = math.floor((self:getAdjustedWidth() - self.actualTextureWidth) / 2)
     local offsetY = math.floor((self:getAdjustedHeight() - self.actualTextureHeight) / 2)
 
+    if self.tint then
+        assert(#self.tint == 3)
+        love.graphics.setColor(self.tint[1] / 255, self.tint[2] / 255, self.tint[3] / 255, 1)
+    end
+
     if not self.frame then
         love.graphics.draw(gTextures[self.texture],
             self.x + self.paddingLeft + offsetX, self.y + self.paddingTop + offsetY,
@@ -55,4 +61,7 @@ function Icon:render()
         self.x + self.paddingLeft + offsetX, self.y + self.paddingTop + offsetY,
         0, self.scaleX, self.scaleY)
     end
+
+    -- reset back to white
+    love.graphics.setColor(1, 1, 1, 1)
 end

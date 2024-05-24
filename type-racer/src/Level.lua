@@ -41,7 +41,7 @@ function Level:init(x, y, width, height, level)
         INPUT_WIDTH, INPUT_HEIGH,
         text, gFonts['small'], 'left',
         {255, 255, 255}, {155, 188, 15}, {238, 28, 37},
-        6, 8, 6, 8)
+        8, 8, 8, 8)
     self.matcher:setBackground(Panel())
     
     self.raceStarted = false
@@ -69,6 +69,7 @@ function Level:init(x, y, width, height, level)
     Timer.every(0.1, function()
         if self.race.isStarted then
             self.statsview:setSpeed(self:getSpeed())
+            self.statsview:setPosition(self.race:getPlayerProjectedPlace())
         end
     end)
 end

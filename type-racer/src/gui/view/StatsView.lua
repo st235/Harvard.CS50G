@@ -47,14 +47,18 @@ function StatsView:setPosition(position)
     local offsetY = self.levelLabel.height + self.paddingTop
 
     local frame = (4 - position) * 3 + self.trophySkin
+    if position == 0 then
+        frame = self.trophySkin
+    end
 
     self.trophyIcon = Icon(centerX, self.y + offsetY,
-    self:getAdjustedWidth() / 2, 28, 'trophies', frame)
+        self:getAdjustedWidth() / 2, 28, 'trophies', frame)
+    self.trophyIcon:setBackground(Circle({255, 255, 255}))
 
     self.trophyTextLabel = Label(centerX, self.y + offsetY + self.trophyIcon.height,
-    self:getAdjustedWidth() / 2, 28, 
-    placeText, self.smallFont,
-    { 255, 255, 255 }, 'center', 'top')
+        self:getAdjustedWidth() / 2, 28, 
+        placeText, self.smallFont,
+        { 255, 255, 255 }, 'center', 'center')
 end
 
 function StatsView:update(dt)

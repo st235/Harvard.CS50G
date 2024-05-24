@@ -62,6 +62,26 @@ function Race:getPlayerPlace()
     return self.finished[playerId] or PLACE_NOT_QUALIFIED
 end
 
+function Race:getPlayerProjectedPlace()
+    local realPlayerPlace = self:getPlayerPlace()
+    if realPlayerPlace ~= PLACE_NOT_QUALIFIED then
+        return realPlayerPlace
+    end
+
+    local place = 1
+    local playerProgress = self.lanes[#self.lanes].progress
+
+    for i=1, #self.vehicles - 1 do
+        local opponentProgress = self.lanes[i].progress
+
+        if playerProgress < opponentProgress then
+            place = place + 1
+        end
+    end
+
+    return place
+end
+
 function Race:getPlayerTime()
     local playerId = self.vehicles[#self.vehicles].driverId
     if self.finishedTimings[playerId] then

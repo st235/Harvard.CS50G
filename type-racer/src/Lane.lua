@@ -30,14 +30,13 @@ end
 function Lane:setProgress(newProgress, time)
     assert(newProgress >= 0 and newProgress <= 1)
 
-    self.progress = newProgress
-
     if self.tweeningTask ~= nil then
         self.tweeningTask:remove()
     end
 
     self.tweeningTask = Timer.tween(time, {
-        [self.vehicle] = { x = self.x + self.offsetX + (1 - self.progress) * (self.width - self.vehicle.width - self.offsetX) }
+        [self] = { progress = newProgress },
+        [self.vehicle] = { x = self.x + self.offsetX + (1 - newProgress) * (self.width - self.vehicle.width - self.offsetX) }
     }):finish(function()
         if self.progress == 1 then
             self:finish(driverId)
