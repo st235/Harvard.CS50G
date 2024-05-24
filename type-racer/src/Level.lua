@@ -83,7 +83,12 @@ end
 
 -- returns speed in symbols per minute
 function Level:getSpeed()
-    return math.floor(self.matcher:getMatchedSymbolsCount() / self.race:getElapsedTime() * 60)
+    local elapsedTime = self.race:getElapsedTime()
+    if elapsedTime == 0 then
+        -- the first second of the game
+        return 0
+    end
+    return math.floor(self.matcher:getMatchedSymbolsCount() / elapsedTime * 60)
 end
 
 function Level:update(dt)
