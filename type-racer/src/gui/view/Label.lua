@@ -7,6 +7,7 @@ function Label:init(x, y, width, height,
                     paddingBottom, paddingRight)
     View.init(self, x, y, width, height, paddingTop, paddingLeft, paddingBottom, paddingRight)
 
+    self.alpha = 255
     self.color = color or { 255, 255, 255 }
     self.gravity = gravity or 'left'
     self.verticalAlignment = verticalAlignment or 'top'
@@ -33,7 +34,7 @@ function Label:render()
         currentY = currentY + (self.height - textHeight * #self.textChunks)
     end
 
-    love.graphics.setColor(self.color[1] / 255, self.color[2] / 255, self.color[3] / 255, 1)
+    love.graphics.setColor(self.color[1] / 255, self.color[2] / 255, self.color[3] / 255, self.alpha / 255)
 
     for _, text in ipairs(self.textChunks) do
         love.graphics.printf(text, self.font, currentX, currentY, adjustedWidth, self.gravity)

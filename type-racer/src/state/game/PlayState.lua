@@ -13,7 +13,7 @@ function PlayState:enter()
     self.level.onLose = function(coords)
         local playerX, playerY = coords[1], coords[2]
 
-        gStateStack:push(CircleOutState(playerX, playerY, 20))
+        gStateStack:push(GameOverState("Game Over...", playerX, playerY, 20))
     end
 
     self.isStarted = false
