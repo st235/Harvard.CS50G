@@ -1,28 +1,22 @@
 CircleOutState = Class{__includes = BaseState}
 
-function CircleOutState:init(x, y, minRadius, maxRadius, duration)
+function CircleOutState:init(x, y, minRadius, duration, onFinish)
     self.x = x
     self.y = y
     self.minRadius = minRadius or 10
-    self.maxRadius = maxRadius or math.max(VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+    self.maxRadius = math.max(VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     self.duration = duration or 2
+    self.onFinish = onFinish or function() end
 end
 
-function CircleOutState:enter(params)
+function CircleOutState:enter()
     self.radius = self.maxRadius
 
     Timer.tween(self.duration, {
         [self] = { radius = self.minRadius }
-    })
-end
-
-function CircleOutState:countDown(newTimer)
-end
-
-function CircleOutState:exit()
-end
-
-function CircleOutState:update(dt)
+    }):finish(function()
+        self.onFinish()
+    end)
 end
 
 function CircleOutState:render()

@@ -4,7 +4,7 @@ function CountDownState:init(startTime)
     self.startTime = startTime or 3
 end
 
-function CountDownState:enter(params)
+function CountDownState:enter()
     self.font = gFonts['xxlarge']
     self:countDown(self.startTime)
 

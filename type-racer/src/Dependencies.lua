@@ -19,6 +19,8 @@ require 'src/state/game/CountDownState'
 require 'src/state/game/StartState'
 require 'src/state/game/PlayState'
 require 'src/state/game/CircleOutState'
+require 'src/state/game/FadeInState'
+require 'src/state/game/FadeOutState'
 
 -- gui:
 -- -- views

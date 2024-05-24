@@ -3,7 +3,7 @@ PlayState = Class{__includes = BaseState}
 function PlayState:init()
 end
 
-function PlayState:enter(params)
+function PlayState:enter()
     self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, 1)
 
     self.level.onLose = function(coords)
