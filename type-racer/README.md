@@ -11,7 +11,7 @@ This is a final project for the **CS50G**!
 
 `Type Racer` is a racing simulator with a twist. Wow! 
 
-Although instead of classical racing games you move your car with your typing skill. A few boss fights offers enough challenge even to advanced players. Your typing prowess is the key to becoming the champion.
+Compared to classical racing games in this game you move your car with your typing skill. A few boss fights offers enough challenge even to advanced players. Your typing prowess is the key to becoming the champion.
 
 Ready to race? Let's go! 🏁
 
