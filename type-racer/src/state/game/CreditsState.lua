@@ -30,10 +30,10 @@ function CreditsState:update(dt)
             -- pop credits state
             gStateStack:pop()
     
+            gStateStack:push(StartState())
             gStateStack:push(FadeOutState({ 0, 0, 0 }, 0, 1, function()
                 -- pop fade out state
                 gStateStack:pop()
-                gStateStack:push(StartState())
             end))
         end)
     end
