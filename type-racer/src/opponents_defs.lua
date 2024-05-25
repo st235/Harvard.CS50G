@@ -1,5 +1,5 @@
 PLAYER = {
-    name = 'you',
+    name = 'Player',
     driverId = 01,
     width = 32,
     height = 24,
@@ -87,7 +87,7 @@ OPPONENTS = {
         tint = { 255, 255, 255 },
     },
     ['jd'] = {
-        name = 'JD',
+        name = 'J.D.',
         driverId = 11,
         width = 32,
         height = 24,
