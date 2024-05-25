@@ -65,6 +65,7 @@ gTextures = {
     ['buildings'] = love.graphics.newImage('resources/graphics/buildingsheet.png'),
     ['trophies'] = love.graphics.newImage('resources/graphics/trophysheet.png'),
     ['confetti'] = love.graphics.newImage('resources/graphics/confetti.png'),
+    ['tile-chess'] = love.graphics.newImage('resources/graphics/tile-chess.png'),
 }
 
 gFrames = {
@@ -110,6 +111,7 @@ gSounds = {
     ['main'] = love.audio.newSource('resources/sounds/main.mp3', 'static'),
     ['boss-fight-1'] = love.audio.newSource('resources/sounds/boss-fight-1.mp3', 'static'),
     ['boss-fight-2'] = love.audio.newSource('resources/sounds/boss-fight-2.mp3', 'static'),
+    ['intro'] = love.audio.newSource('resources/sounds/intro.mp3', 'static'),
     ['outro'] = love.audio.newSource('resources/sounds/outro.mp3', 'static'),
     ['ko'] = love.audio.newSource('resources/sounds/ko.mp3', 'static'),
 }

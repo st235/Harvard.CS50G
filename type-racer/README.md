@@ -21,6 +21,7 @@ This is a final project for the course!
     - [GameBoy-styled essential outdoor tiles by chuckiecatt](https://chuckiecatt.itch.io/gameboy-styled-essential-outdoor-tiles)
     - [GB Studio Buildings](https://reakain.itch.io/gb-studio-buildings)
     - [Trophies pack](https://vsioneithr.itch.io/trophy-cups-pixel-pack)
+    - [Gameboy Background/Pattern Pack](https://2bitcrook.itch.io/gameboy-pattern-pack)
 - Font
     - Retro font [Kitchen Sink](https://polyducks.itch.io/kitchen-sink-textmode-font)
 - Sounds

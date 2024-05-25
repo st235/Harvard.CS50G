@@ -9,6 +9,53 @@ PLAYER = {
 }
 
 OPPONENTS = {
+    -- bosses:
+    -- level 2
+    ['catwithblueeyes'] = {
+        name = 'The Great Marina',
+        driverId = 30,
+        width = 32,
+        height = 24,
+        texture = 'cars',
+        frames = { 1, 2 },
+        speed = 95,
+        tint = { 186, 175, 206 },
+    },
+
+    -- regular NPCs:
+    -- level 1
+    ["postman-bob"]= {
+        name = "Postman Bob",
+        driverId = 44,
+        width = 24,
+        height = 16,
+        texture = "motos",
+        frames = {5,6},
+        speed = 55,
+        tint = { 255, 255, 255 },
+    },
+    ["nr-jessica"]= {
+        name = "Neighbour Jessica",
+        driverId = 06,
+        width = 24,
+        height = 16,
+        texture = "motos",
+        frames = {3,4},
+        speed = 85,
+        tint = { 255, 255, 255 },
+    },
+    ["teddy-bear"]= {
+        name = "Teddy Bear",
+        driverId = 10,
+        width = 24,
+        height = 16,
+        texture = "motos",
+        frames = {1,2},
+        speed = 60,
+        tint = { 255, 255, 255 },
+    },
+
+    -- misc
     ['st235'] = {
         name = 'Alex D.',
         driverId = 37,
@@ -28,16 +75,6 @@ OPPONENTS = {
         frames = { 15, 16 },
         speed = 60,
         tint = { 255, 255, 255 },
-    },
-    ['catwithblueeyes'] = {
-        name = 'The Great Marina',
-        driverId = 30,
-        width = 32,
-        height = 24,
-        texture = 'cars',
-        frames = { 1, 2 },
-        speed = 92,
-        tint = { 186, 175, 206 },
     },
     ['granny'] = {
         name = 'granny',
