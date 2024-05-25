@@ -7,8 +7,8 @@ function Level:init(x, y, width, height, level)
     self.height = height
     self.level = level
    
-    self.onWin = function() end
-    self.onLose = function(reason, playerCoords) end
+    self.onWin = function(isBossFight) end
+    self.onLose = function(reason, isBossFight, playerCoords) end
 
     local allLevelDefs = LEVELS[level]
     local levelDef = allLevelDefs[math.random(#allLevelDefs)]
@@ -62,7 +62,7 @@ function Level:init(x, y, width, height, level)
 
     self.matcher.onErrorLimitExceed = function()
         local coords = self.race:getPlayerCenterCoordinates()
-        self.onLose(LEVEL_LOST_REASON_TYPOS, coords)
+        self.onLose(LEVEL_LOST_REASON_TYPOS, self.bossFight, coords)
     end
 
     self.race.onDriverFinished = function(driverId, place, timing)
@@ -71,13 +71,9 @@ function Level:init(x, y, width, height, level)
 
     self.race.onRaceOver = function(place, timing, coords)
         if place == PLACE_NOT_QUALIFIED then
-            if self.bossFight then
-                self.onLose(LEVEL_LOST_REASON_BOSS_KILLED, coords)
-            else
-                self.onLose(LEVEL_LOST_REASON_KILLED, coords)
-            end
+            self.onLose(LEVEL_LOST_REASON_KILLED, self.bossFight, coords)
         else
-            self.onWin()
+            self.onWin(self.isBossFight)
         end
     end
 

@@ -6,11 +6,11 @@ end
 function PlayState:enter()
     self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, 1)
 
-    self.level.onWin = function()
+    self.level.onWin = function(isBossFight)
         gStateStack:push(VictoryState('Victory!!1!'))
     end
 
-    self.level.onLose = function(reason, coords)
+    self.level.onLose = function(reason, isBossFight, coords)
         local message = ""
         if reason == LEVEL_LOST_REASON_KILLED then
             description = GAME_OVER_OPPONENTS_KILLED_MESSAGES[math.random(#GAME_OVER_OPPONENTS_KILLED_MESSAGES)]
