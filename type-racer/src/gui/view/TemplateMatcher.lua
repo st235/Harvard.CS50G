@@ -1,7 +1,7 @@
 TemplateMatcher = Class{__includes = View}
 
 function TemplateMatcher:init(x, y, width, height,
-                    template, font, textGravity,
+                    template, allowedTypos, font, textGravity,
                     templateColor, matchColor, errorColor,
                     paddingTop, paddingLeft,
                     paddingBottom, paddingRight)
@@ -10,6 +10,7 @@ function TemplateMatcher:init(x, y, width, height,
     View.init(self, x, y, width, height, paddingTop, paddingLeft, paddingBottom, paddingRight)
 
     self.font = font
+    self.allowedTypos = allowedTypos
     self.templateColor = templateColor or { 255, 255, 255 }
     self.matchColor = matchColor or { 0, 255, 0 }
     self.errorColor = errorColor or { 255, 0, 0 }
@@ -94,12 +95,15 @@ function TemplateMatcher:update()
             -- triggering match callback
             self.onMatch(s, self.matchedOverall / self.templateLength)
         else
-            if self.errorLength == MAXIMUM_ERROR_ACCUMULATION_LENGTH then
+            if self.errorLength == self.allowedTypos then
                 -- errorLength is already at maximum accumulation limit
                 self.onErrorLimitExceed()
             end
 
-            self.errorLength = math.min(MAXIMUM_ERROR_ACCUMULATION_LENGTH, self.errorLength + 1)
+            -- checking with max length of allowed typos
+            self.errorLength = math.min(self.allowedTypos, self.errorLength + 1)
+            -- checking with symbols left
+            self.errorLength = math.min(self.templateLength - self.matchedOverall, self.errorLength)
 
             -- triggering error callback
             self.onError(s, self.matchedOverall / self.templateLength)

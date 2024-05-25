@@ -8,13 +8,14 @@ function Level:init(x, y, width, height, level)
     self.level = level
    
     self.onWin = function() end
-    self.onLose = function(playerCoords) end
+    self.onLose = function(reason, playerCoords) end
 
     local allLevelDefs = LEVELS[level]
     local levelDef = allLevelDefs[math.random(#allLevelDefs)]
 
     self.bossFight = levelDef.bossFight or false
-
+    self.allowedTypos = levelDef.allowedTypos or MAXIMUM_ERROR_ACCUMULATION_LENGTH
+    
     local text = levelDef.text
     local opponentIds = levelDef.opponents
 
@@ -42,7 +43,7 @@ function Level:init(x, y, width, height, level)
 
     self.matcher = TemplateMatcher(self.x + controlsOffsetX + LEADERBOARD_WIDTH + VIEWS_SPACING, self.y + controlsPaddingTop, 
         INPUT_WIDTH, INPUT_HEIGH,
-        text, gFonts['small'], 'left',
+        text, self.allowedTypos, gFonts['small'], 'left',
         {255, 255, 255}, {155, 188, 15}, {238, 28, 37},
         8, 8, 8, 8)
     self.matcher:setBackground(Panel())
@@ -59,13 +60,22 @@ function Level:init(x, y, width, height, level)
         self.race:setPlayerProgress(p)
     end
 
+    self.matcher.onErrorLimitExceed = function()
+        local coords = self.race:getPlayerCenterCoordinates()
+        self.onLose(LEVEL_LOST_REASON_TYPOS, coords)
+    end
+
     self.race.onDriverFinished = function(driverId, place, timing)
         print('Finished', driverId, place, timing)
     end
 
     self.race.onRaceOver = function(place, timing, coords)
         if place == PLACE_NOT_QUALIFIED then
-            self.onLose(coords)
+            if self.bossFight then
+                self.onLose(LEVEL_LOST_REASON_BOSS_KILLED, coords)
+            else
+                self.onLose(LEVEL_LOST_REASON_KILLED, coords)
+            end
         else
             self.onWin()
         end

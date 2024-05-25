@@ -38,14 +38,12 @@ function Race:init(x, y, width, height, player, opponents, distance)
         local lane = Lane(self.x, self.y + offsetY, self.width, vehicle.height, vehicle)
 
         lane.onFinish = function(driverId)
-            if self.isStarted then
-                self.finished[driverId] = self.place
-                self.finishedTimings[driverId] = os.time()
-                self.place = self.place + 1
+            self.finished[driverId] = self.place
+            self.finishedTimings[driverId] = os.time()
+            self.place = self.place + 1
 
-                local finishTime = self.finishedTimings[driverId] - self.startTime
-                self.onDriverFinished(driverId, self.finished[driverId], finishTime)
-            end
+            local finishTime = self.finishedTimings[driverId] - self.startTime
+            self.onDriverFinished(driverId, self.finished[driverId], finishTime)
         end
 
         offsetY = offsetY + lane.height
@@ -122,6 +120,13 @@ function Race:start()
     end
 end
 
+function Race:getPlayerCenterCoordinates()
+    local playerVehicle = self.vehicles[#self.vehicles]
+    local playerCenterX = playerVehicle.x + playerVehicle.width / 2
+    local playerCenterY = playerVehicle.y + playerVehicle.height / 2
+    return { playerCenterX, playerCenterY }
+end
+
 function Race:setPlayerProgress(newProgress)
     self.lanes[#self.lanes]:setProgress(newProgress, 0.4)
 end
@@ -133,11 +138,7 @@ function Race:update(dt)
 
     local hasOpponentsFinished = #self.vehicles > 1 and self:hasOpponentsFinish()
     if self.isStarted and (self:hasPlayerFinished() or hasOpponentsFinished) then
-        local playerVehicle = self.vehicles[#self.vehicles]
-        local playerCenterX = playerVehicle.x + playerVehicle.width / 2
-        local playerCenterY = playerVehicle.y + playerVehicle.height / 2
-
-        self.onRaceOver(self:getPlayerPlace(), self:getPlayerTime(), { playerCenterX, playerCenterY })
+        self.onRaceOver(self:getPlayerPlace(), self:getPlayerTime(), self:getPlayerCenterCoordinates())
         self.isStarted = false
     end
 end

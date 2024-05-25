@@ -10,10 +10,16 @@ function PlayState:enter()
         gStateStack:push(VictoryState('Victory!!1!'))
     end
 
-    self.level.onLose = function(coords)
-        local playerX, playerY = coords[1], coords[2]
+    self.level.onLose = function(reason, coords)
+        local message = ""
+        if reason == LEVEL_LOST_REASON_KILLED then
+            description = GAME_OVER_OPPONENTS_KILLED_MESSAGES[math.random(#GAME_OVER_OPPONENTS_KILLED_MESSAGES)]
+        elseif reason == LEVEL_LOST_REASON_TYPOS then
+            description = GAME_OVER_TOO_MANY_TYPOS[math.random(#GAME_OVER_TOO_MANY_TYPOS)]
+        end
 
-        gStateStack:push(GameOverState("Game Over...", playerX, playerY, 20))
+        local playerX, playerY = coords[1], coords[2]
+        gStateStack:push(GameOverState("Game Over...", description, playerX, playerY, 20))
     end
 
     self.isStarted = false

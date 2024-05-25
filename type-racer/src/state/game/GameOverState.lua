@@ -1,7 +1,8 @@
 GameOverState = Class{__includes = BaseState}
 
-function GameOverState:init(message, x, y, minRadius, duration, onFinish)
-    self.message = message
+function GameOverState:init(title, description, x, y, minRadius, duration, onFinish)
+    self.title = title
+    self.description = description
     self.x = x
     self.y = y
     self.minRadius = minRadius or 10
@@ -13,18 +14,30 @@ end
 function GameOverState:enter()
     self.radius = self.maxRadius
 
-    local labelHeight = 40
-    self.label = Label(0, math.floor((VIRTUAL_HEIGHT - labelHeight) / 2),
-        VIRTUAL_WIDTH, labelHeight, 
-        self.message, gFonts['xlarge'], 
+    local labelsSpacing = 4
+    local gameOverLabelHeight = 40
+    local descriptionLabelHeight = 22
+    local allLabelsHeight = gameOverLabelHeight + descriptionLabelHeight + labelsSpacing
+
+    self.gameOverLabel = Label(0, math.floor((VIRTUAL_HEIGHT - allLabelsHeight) / 2),
+        VIRTUAL_WIDTH, gameOverLabelHeight, 
+        self.title, gFonts['large'], 
         { 255, 255, 255 }, 'center', 'center')
-    self.label.alpha = 0
+    self.gameOverLabel.alpha = 0
+
+    self.descriptionLabel = Label(0, math.floor((VIRTUAL_HEIGHT - allLabelsHeight) / 2 + gameOverLabelHeight + labelsSpacing),
+        VIRTUAL_WIDTH, descriptionLabelHeight, 
+        self.description, gFonts['medium'], 
+        { 169, 169, 169 }, 'center', 'center',
+        0, 32, 0, 32)
+    self.descriptionLabel.alpha = 0
 
     Timer.tween(self.duration / 2, {
         [self] = { radius = self.minRadius }
     }):finish(function()
         Timer.tween(self.duration / 2, {
-            [self.label] = { alpha = 255 }
+            [self.gameOverLabel] = { alpha = 255 },
+            [self.descriptionLabel] = { alpha = 255 },
         }):finish(self.onFinish)
     end)
 end
@@ -41,7 +54,8 @@ function GameOverState:render()
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
-    self.label:render()
+    self.gameOverLabel:render()
+    self.descriptionLabel:render()
 
     -- reset colors
     love.graphics.setColor(1, 1, 1, 1)
