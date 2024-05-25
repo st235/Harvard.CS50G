@@ -1,10 +1,4 @@
 LEVELS = {
-    ["solo"] = {
-        {
-            text = "For the man who has nothing to hide, but still wants to.",
-            opponents = { }
-        },
-    },
     [1] = {
         {
             text = "When Richard was little, there was a wild cat in the woods near our house",
