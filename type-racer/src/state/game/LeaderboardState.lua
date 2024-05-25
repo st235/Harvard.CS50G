@@ -47,15 +47,34 @@ end
 
 function LeaderboardState:update(dt)
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
-        -- pop leaderboard state
-        gStateStack:pop()
+        gStateStack:push(FadeInState({ 0, 0, 0 }, 1, function()
+            -- pop fade in state
+            gStateStack:pop()
 
-        if self.isWin then
-            gStateStack:push(BeginLevelState(self.level + 1))
-        else
-            gStateStack:push(StartState())
-        end
+            -- pop leaderboard state
+            gStateStack:pop()
+        
+            if self.isWin then
+                local nextLevel = self.level + 1
+    
+                if self:checkLevelExists(nextLevel) then
+                    gStateStack:push(BeginLevelState(nextLevel))
+                else
+                    gStateStack:push(CreditsState())
+                    gStateStack:push(FadeOutState({ 0, 0, 0 }, 0, 2, function()
+                        -- pop fade out state
+                        gStateStack:pop()
+                    end))
+                end
+            else
+                gStateStack:push(StartState())
+            end
+        end))
     end
+end
+
+function LeaderboardState:checkLevelExists(levelId)
+    return (not not LEVELS[levelId])
 end
 
 function LeaderboardState:render()

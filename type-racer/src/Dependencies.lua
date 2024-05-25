@@ -24,6 +24,7 @@ require 'src/state/game/GameOverState'
 require 'src/state/game/VictoryState'
 require 'src/state/game/LeaderboardState'
 require 'src/state/game/BeginLevelState'
+require 'src/state/game/CreditsState'
 
 -- gui:
 -- -- views

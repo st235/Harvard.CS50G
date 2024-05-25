@@ -64,3 +64,57 @@ GAME_OVER_OPPONENTS_KILLED_MESSAGES = {
 GAME_OVER_TOO_MANY_TYPOS = {
     'Too many typos',
 }
+
+-- credits
+
+CREDITS = "\n" ..
+"Thank you\n" ..
+"for playing\n" ..
+"Type Racer\n" ..
+"\n" ..
+"\n" ..
+"Director:\n" ..
+"Alex Dadukin\n" ..
+"\n" ..
+"\n" ..
+"Lead Graphics Engineer:\n" ..
+"Alex Dadukin\n" ..
+"\n" ..
+"\n" ..
+"Lead AI Engineer:\n" ..
+"Alex Dadukin\n" ..
+"\n" ..
+"\n" ..
+"Senior Level Designer:\n" ..
+"Alex Dadukin\n" ..
+"\n" ..
+"\n" ..
+"Lead Counselor:\n" ..
+"Tatiana Dadukina\n" ..
+"\n" ..
+"\n" ..
+"Senior QA Engineer:\n" ..
+"Marina Dadukina\n" ..
+"\n" ..
+"\n" ..
+"Assets\n" ..
+"\n" ..
+"Sprites:\n" ..
+"GB Studio Vehicle Asset Pack\n" ..
+"\n" ..
+"GameBoy-styled essential outdoor tiles by chuckiecatt\n" ..
+"\n" ..
+"GB Studio Buildings\n" ..
+"\n" ..
+"Trophies pack\n" ..
+"\n" ..
+"Fonts:\n" ..
+"Kitchen Sink\n" ..
+"\n" ..
+"\n" ..
+"\n" ..
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n" ..
+"\n" ..
+"\n" ..
+"\n" ..
+"May 2024"
