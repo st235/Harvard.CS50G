@@ -1,8 +1,9 @@
 FadeOutState = Class{__includes = BaseState}
 
-function FadeOutState:init(color, duration, onFinish)
+function FadeOutState:init(color, finalAlpha, duration, onFinish)
     assert(#color == 3)
     self.color = color
+    self.finalAlpha = finalAlpha or 0.0
     self.duration = duration or 2
     self.onFinish = onFinish or function() end
 end
@@ -11,7 +12,7 @@ function FadeOutState:enter()
     self.alpha = 1.0
 
     Timer.tween(self.duration, {
-        [self] = { alpha = 0.0 }
+        [self] = { alpha = self.finalAlpha }
     }):finish(function()
         self.onFinish()
     end)

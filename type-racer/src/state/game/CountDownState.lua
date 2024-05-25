@@ -1,7 +1,8 @@
 CountDownState = Class{__includes = BaseState}
 
-function CountDownState:init(startTime)
+function CountDownState:init(startTime, onFinish)
     self.startTime = startTime or 3
+    self.onFinish = onFinish or function() end
 end
 
 function CountDownState:enter()
@@ -12,8 +13,7 @@ function CountDownState:enter()
         if self.timer > 1 then
             self:countDown(self.timer - 1)
         else
-            -- pop when the countdown is over
-            gStateStack:pop()
+            self.onFinish()
         end
     end):limit(self.timer)
 end

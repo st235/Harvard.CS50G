@@ -1,17 +1,15 @@
 Level = Class{}
 
-function Level:init(x, y, width, height, level)
+function Level:init(x, y, width, height, levelId, levelDef)
     self.x = x
     self.y = y
     self.width = width
     self.height = height
-    self.level = level
+    self.levelId = levelId
+    self.levelDef = levelDef
    
     self.onWin = function(isBossFight) end
     self.onLose = function(reason, isBossFight, playerCoords) end
-
-    local allLevelDefs = LEVELS[level]
-    local levelDef = allLevelDefs[math.random(#allLevelDefs)]
 
     self.bossFight = levelDef.bossFight or false
     self.allowedTypos = levelDef.allowedTypos or MAXIMUM_ERROR_ACCUMULATION_LENGTH
@@ -37,7 +35,7 @@ function Level:init(x, y, width, height, level)
     self.statsview = StatsView(self.x + controlsOffsetX, self.y + controlsPaddingTop, 
         LEADERBOARD_WIDTH, LEADERBOARD_HEIGHT, 
         gFonts['small-inv'], gFonts['small'], gFonts['medium'], 
-        level, 1,
+        self.levelId, 1,
         6, 6, 6, 6)
     self.statsview:setBackground(Panel())
 

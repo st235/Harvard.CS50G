@@ -23,6 +23,7 @@ require 'src/state/game/FadeOutState'
 require 'src/state/game/GameOverState'
 require 'src/state/game/VictoryState'
 require 'src/state/game/LeaderboardState'
+require 'src/state/game/BeginLevelState'
 
 -- gui:
 -- -- views

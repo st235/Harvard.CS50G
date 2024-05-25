@@ -1,11 +1,12 @@
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init(levelId)
+function PlayState:init(levelId, levelDef)
     self.levelId = levelId
+    self.levelDef = levelDef
 end
 
 function PlayState:enter()
-    self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, self.levelId)
+    self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, self.levelId, self.levelDef)
 
     self.level.onWin = function(isBossFight)
         local leaderboard = self.level:getLeaderboard()
@@ -19,7 +20,7 @@ function PlayState:enter()
                 -- pop play state
                 gStateStack:pop()
 
-                gStateStack:push(LeaderboardState(self.levelId, leaderboard))
+                gStateStack:push(LeaderboardState(self.levelId, true, leaderboard))
             end))
         end))
     end
@@ -45,7 +46,7 @@ function PlayState:enter()
                 -- pop play state
                 gStateStack:pop()
 
-                gStateStack:push(LeaderboardState(self.levelId, leaderboard))
+                gStateStack:push(LeaderboardState(self.levelId, false, leaderboard))
             end))
         end))
     end
