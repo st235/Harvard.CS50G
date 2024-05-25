@@ -10,9 +10,10 @@ function CreditsState:enter()
     gSounds['outro']:setVolume(0.1)
     gSounds['outro']:play()
 
-    self.creditsHeight = 1610
+    self.creditsHeight = 1920
     self.creditsLabel = Label(0, 20, VIRTUAL_WIDTH, self.creditsHeight,
-        CREDITS, gFonts['large'], { 255, 255, 255 }, 'center', 'top')
+        CREDITS, gFonts['large'], { 255, 255, 255 }, 'center', 'top',
+        0, 32, 0, 32)
 end
 
 function CreditsState:exit()
@@ -32,6 +33,7 @@ function CreditsState:update(dt)
             gStateStack:push(FadeOutState({ 0, 0, 0 }, 0, 1, function()
                 -- pop fade out state
                 gStateStack:pop()
+                gStateStack:push(StartState())
             end))
         end)
     end

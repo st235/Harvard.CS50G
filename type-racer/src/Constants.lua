@@ -92,6 +92,10 @@ CREDITS = "\n" ..
 "Alex Dadukin\n" ..
 "\n" ..
 "\n" ..
+"Intern Level Designer:\n" ..
+"Marina Dadukina\n" ..
+"\n" ..
+"\n" ..
 "Lead Counselor:\n" ..
 "Tatiana Dadukina\n" ..
 "\n" ..
@@ -113,6 +117,9 @@ CREDITS = "\n" ..
 "\n" ..
 "Fonts:\n" ..
 "Kitchen Sink\n" ..
+"\n" ..
+"Sounds:\n" ..
+"Pixabay\n" ..
 "\n" ..
 "\n" ..
 "\n" ..
