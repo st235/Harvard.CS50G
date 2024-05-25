@@ -55,7 +55,14 @@ function Level:init(x, y, width, height, levelId, levelDef)
         player, opponents, self.matcher:getSymbolsCount())
 
     self.matcher.onMatch = function(s, p)
+        gSounds['keyboard-click']:stop()
+        gSounds['keyboard-click']:play()
         self.race:setPlayerProgress(p)
+    end
+
+    self.matcher.onError = function(s, p)
+        gSounds['error']:stop()
+        gSounds['error']:play()
     end
 
     self.matcher.onErrorLimitExceed = function()
@@ -111,51 +118,72 @@ end
 function Level:getLeaderboard()
     local lookup = {}
     local playerId = self.race:getPlayerId()
-    local playerPlace = self.race:getPlayerPlace()
 
     for i=1,#self.race.vehicles do
         local id = self.race.vehicles[i].driverId
-        local name = self.race.vehicles[i].driverName
-
-        local speed = nil
-        local place = nil
-        local timing = nil
 
         if id == playerId then
-            speed = self:getPlayerSpeed()
-
-            if playerPlace == PLACE_NOT_QUALIFIED then
-                place = 4
-                timing = 'N/A'
-            else
-                place = playerPlace
-                timing = self.race:getPlayerTime()
+            local timing = self.race:getPlayerTime()
+            if timing == TIME_NO_TIME then
+                timing = nil
             end
+
+            table.insert(lookup, { 
+                id = id,
+                originalOrdering = i,
+                timing = timing
+             })
         else
-            speed = math.floor(self.race.vehicles[i].speed * 60)
-            place = self.race:getProjectedPlace(id)
-            timing = string.format("%.2f", self.race.distance / self.race.vehicles[i].speed)
+            table.insert(lookup, {
+                id = id,
+                originalOrdering = i,
+                timing = self.race.distance / self.race.vehicles[i].speed
+             })
+        end
+    end
+
+    table.sort(lookup, function(a, b)
+        if not a.timing then
+            assert(b.timing)
+            return false
+        elseif not b.timing then
+            return true
+        else
+            return a.timing < b.timing
+        end
+    end)
+
+    local leaderboard = {}
+
+    for i=1,#lookup do
+        local id = lookup[i].id
+        local originalOrdering = lookup[i].originalOrdering
+        local name = self.race.vehicles[originalOrdering].driverName
+        
+        local place = i
+        local timing = lookup[i].timing
+        if timing then
+            timing = string.format("%.2f", timing)
+        else
+            timing = 'N/A'
+        end
+
+        local speed = nil
+        if id == playerId then
+            speed = self:getPlayerSpeed()
+        else
+            speed = math.floor(self.race.vehicles[originalOrdering].speed * 60)
         end
 
         assert(speed)
 
-        if id ~= playerId and playerPlace == PLACE_NOT_QUALIFIED and place >= #self.race.vehicles then
-            place = place - 1
-        end
-            
-
-        lookup[place] = {
+        table.insert(leaderboard, {
             ['driverId'] = id,
             ['driverName'] = name,
             ['driverSpeed'] = speed,
             ['place'] = place,
             ['timing'] = timing,
-        }
-    end
-
-    local leaderboard = {}
-    for place=1,#self.race.vehicles do
-        table.insert(leaderboard, lookup[place])
+        })
     end
 
     return leaderboard
