@@ -5,9 +5,18 @@ function CreditsState:init()
 end
 
 function CreditsState:enter()
+    gSounds['outro']:stop()
+    gSounds['outro']:setLooping(true)
+    gSounds['outro']:setVolume(0.1)
+    gSounds['outro']:play()
+
     self.creditsHeight = 1610
     self.creditsLabel = Label(0, 20, VIRTUAL_WIDTH, self.creditsHeight,
         CREDITS, gFonts['large'], { 255, 255, 255 }, 'center', 'top')
+end
+
+function CreditsState:exit()
+    gSounds['outro']:stop()
 end
 
 function CreditsState:update(dt)

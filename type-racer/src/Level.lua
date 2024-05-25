@@ -69,19 +69,22 @@ function Level:init(x, y, width, height, levelId, levelDef)
         if self.race.isStarted then
             local coords = self.race:getPlayerCenterCoordinates()
             self.onLose(LEVEL_LOST_REASON_TYPOS, self.bossFight, coords)
-            self.race.isStarted = false
+            self.race:stop()
         end
     end
 
     self.race.onDriverFinished = function(driverId, place, timing)
-        print('Finished', driverId, place, timing)
+        if self.race.isStarted then
+            gSounds['finished']:stop()
+            gSounds['finished']:play()
+        end
     end
 
     self.race.onRaceOver = function(place, timing, coords)
         if place == PLACE_NOT_QUALIFIED then
             self.onLose(LEVEL_LOST_REASON_KILLED, self.bossFight, coords)
         else
-            self.onWin(self.isBossFight)
+            self.onWin(self.bossFight)
         end
     end
 
@@ -103,6 +106,10 @@ end
 
 function Level:start()
     self.race:start()
+end
+
+function Level:stop()
+    self.race:stop()
 end
 
 -- returns speed in symbols per minute

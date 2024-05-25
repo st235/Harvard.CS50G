@@ -12,6 +12,9 @@ function GameOverState:init(title, description, x, y, minRadius, duration, onFin
 end
 
 function GameOverState:enter()
+    gSounds['lose']:stop()
+    gSounds['lose']:play()
+
     self.radius = self.maxRadius
 
     local labelsSpacing = 4
@@ -40,6 +43,10 @@ function GameOverState:enter()
             [self.descriptionLabel] = { alpha = 255 },
         }):finish(self.onFinish)
     end)
+end
+
+function GameOverState:exit()
+    gSounds['lose']:stop()
 end
 
 function GameOverState:render()

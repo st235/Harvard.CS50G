@@ -47,6 +47,9 @@ end
 
 function LeaderboardState:update(dt)
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
+        gSounds['confirm']:stop()
+        gSounds['confirm']:play()
+
         gStateStack:push(FadeInState({ 0, 0, 0 }, 1, function()
             -- pop fade in state
             gStateStack:pop()

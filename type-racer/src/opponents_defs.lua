@@ -30,7 +30,7 @@ OPPONENTS = {
         tint = { 255, 255, 255 },
     },
     ['catwithblueeyes'] = {
-        name = 'Marina',
+        name = 'The Great Marina',
         driverId = 30,
         width = 32,
         height = 24,

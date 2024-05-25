@@ -8,6 +8,9 @@ function VictoryState:init(message, color, duration, onFinish)
 end
 
 function VictoryState:enter()
+    gSounds['tada']:stop()
+    gSounds['tada']:play()
+
     local labelHeight = 40
 
     self.label = Label(0, -labelHeight,
@@ -36,6 +39,10 @@ function VictoryState:enter()
             }):finish(self.onFinish)
         end)
     end)
+end
+
+function VictoryState:exit()
+    gSounds['tada']:stop()
 end
 
 function VictoryState:update(dt)

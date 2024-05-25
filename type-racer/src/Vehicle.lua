@@ -3,6 +3,7 @@ Vehicle = Class{}
 function Vehicle:init(x, y, width, height, driverId, driverName, speed, texture, frames, color)
     self.x = x
     self.y = y
+    self.rotation = 0
     self.width = width
     self.height = height
     self.driverId = driverId
@@ -30,7 +31,7 @@ function Vehicle:render()
 
     love.graphics.setColor(self.color[1]/255, self.color[2]/255, self.color[3]/255, 1)
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.x), math.floor(self.y))
+        math.floor(self.x), math.floor(self.y), self.rotation)
 
     love.graphics.setColor(1, 1, 1, 1)
 end

@@ -50,6 +50,10 @@ function Lane:finish(driverId)
     self.onFinish(self.driverId)
 end
 
+function Lane:stop()
+    self.tweeningTask:remove()
+end
+
 function Lane:update(dt)
     self.vehicle:update(dt)
 end

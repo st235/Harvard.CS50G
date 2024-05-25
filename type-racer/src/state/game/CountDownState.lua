@@ -13,12 +13,17 @@ function CountDownState:enter()
         if self.timer > 1 then
             self:countDown(self.timer - 1)
         else
+            gSounds['beep-final']:stop()
+            gSounds['beep-final']:play()
             self.onFinish()
         end
     end):limit(self.timer)
 end
 
 function CountDownState:countDown(newTimer)
+    gSounds['beep-middle']:stop()
+    gSounds['beep-middle']:play()
+
     self.timer = newTimer
     self.rotationDeg = math.random(-5, 5)
     self.scale = 5

@@ -23,3 +23,15 @@ This is a final project for the course!
     - [Trophies pack](https://vsioneithr.itch.io/trophy-cups-pixel-pack)
 - Font
     - Retro font [Kitchen Sink](https://polyducks.itch.io/kitchen-sink-textmode-font)
+- Sounds
+    - F1 Sound Effect by [Jurij](https://pixabay.com/users/soundreality-31074404/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=151254) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=151254)
+    - Stationary Sound Effect from [Pixabay](https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=90456)
+    - Horn SoundEffect from [Pixabay](https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6466)
+    - Mechanical Keyboard Typing Sound Effect from [Pixabay](https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=102918)
+    - Sound Effect by <a href="https://pixabay.com/users/u_31vnwfmzt6-31480456/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=126627">Shagor Miah</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=126627">Pixabay</a>
+    - Confirm Sound by <a href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=210334">UNIVERSFIELD</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=210334">Pixabay</a>
+    - Night Phonk Music by <a href="https://pixabay.com/users/artiss22-29919399/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=203960">Artsiom Bialou</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=203960">Pixabay</a>
+    - World is on fire Music by <a href="https://pixabay.com/users/melodyayresgriffiths-27269767/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=184774">Melody Ayres-Griffiths</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=184774">Pixabay</a>
+    - Racing Music by <a href="https://pixabay.com/users/qubesounds-24397640/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=125862">Yurii Semchyshyn</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=125862">Pixabay</a>
+    - Flat (8-bit gaming music) Music by <a href="https://pixabay.com/users/sounduniversestudio-43016639/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=211547">SoundUniverseStudio</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=211547">Pixabay</a>
+    - KO Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=95973">Pixabay</a>

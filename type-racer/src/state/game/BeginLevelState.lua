@@ -28,6 +28,7 @@ function BeginLevelState:getOpponents()
 end
 
 function BeginLevelState:enter()
+    gSounds['start']:play()
     local opponents = self:getOpponents()
 
     local leaderboardLeftOffset = 20
@@ -50,26 +51,32 @@ function BeginLevelState:enter()
         leaderboardWidth, leaderboardHeight,
         gFonts['small'], opponents)
 
-    Timer.tween(1, {
-        [self.levelLabel] = { x = leaderboardLeftOffset + 16 },
-    }):finish(function()
-        Timer.after(2, function()
-            -- pop begin level state
-            gStateStack:pop()
-
-            gStateStack:push(PlayState(self.levelId, self.levelDef))
-
-            gStateStack:push(FadeOutState({ 0, 0, 0 }, 0.45, 1, function()
-                -- pop fade out
+    Timer.after(1.4, function()
+        Timer.tween(0.4, {
+            [self.levelLabel] = { x = leaderboardLeftOffset + 16 },
+        }):finish(function()
+            Timer.after(4, function()
+                -- pop begin level state
                 gStateStack:pop()
-
-                gStateStack:push(CountDownState(3, function()
-                    -- pop countdown state
+    
+                gStateStack:push(PlayState(self.levelId, self.levelDef))
+    
+                gStateStack:push(FadeOutState({ 0, 0, 0 }, 0.45, 1, function()
+                    -- pop fade out
                     gStateStack:pop()
+    
+                    gStateStack:push(CountDownState(3, function()
+                        -- pop countdown state
+                        gStateStack:pop()
+                    end))
                 end))
-            end))
+            end)
         end)
     end)
+end
+
+function BeginLevelState:exit()
+    gSounds['start']:stop()
 end
 
 function BeginLevelState:render()

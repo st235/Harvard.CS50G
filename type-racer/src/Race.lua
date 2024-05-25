@@ -150,6 +150,21 @@ function Race:start()
     end
 end
 
+function Race:getTheOnlyOpponentVehicle()
+    -- player + opponent
+    assert(#self.vehicles == 2)
+    return self.vehicles[1]
+end
+
+function Race:stop()
+    assert(self.isStarted)
+    self.isStarted = false
+
+    for i=1, #self.lanes - 1 do
+        self.lanes[i]:stop()
+    end
+end
+
 function Race:getPlayerCenterCoordinates()
     local playerVehicle = self.vehicles[#self.vehicles]
     local playerCenterX = playerVehicle.x + playerVehicle.width / 2
@@ -168,7 +183,7 @@ function Race:update(dt)
 
     local hasOpponentsFinished = #self.vehicles > 1 and self:hasOpponentsFinish()
     if self.isStarted and (self:hasPlayerFinished() or hasOpponentsFinished) then
-        self.isStarted = false
+        self:stop()
         self.onRaceOver(self:getPlayerPlace(), self:getPlayerTime(), self:getPlayerCenterCoordinates())
     end
 end

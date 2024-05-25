@@ -33,6 +33,14 @@ LEVELS = {
     },
     [2] = {
         {
+            allowedTypos = 3,
+            bossFight = true,
+            text = "Some short text.",
+            opponents = { "catwithblueeyes" }
+        },
+    },
+    [3] = {
+        {
             text = "Either this kid has a lightbulb up his butt or his colon has a great idea.",
             opponents = { "jd", "dracula" }
         },
