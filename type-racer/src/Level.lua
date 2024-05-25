@@ -61,8 +61,11 @@ function Level:init(x, y, width, height, level)
     end
 
     self.matcher.onErrorLimitExceed = function()
-        local coords = self.race:getPlayerCenterCoordinates()
-        self.onLose(LEVEL_LOST_REASON_TYPOS, self.bossFight, coords)
+        if self.race.isStarted then
+            local coords = self.race:getPlayerCenterCoordinates()
+            self.onLose(LEVEL_LOST_REASON_TYPOS, self.bossFight, coords)
+            self.race.isStarted = false
+        end
     end
 
     self.race.onDriverFinished = function(driverId, place, timing)
@@ -79,7 +82,7 @@ function Level:init(x, y, width, height, level)
 
     Timer.every(0.1, function()
         if self.race.isStarted then
-            self.statsview:setSpeed(self:getSpeed())
+            self.statsview:setSpeed(self:getPlayerSpeed())
             self.statsview:setPosition(self.race:getPlayerProjectedPlace())
         end
     end)
@@ -87,7 +90,7 @@ end
 
 function Level:createVehicle(def)
     return Vehicle(0, 0, def.width, def.height,
-        def.driverId,
+        def.driverId, def.name,
         -- definition contains symbols per minute 
         (def.speed or 0) / 60, 
         def.texture, def.frames, def.tint)
@@ -98,13 +101,66 @@ function Level:start()
 end
 
 -- returns speed in symbols per minute
-function Level:getSpeed()
+function Level:getPlayerSpeed()
     local elapsedTime = self.race:getElapsedTime()
     if elapsedTime == 0 then
         -- the first second of the game
         return 0
     end
     return math.floor(self.matcher:getMatchedSymbolsCount() / elapsedTime * 60)
+end
+
+function Level:getLeaderboard()
+    local lookup = {}
+    local playerId = self.race:getPlayerId()
+    local playerPlace = self.race:getPlayerPlace()
+
+    for i=1,#self.race.vehicles do
+        local id = self.race.vehicles[i].driverId
+        local name = self.race.vehicles[i].driverName
+
+        local speed = nil
+        local place = nil
+        local timing = nil
+
+        if id == playerId then
+            speed = self:getPlayerSpeed()
+
+            if playerPlace == PLACE_NOT_QUALIFIED then
+                place = 4
+                timing = 'N/A'
+            else
+                place = playerPlace
+                timing = self.race:getPlayerTime()
+            end
+        else
+            speed = math.floor(self.race.vehicles[i].speed * 60)
+            place = self.race:getProjectedPlace(id)
+            timing = string.format("%.2f", self.race.distance / self.race.vehicles[i].speed)
+        end
+
+        assert(speed)
+
+        if id ~= playerId and playerPlace == PLACE_NOT_QUALIFIED and place >= #self.race.vehicles then
+            place = place - 1
+        end
+            
+
+        lookup[place] = {
+            ['driverId'] = id,
+            ['driverName'] = name,
+            ['driverSpeed'] = speed,
+            ['place'] = place,
+            ['timing'] = timing,
+        }
+    end
+
+    local leaderboard = {}
+    for place=1,#self.race.vehicles do
+        table.insert(leaderboard, lookup[place])
+    end
+
+    return leaderboard
 end
 
 function Level:update(dt)

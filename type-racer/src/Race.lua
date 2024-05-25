@@ -15,6 +15,7 @@ function Race:init(x, y, width, height, player, opponents, distance)
     self.finished = {}
     self.finishedTimings = {}
     self.place = 1
+    self.distance = distance
 
     self.onDriverFinished = function(driverId, place, timing) end
     self.onRaceOver = function(playerPlace, playerTime, playerCoords) end
@@ -51,34 +52,63 @@ function Race:init(x, y, width, height, player, opponents, distance)
     end
 end
 
+function Race:getPlayerId()
+    return self.vehicles[#self.vehicles].driverId
+end
+
 function Race:getElapsedTime()
     return os.time() - self.startTime
 end
 
 function Race:getPlayerPlace()
     local playerId = self.vehicles[#self.vehicles].driverId
-    return self.finished[playerId] or PLACE_NOT_QUALIFIED
+    return self:getPlace(playerId)
+end
+
+function Race:getPlace(id)
+    return self.finished[id] or PLACE_NOT_QUALIFIED
 end
 
 function Race:getPlayerProjectedPlace()
-    local realPlayerPlace = self:getPlayerPlace()
-    if realPlayerPlace ~= PLACE_NOT_QUALIFIED then
-        return realPlayerPlace
+    local playerId = self.vehicles[#self.vehicles].driverId
+    return self:getProjectedPlace(playerId)
+end
+
+function Race:getProjectedPlace(id)
+    local realPlace = self:getPlace(id)
+    if realPlace ~= PLACE_NOT_QUALIFIED then
+        return realPlace
     end
 
     local place = 1
-    local playerProgress = self.lanes[#self.lanes].progress
+    local progress = -1
+    for i=1, #self.lanes do
+        local opponentId = self.vehicles[i].driverId
+        if opponentId == id then
+            progress = self.lanes[i].progress
+            break
+        end
+    end
 
-    for i=1, #self.vehicles - 1 do
+    assert(progress ~= -1)
+
+    for i=1, #self.vehicles do
+        local opponentId = self.vehicles[i].driverId
+        if opponentId == id then
+            goto continue
+        end
+
         local opponentProgress = self.lanes[i].progress
-
-        if playerProgress < opponentProgress then
+        if progress < opponentProgress then
             place = place + 1
         end
+
+        ::continue::
     end
 
     return place
 end
+
 
 function Race:getPlayerTime()
     local playerId = self.vehicles[#self.vehicles].driverId
@@ -138,8 +168,8 @@ function Race:update(dt)
 
     local hasOpponentsFinished = #self.vehicles > 1 and self:hasOpponentsFinish()
     if self.isStarted and (self:hasPlayerFinished() or hasOpponentsFinished) then
-        self.onRaceOver(self:getPlayerPlace(), self:getPlayerTime(), self:getPlayerCenterCoordinates())
         self.isStarted = false
+        self.onRaceOver(self:getPlayerPlace(), self:getPlayerTime(), self:getPlayerCenterCoordinates())
     end
 end
 

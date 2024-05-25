@@ -1,16 +1,32 @@
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init()
+function PlayState:init(levelId)
+    self.levelId = levelId
 end
 
 function PlayState:enter()
-    self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, 1)
+    self.level = Level(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, self.levelId)
 
     self.level.onWin = function(isBossFight)
-        gStateStack:push(VictoryState('Victory!!1!'))
+        local leaderboard = self.level:getLeaderboard()
+
+        gStateStack:push(VictoryState('Victory!!1!', { 255, 255, 255 }, 6, function()
+            gStateStack:push(FadeInState({0, 0, 0}, 1, function()
+                -- pop fade in state
+                gStateStack:pop()
+                -- pop victory state
+                gStateStack:pop()
+                -- pop play state
+                gStateStack:pop()
+
+                gStateStack:push(LeaderboardState(self.levelId, leaderboard))
+            end))
+        end))
     end
 
     self.level.onLose = function(reason, isBossFight, coords)
+        local leaderboard = self.level:getLeaderboard()
+
         local message = ""
         if reason == LEVEL_LOST_REASON_KILLED then
             description = GAME_OVER_OPPONENTS_KILLED_MESSAGES[math.random(#GAME_OVER_OPPONENTS_KILLED_MESSAGES)]
@@ -19,7 +35,19 @@ function PlayState:enter()
         end
 
         local playerX, playerY = coords[1], coords[2]
-        gStateStack:push(GameOverState("Game Over...", description, playerX, playerY, 20))
+        gStateStack:push(GameOverState("Game Over...", description, playerX, playerY, 20, 4,
+        function()
+            gStateStack:push(FadeInState({0, 0, 0}, 1, function()
+                -- pop fade in state
+                gStateStack:pop()
+                -- pop victory state
+                gStateStack:pop()
+                -- pop play state
+                gStateStack:pop()
+
+                gStateStack:push(LeaderboardState(self.levelId, leaderboard))
+            end))
+        end))
     end
 
     self.isStarted = false

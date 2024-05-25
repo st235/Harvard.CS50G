@@ -1,11 +1,12 @@
 Vehicle = Class{}
 
-function Vehicle:init(x, y, width, height, driverId, speed, texture, frames, color)
+function Vehicle:init(x, y, width, height, driverId, driverName, speed, texture, frames, color)
     self.x = x
     self.y = y
     self.width = width
     self.height = height
     self.driverId = driverId
+    self.driverName = driverName
     -- symbols per second
     self.speed = speed
 

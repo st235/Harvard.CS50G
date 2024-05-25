@@ -2,38 +2,39 @@ Leaderboard = Class{__includes=View}
 
 function Leaderboard:init(x, y, width, height,
                           font,
-                          level, speed,
+                          leaderboard,
                           paddingTop, paddingLeft,
                           paddingBottom, paddingRight)
     View.init(self, x, y, width, height, paddingTop, paddingLeft, paddingBottom, paddingRight)
 
     self.font = font
 
-    local labelOffsetX = 6
-    local labelOffsetY = 2
-    self.levelLabel = Label(self.x + labelOffsetX, self.y + labelOffsetY, self:getAdjustedWidth() - 12, 14, 'Level: ' .. tostring(level), self.font)
+    self.rowMargin = 8
+    self.rowHeight = 20
 
-    self:setSpeed(0)
+    self.verticalOffset = math.floor(self:getAdjustedHeight() - self.rowHeight * #leaderboard - self.rowMargin * (#leaderboard - 1)) / 2
 
-    self.rowsOffset = self.levelLabel.height + self.speedLabel.height + 4
     self.resultRows = {}
+    for i=1, #leaderboard do
+        local info = leaderboard[i]
 
-    self:addDriverResults(1, 'Granny', 1, 98)
-    self:addDriverResults(12, 'Alex', 2, 152)
-    self:addDriverResults(77, 'Ron', 3, 256)
-    self:addDriverResults(13, 'Ingrid', 4, 10)
+        local driverId = info.driverId
+        local driverName = info.driverName
+        local driverSpeed = info.driverSpeed
+        local place = info.place
+        local timing = info.timing
+
+        self:addDriverResults(i - 1, driverId, driverName, driverSpeed, place, timing)
+    end
 end
 
-function Leaderboard:setSpeed(newSpeed)
-    self.speed = newSpeed
+function Leaderboard:addDriverResults(i, driverId, driverName, driverSpeed, place, timing)
+    local rowOffset = self.rowHeight * i + self.rowMargin * i
 
-    self.speedLabel = Label(self.x + 6, self.y + self.levelLabel.height + 2, self:getAdjustedWidth() - 12, 14, 'Speed: ' .. tostring(self.speed) .. ' spm.', self.font)
-end
+    local row = LeaderboardRow(self.x + self.paddingLeft, self.y + self.paddingTop + self.verticalOffset + rowOffset, 
+        self:getAdjustedWidth(), self.rowHeight, self.font, 
+        driverId, driverName, driverSpeed, place, timing)
 
-function Leaderboard:addDriverResults(driverId, driverName, place, timing)
-    local row = LeaderboardRow(self.x + 6, self.y + self.rowsOffset, self:getAdjustedWidth() - 12, 20, gFonts['small'], driverId, driverName, place, timing)
-
-    self.rowsOffset =  self.rowsOffset + row.height + 2
     table.insert(self.resultRows, row)
 end
 
@@ -42,9 +43,6 @@ end
 
 function Leaderboard:render()
     View.render(self)
-
-    self.levelLabel:render()
-    self.speedLabel:render()
 
     for i=1, #self.resultRows do
         self.resultRows[i]:render()
