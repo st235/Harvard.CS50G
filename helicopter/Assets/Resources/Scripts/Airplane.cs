@@ -17,7 +17,7 @@ public class Airplane : MonoBehaviour {
 		else {
 
 			// make it go twice as fast as the skyscraper spawner speed toward the left
-			transform.Translate(-SkyscraperSpawner.speed * 2 * Time.deltaTime, 0, 0, Space.World);
+			transform.Translate(-SkyscraperSpawner.CurrentSpeed * 2 * Time.deltaTime, 0, 0, Space.World);
 		}
 	}
 

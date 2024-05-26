@@ -18,7 +18,7 @@ public class Coin : MonoBehaviour {
 		else {
 
 			// ensure coin moves at the same rate as the skyscrapers do
-			transform.Translate(-SkyscraperSpawner.speed * Time.deltaTime, 0, 0, Space.World);
+			transform.Translate(-SkyscraperSpawner.CurrentSpeed * Time.deltaTime, 0, 0, Space.World);
 		}
 
 		// infinitely rotate this coin about the Y axis in world space

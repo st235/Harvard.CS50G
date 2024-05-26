@@ -18,7 +18,7 @@ public class Skyscraper : MonoBehaviour {
 		else {
 
 			// scroll based on SkyscraperSpawner static variable, speed
-			transform.Translate(-SkyscraperSpawner.speed * Time.deltaTime, 0, 0);
+			transform.Translate(-SkyscraperSpawner.CurrentSpeed * Time.deltaTime, 0, 0);
 		}
 	}
 

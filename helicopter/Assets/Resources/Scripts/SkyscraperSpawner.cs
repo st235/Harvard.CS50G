@@ -3,8 +3,12 @@ using System.Collections;
 
 public class SkyscraperSpawner : MonoBehaviour {
 
+	public static float DefaultSpeed = 10f;
+
+	// Current speed of the objects scroll.
+	public static float CurrentSpeed = 10f;
+
 	public GameObject[] prefabs;
-	public static float speed = 10f;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +31,7 @@ public class SkyscraperSpawner : MonoBehaviour {
 
 			// randomly increase the speed by 1
 			if (Random.Range(1, 4) == 1) {
-				speed += 1f;
+				CurrentSpeed += Random.Range(1, 2);
 			}
 
 			// wait between 1-5 seconds for a new skyscraper to spawn

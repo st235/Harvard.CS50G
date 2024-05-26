@@ -30,6 +30,8 @@ public class GameOverText : MonoBehaviour {
 			
 			// jump is space bar by default
 			if (Input.GetButtonDown("Jump")) {
+				// Resetting current speed to default speed.
+				SkyscraperSpawner.CurrentSpeed = SkyscraperSpawner.DefaultSpeed;
 
 				// reload entire scene, starting music over again, refreshing score, etc.
 				SceneManager.LoadScene("Main");
