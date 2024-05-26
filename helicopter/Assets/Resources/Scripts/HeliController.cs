@@ -58,7 +58,21 @@ public class HeliController : MonoBehaviour {
 
 		// trigger audio playback and emit particles from particle system
 		GetComponents<AudioSource>()[0].Play();
-		GetComponent<ParticleSystem>().Play();
+
+		ParticleSystem paricleSystem = GetComponent<ParticleSystem>();
+		paricleSystem.startColor = new Color(242f/255f, 255f/255f, 124f/255f, 1f);
+		paricleSystem.Play();
+	}
+
+	public void PickupGem() {
+		coinTotal += 5;
+
+		// trigger audio playback and emit particles from particle system
+		GetComponents<AudioSource>()[0].Play();
+
+		ParticleSystem paricleSystem = GetComponent<ParticleSystem>();
+		paricleSystem.startColor = new Color(156f/255f, 42f/255f, 42f/255f, 1f);
+		paricleSystem.Play();
 	}
 
 	public void Explode() {
