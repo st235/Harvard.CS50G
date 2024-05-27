@@ -282,7 +282,7 @@ MonoBehaviour:
   tilesToRemove: 350
   mazeSize: 30
   pickup: {fileID: 100000, guid: be400c8265d9c4977800d48e9650f26e, type: 3}
-  _maxHolesCount: 3
+  _maxHolesCount: 5
 --- !u!4 &502313971
 Transform:
   m_ObjectHideFlags: 0

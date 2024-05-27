@@ -35,7 +35,7 @@ public class LevelGenerator : MonoBehaviour {
 
 	[Range(1, 10)]
 	[SerializeField]
-	private int _maxHolesCount = 4;
+	private int _maxHolesCount = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -47,17 +47,26 @@ public class LevelGenerator : MonoBehaviour {
 		// create actual maze blocks from maze boolean data
 		for (int z = 0; z < mazeSize; z++) {
 			for (int x = 0; x < mazeSize; x++) {
-				bool isHole = !mapData[z, x] &&
-					currentHolesCount < _maxHolesCount &&
-					// Random.Range(int minInclusive, int maxExclusive)
-					Random.Range(0, 5) == 0;
+				if (generateRoof) {
+					CreateChildPrefab(ceilingPrefab, wallsParent, x, 4, z);
+				}
 
 				if (mapData[z, x]) {
 					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z);
 					CreateChildPrefab(wallPrefab, wallsParent, x, 2, z);
 					CreateChildPrefab(wallPrefab, wallsParent, x, 3, z);
-				} else if (!characterPlaced && !isHole) {
-					
+
+					// Create floor beneath the walls
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					continue;
+				}
+
+				bool isHole = !mapData[z, x] &&
+					currentHolesCount < _maxHolesCount &&
+					// Random.Range(int minInclusive, int maxExclusive)
+					Random.Range(0, 100) < 5;
+
+				if (!characterPlaced && !isHole) {	
 					// place the character controller on the first empty wall we generate
 					characterController.transform.SetPositionAndRotation(
 						new Vector3(x, 1, z), Quaternion.identity
@@ -67,17 +76,12 @@ public class LevelGenerator : MonoBehaviour {
 					characterPlaced = true;
 				}
 
-
 				if (!isHole) {
 					// create floor and ceiling
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				} else {
 					// "create" hole, and update the count
 					currentHolesCount++;
-				}
-
-				if (generateRoof) {
-					CreateChildPrefab(ceilingPrefab, wallsParent, x, 4, z);
 				}
 			}
 		}
