@@ -33,8 +33,13 @@ public class LevelGenerator : MonoBehaviour {
 	// we use these to dig through our maze and to spawn the pickup at the end
 	private int mazeX = 4, mazeY = 1;
 
+	[Range(1, 4)]
+	[SerializeField]
+	private int _maxHolesCount = 3;
+
 	// Use this for initialization
 	void Start () {
+		int currentHolesCount = 0;
 
 		// initialize map 2D array
 		mapData = GenerateMazeData();
@@ -42,11 +47,15 @@ public class LevelGenerator : MonoBehaviour {
 		// create actual maze blocks from maze boolean data
 		for (int z = 0; z < mazeSize; z++) {
 			for (int x = 0; x < mazeSize; x++) {
+				bool isHole = !mapData[z, x] &&
+					currentHolesCount < _maxHolesCount &&
+					Random.Range(1, 2) == 1;
+
 				if (mapData[z, x]) {
 					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z);
 					CreateChildPrefab(wallPrefab, wallsParent, x, 2, z);
 					CreateChildPrefab(wallPrefab, wallsParent, x, 3, z);
-				} else if (!characterPlaced) {
+				} else if (!characterPlaced && !isHole) {
 					
 					// place the character controller on the first empty wall we generate
 					characterController.transform.SetPositionAndRotation(
@@ -57,8 +66,14 @@ public class LevelGenerator : MonoBehaviour {
 					characterPlaced = true;
 				}
 
-				// create floor and ceiling
-				CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+
+				if (!isHole) {
+					// create floor and ceiling
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+				} else {
+					// "create" hole, and update the count
+					currentHolesCount++;
+				}
 
 				if (generateRoof) {
 					CreateChildPrefab(ceilingPrefab, wallsParent, x, 4, z);
