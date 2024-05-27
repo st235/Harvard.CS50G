@@ -14,7 +14,7 @@
 ### Implemntation Details
 
 1. FPS Controller
-    - I reused existing `Portal` controller to spice up the challenge and make level slightly more challenging then just jumping
+    - I reuse existing `Portal` controller to spice up the challenge and make level slightly more challenging than just jumping
 2. Collision Object
     - The object is called `Finish` and has a special finish tag (with value `Finish`)
     - The collision logic is located in [`OnFinishDetector`](./Assets/Scripts/OnFinishDetector.cs#L13)
