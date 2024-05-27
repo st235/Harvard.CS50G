@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class LoadSceneOnInput : MonoBehaviour {
 
+	[SerializeField]
+	private string _sceneName;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -13,7 +16,7 @@ public class LoadSceneOnInput : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetAxis("Submit") == 1) {
-			SceneManager.LoadScene("Play");
+			SceneManager.LoadScene(_sceneName);
 		}
 	}
 }

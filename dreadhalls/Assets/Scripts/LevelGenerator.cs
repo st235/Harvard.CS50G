@@ -33,9 +33,9 @@ public class LevelGenerator : MonoBehaviour {
 	// we use these to dig through our maze and to spawn the pickup at the end
 	private int mazeX = 4, mazeY = 1;
 
-	[Range(1, 4)]
+	[Range(1, 10)]
 	[SerializeField]
-	private int _maxHolesCount = 3;
+	private int _maxHolesCount = 4;
 
 	// Use this for initialization
 	void Start () {
@@ -49,7 +49,8 @@ public class LevelGenerator : MonoBehaviour {
 			for (int x = 0; x < mazeSize; x++) {
 				bool isHole = !mapData[z, x] &&
 					currentHolesCount < _maxHolesCount &&
-					Random.Range(1, 2) == 1;
+					// Random.Range(int minInclusive, int maxExclusive)
+					Random.Range(0, 5) == 0;
 
 				if (mapData[z, x]) {
 					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z);
