@@ -10,8 +10,6 @@ public class OnFinishDetector : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Finish") {
-            Debug.Log("Hello world!");
-
             _finalText.enabled = true;
         }
     }
