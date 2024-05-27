@@ -1,5 +1,9 @@
 # Portal
 
+| Title Screen | Gameplay |
+| ----- | ----- |
+| ![Title Screen](../images/portal_start.png) | ![Gameplay](../images/portal_portal.png) |
+
 ### Task
 
 - Create your own level in a new scene using ProBuilder and ProGrids! The distro should already have ProBuilder and ProGrids imported and ready for use, but just in case they aren’t, you can easily find them by searching in the Asset Store (where they are now free, thanks to Unity having acquired them!). There are many resources for learning how to use ProGrids effectively, but two resources in particular that are worth checking out are here and here, which should more than prepare you for creating a simple level.
