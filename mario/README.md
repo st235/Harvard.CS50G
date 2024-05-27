@@ -1,5 +1,9 @@
 # Mario
 
+| Title Screen | Gameplay |
+| ----- | ----- |
+| ![Title Screen](../images/mario_start.png) | ![Gameplay](../images/mario_gameplay1.png) |
+
 ## Task
 
 - Program it such that when the player is dropped into the level, they’re always done so above solid ground. Just like we generate the level column by column (as can be seen in LevelMaker.lua), we can check the game’s map column by column and simply ensure that the player isn’t placed above a column that just spawned a chasm by looking at all of the tiles along the Y-axis, going from left to right, until we’ve come across a column where we encounter a solid tile (as by checking whether the id is equal to TILE_ID_GROUND).

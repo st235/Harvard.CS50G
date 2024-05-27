@@ -1,5 +1,9 @@
 # Deadhalls
 
+| Title Screen | Gameplay |
+| ----- | ----- |
+| ![Title Screen](../images/dreadhalls_title.png) | ![Gameplay](../images/dreadhalls_gameplay1.png) |
+
 ### Task
 
 - Spawn holes in the floor of the maze that the player can fall through (but not too many; just three or four per maze is probably sufficient, depending on maze size). This should be very easy and only a few lines of code. The LevelGenerator script will be the place to look here; we aren’t keeping track of floors or ceilings in the actual maze data being generated, so best to take a look at where the blocks are being insantiated (using the comments to help find!).

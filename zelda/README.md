@@ -1,5 +1,9 @@
 # The legend of Zelda
 
+| Title Screen | Gameplay |
+| ----- | ----- |
+| ![Title Screen](../images/zelda_title.png) | ![Gameplay](../images/zelda_gameplay4.png) |
+
 ### Task
 
 - Implement hearts that sometimes drop from vanquished enemies at random, which will heal the player for a full heart when picked up (consumed). Much of this we’ve already done in Super Mario Bros., so feel free to reuse some of the code in there! Recall that all Entities have a health field, including the Player. The Player’s health is measured numerically but represented via hearts; note that he can have half-hearts, which means that each individual heart should be worth 2 points of damage. Therefore, when we want to heal the Player for a full heart, be sure to increment health by 2, but be careful it doesn’t go above the visual cap of 6, lest we appear to have a bug! Defining a GameObject that has an onConsume callback is probably of interest here, which you can refer back to Super Mario Bros. to get a sense of, though feel free to implement however best you see fit!

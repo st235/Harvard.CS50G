@@ -1,3 +1,9 @@
+# Flappy Bird
+
+| Title Screen | Gameplay |
+| ----- | ----- |
+| ![Title Screen](../images/flappy_bird_entrance.png) | ![Gameplay](../images/flappy_bird_gameplay2.png) |
+
 ### Task
 
 - Randomize the gap between pipes (vertical space), such that they’re no longer hardcoded to 90 pixels.

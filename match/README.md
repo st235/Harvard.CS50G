@@ -1,5 +1,9 @@
 # Match
 
+| Title Screen | Gameplay |
+| ----- | ----- |
+| ![Title Screen](../images/match_menu.png) | ![Gameplay](../images/match_gameplay.png) |
+
 ### Task
 
 - Implement time addition on matches, such that scoring a match extends the timer by 1 second per tile in a match. This one will probably be the easiest! Currently, there’s code that calculates the amount of points you’ll want to award the player when it calculates any matches in PlayState:calculateMatches, so start there!
