@@ -37,5 +37,12 @@ The course contains 12 graded assigments.
 
 ### My Progress
 
-I took the corse from the end of **April 2024** up to **27 May 2024**.
+I took the corse from the end of **April 2024** up to **27 May 2024** and received my certificate on **11 June 2024**.
 
+My Gradebook
+
+![GradeBook](./images/certificate/gradebook.png)
+
+My Certificate
+
+![Certificate](./images/certificate/CS50G.png)
