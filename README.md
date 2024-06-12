@@ -1,8 +1,8 @@
 # CS50G Assignments
 
-This repository includes my implementations of the homework assignments from the Harvard CS50G class I took recently.
+I recently took the Harvard CS50G class and worked on some cool homework assignments. Since Harvard discontinued the course, I thought it might be helpful to share my work here for anyone still interested in watching the lectures. Enjoy!
 
-You can find demo of the projects I implemented [on Youtube](https://youtube.com/playlist?list=PLucKuGqiOAE8lcp4X8El6I5XHNlzYsyyK&si=TVqvDUp74LubgLbI).
+You can check out demos of the projects I made [on Youtube](https://youtube.com/playlist?list=PLucKuGqiOAE8lcp4X8El6I5XHNlzYsyyK&si=TVqvDUp74LubgLbI).
 
 ## Implemented Projects
 
@@ -21,30 +21,33 @@ You can find demo of the projects I implemented [on Youtube](https://youtube.com
 | ![Portal](./images/portal_portal.png) | Portal | Week 10 | Portal is a first-person puzzle-platformer where players use a portal gun to create linked portals for navigating through complex environments. |
 | ![Type Racer](./images/type_racer_match.png) | Type Racer | Week 11 | Type Racer is a racing simulator with a twist: in this game you move your car with your typing skill. |
 
+To learn more, take a look at the source code in the repo.
+
 ## Course
 
 ### General Information
 
-🎓 Course: CS50's Introduction to Game Development (_aka CS50G_)
+🎓 Course: _CS50's Introduction to Game Development_ (_aka CS50G_)
 
-🏫 University: Harvard
+🏫 University: _Harvard_
 
 The course contains _12 graded assigments_.
 
-[Web Page](https://cs50.harvard.edu/games/2018/)
-
-[Youtube Lectures Playlist](https://youtube.com/playlist?list=PLhQjrBD2T383Vx9-4vJYFsJbvZ_D17Qzh&si=LGpKB43PcM2cBcFM)
+The lectures are available on [Youtube](https://youtube.com/playlist?list=PLhQjrBD2T383Vx9-4vJYFsJbvZ_D17Qzh&si=LGpKB43PcM2cBcFM). For more info, check out the official [web page](https://cs50.harvard.edu/games/2018/).
 
 ### My Progress
 
-I took the corse from the end of **April 2024** up to **27 May 2024** and received my certificate on **11 June 2024**.
+I took the corse from the end of **April 2024** up to **27 May 2024**, and received my certificate on **11 June 2024**.
+Here's a look at the accomplishments I've achieved:
 
 #### My Gradebook
+
+I completed all 12 assignments, including the final project: my own game, [`Type Racer`](./type-racer/).
 
 ![GradeBook](./images/certificate/gradebook.png)
 
 #### My Certificate
 
-One can verify the certificate by their id: [3f550074-29ae-4e1d-8a29-a0085d29bf97](https://cs50.harvard.edu/certificates/3f550074-29ae-4e1d-8a29-a0085d29bf97).
+After wrapping up the course, I finally snagged my certificate (just in the nick of time, phew 🎉). You can verify the certificate by their id: [3f550074-29ae-4e1d-8a29-a0085d29bf97](https://cs50.harvard.edu/certificates/3f550074-29ae-4e1d-8a29-a0085d29bf97).
 
 ![Certificate](./images/certificate/CS50G.png)
